@@ -5,6 +5,15 @@ Twitter client based on https://mobile.twitter.com in menu bar.
 
 ![screenshot](https://github.com/rhysd/ss/blob/master/Tui/main.jpg?raw=true)
 
+Features (under construction):
+
+- Twitter API doesn't provide many features (trace conversation, groupd DM, votes, ...). But this client can provide them.
+- Kill promoted tweets
+- User defined CSS
+- User defined tweet filters written in JavaScript
+- Keymaps
+- Available on macOS, Linux and Windows
+
 ## Installation
 
 This application is on pre-alpha stage. So currently only available with [npm](https://npmjs.com).
