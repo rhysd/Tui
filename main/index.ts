@@ -26,9 +26,9 @@ app.on('will-quit', () => {
 function setupMenuBar(config: Config) {
     log.debug('Setup a menubar window');
     return new Promise<Menubar.MenubarApp>(resolve => {
-        const icon = path.join(__dirname, '..', 'resources', `chrome-tray-icon-${
+        const icon = path.join(__dirname, '..', 'resources', `tray-icon-${
             config.icon_color === 'white' ? 'white' : 'black'
-        }.png`);
+        }@2x.png`);
         log.debug('Will launch application:', Html, icon);
         const mb = menubar({
             index: Html,
