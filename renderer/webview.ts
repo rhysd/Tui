@@ -1,3 +1,4 @@
+import * as path from 'path';
 import {USERAGENT} from './constants';
 
 export default class WebView {
@@ -18,6 +19,7 @@ export default class WebView {
         wv.setAttribute('useragent', USERAGENT);
         wv.setAttribute('partition', 'persist:tuitter');
         wv.setAttribute('autosize', 'on');
+        wv.setAttribute('preload', `file://${path.join(__dirname, '../webview/index.js')}`);
 
         wv.addEventListener('new-window', e => {
             e.preventDefault();
