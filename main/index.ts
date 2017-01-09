@@ -8,10 +8,10 @@ import {
 import loadConfig from './config';
 import log from './log';
 
-const IsDebug = process.env.NODE_ENV === 'development';
-const Html = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}${IsDebug ? '?react_perf' : ''}`;
-const DefaultWidth = 375;  // iPhone 6s
-const DefaultHeight = 667; // iPhone 6s
+const IS_DEBUG = process.env.NODE_ENV === 'development';
+const HTML = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}${IS_DEBUG ? '?react_perf' : ''}`;
+const DEFAULT_WIDTH = 340;
+const DEFAULT_HEIGHT = 400;
 
 const appReady = new Promise(resolve => app.on('ready', resolve));
 
@@ -29,13 +29,13 @@ function setupMenuBar(config: Config) {
         const icon = path.join(__dirname, '..', 'resources', `tray-icon-${
             config.icon_color === 'white' ? 'white' : 'black'
         }@2x.png`);
-        log.debug('Will launch application:', Html, icon);
+        log.debug('Will launch application:', HTML, icon);
         const mb = menubar({
-            index: Html,
+            index: HTML,
             icon,
-            width: DefaultWidth,
-            height: DefaultHeight,
-            alwaysOnTop: IsDebug || !!config.always_on_top,
+            width: DEFAULT_WIDTH,
+            height: DEFAULT_HEIGHT,
+            alwaysOnTop: IS_DEBUG || !!config.always_on_top,
         });
         mb.once('ready', () => mb.showWindow());
         mb.once('after-create-window', () => {
@@ -52,7 +52,7 @@ function setupMenuBar(config: Config) {
                 });
                 log.debug('Hot key was set to:', config.hot_key);
             }
-            if (IsDebug) {
+            if (IS_DEBUG) {
                 mb.window.webContents.openDevTools({mode: 'detach'});
             }
             mb.window.webContents.once('dom-ready', () => {
@@ -70,11 +70,11 @@ function setupNormalWindow(config: Config) {
             app.dock.setIcon(path.join(__dirname, '..', 'resources', 'icon', 'app.png'));
         }
         const win = new BrowserWindow({
-            width: DefaultWidth,
-            height: DefaultHeight,
+            width: DEFAULT_WIDTH,
+            height: DEFAULT_HEIGHT,
             icon: path.join(__dirname, '..', 'resources', 'icon', 'app.png'),
         });
-        win.loadURL(Html);
+        win.loadURL(HTML);
         win.webContents.once('dom-ready', () => {
             log.debug('Normal window application was launched');
             if (config.hot_key) {
@@ -90,7 +90,7 @@ function setupNormalWindow(config: Config) {
                 log.debug('Hot key was set to:', config.hot_key);
             }
             win.webContents.send('chromenu:tuitter', config);
-            if (IsDebug) {
+            if (IS_DEBUG) {
                 win.webContents.openDevTools({mode: 'detach'});
             }
             resolve(win);
