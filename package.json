@@ -1,11 +1,11 @@
 {
-  "name": "tui-app",
+  "name": "tuitter",
   "productName": "Tui",
   "version": "0.0.0",
   "description": "Twitter client based on mobile.twitter.com in menu bar",
   "main": "main/index.js",
   "bin": {
-    "tuittar": "./bin/cli.js"
+    "tuitter": "./bin/cli.js"
   },
   "scripts": {
     "build": "tsc --pretty -p .",
