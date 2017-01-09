@@ -3,6 +3,8 @@ Tui
 
 Twitter client based on https://mobile.twitter.com in menu bar.
 
+![screenshot](https://github.com/rhysd/ss/blob/master/Tui/main.jpg?raw=true)
+
 ## Installation
 
 This application is on pre-alpha stage. So currently only available with [npm](https://npmjs.com).
