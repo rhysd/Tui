@@ -43,6 +43,11 @@ The `{data dir}` is depending on the OS.
 - `~/.config/Tui` for Linux
 - `%APPDATA%\Tui` for Windows.
 
+## TODOs
+
+This application is under construction.
+Please visit [the Project page](https://github.com/rhysd/Tui/projects/1) to know the features I'm planning.
+
 ## Development
 
 ```
