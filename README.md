@@ -43,6 +43,33 @@ The `{data dir}` is depending on the OS.
 - `~/.config/Tui` for Linux
 - `%APPDATA%\Tui` for Windows.
 
+To know type of values of each keys, please see [type definition](./typings/config.d.ts).
+
+### hot\_key
+
+`hot_key` is a key sequence to toggle application window. The shortcut key is defined globally.
+The format is a [Electron's accelerator](https://github.com/electron/electron/blob/master/docs/api/accelerator.md). Please see the document to know how to configure this value.
+Default value is `"CmdOrCtrl+Shift+S"`. If you want to disable, please set empty string or `null`. 
+
+### icon\_color
+
+Color of icon in menu bar. `"white"` or `"black"` is available. Default value is `"black"`.
+
+### always\_on\_top
+
+When this value is set to `true`, the window won't be hidden if it loses a focus. Default value is `false`.
+
+### normal\_window
+
+When this value is set to `true`, application will be launched as a normal window application.
+If menu bar behavior does not work for you, please use set this value to `true` to avoid it.
+Default value is `false`.
+
+### zoom\_factor
+
+Font zoom factor in application. It should be positive number. For example, `0.7` means `70%` font zooming.
+Default font size is a bit bigger because https://mobile.twitter.com is originally for mobile devices. So default value is `0.9`.
+
 ## TODOs
 
 This application is under construction.
