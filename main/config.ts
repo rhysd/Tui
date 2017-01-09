@@ -8,6 +8,7 @@ const DEFAULT_CONFIG = {
     icon_color: process.platform === 'darwin' ? 'black' : 'white',
     always_on_top: false,
     normal_window: false,
+    zoom_factor: 0.9,
 } as Config;
 
 export default function loadConfig(): Promise<Config> {

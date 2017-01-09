@@ -11,6 +11,9 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
         if (IS_DEBUG) {
             wv.contents.openDevTools({mode: 'detach'});
         }
+        if (config.zoom_factor && config.zoom_factor > 0.0) {
+            wv.element.setZoomFactor(config.zoom_factor);
+        }
     });
 });
 
