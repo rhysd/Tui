@@ -1,0 +1,22 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+#webview-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+#main-webview {
+  height: 100vh;
+  width: 100vw;
+}
