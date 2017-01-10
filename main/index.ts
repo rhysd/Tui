@@ -66,13 +66,15 @@ function setupMenuBar(config: Config) {
 function setupNormalWindow(config: Config) {
     log.debug('Setup a normal window');
     return new Promise<Electron.BrowserWindow>(resolve => {
+        const icon_path = path.join(__dirname, '..', 'resources', 'icon.png');
         if (process.platform === 'darwin') {
-            app.dock.setIcon(path.join(__dirname, '..', 'resources', 'icon', 'app.png'));
+            app.dock.setIcon(icon_path);
         }
         const win = new BrowserWindow({
-            width: DEFAULT_WIDTH,
-            height: DEFAULT_HEIGHT,
-            icon: path.join(__dirname, '..', 'resources', 'icon', 'app.png'),
+            width: 600,
+            height: 800,
+            icon: icon_path,
+            titleBarStyle: 'hidden-inset',
         });
         win.loadURL(HTML);
         win.webContents.once('dom-ready', () => {
@@ -89,7 +91,7 @@ function setupNormalWindow(config: Config) {
                 });
                 log.debug('Hot key was set to:', config.hot_key);
             }
-            win.webContents.send('chromenu:tuitter', config);
+            win.webContents.send('tuitter:config', config);
             if (IS_DEBUG) {
                 win.webContents.openDevTools({mode: 'detach'});
             }
