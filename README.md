@@ -11,7 +11,7 @@ Features (under construction):
 - Kill promoted tweets
 - User defined CSS
 - User defined tweet filters written in JavaScript
-- Keymaps
+- Various keymaps to do many things only with keyboard
 - Available on macOS, Linux and Windows
 
 ## Installation
@@ -105,6 +105,8 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `retweet-tweet`          | Retweet focused tweet                                       | `R`          |
 | `quote-tweet`            | Retweet with quoting focused tweet                          | `Q`          |
 | `like-tweet`             | Like with quoting focused tweet                             | `L`          |
+| `open-images`            | Open image or video in focused tweet                        | `i`          |
+| `open-images-in-browser` | Open image or video in focused tweet with external browser  | `I`          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
 
 ## TODOs

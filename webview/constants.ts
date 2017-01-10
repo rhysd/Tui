@@ -13,6 +13,7 @@ export const SELECTORS = {
     sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',
     tweetActions: 'button.RQ5ECnGZ._1m0pnxeJ',
     selectionDialogItems: '.MmJh82_T.SpbPGaHr._3vxCixKF._2Rz0TobF._1pzUva68._1qpWiIkN._3f2NsD-H',
+    thumbnailInTweet: 'a._2YXT0EI-',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
@@ -32,8 +33,9 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'retweet-tweet',
     'quote-tweet',
     'like-tweet',
+    'open-images',
+    'open-images-in-browser',
     'open-devtools',
 ];
-
 
 export const TWITTER_COLOR = '#1da1f2';

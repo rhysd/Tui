@@ -25,6 +25,8 @@ const DEFAULT_CONFIG = {
         'R': 'retweet-tweet',
         'Q': 'quote-tweet',
         'L': 'like-tweet',
+        'i': 'open-images',
+        'I': 'open-images-in-browser',
         'ctrl+enter': 'send-tweet',
     },
 } as Config;

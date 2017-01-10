@@ -1,4 +1,4 @@
-import {ipcRenderer as ipc, remote} from 'electron';
+import {ipcRenderer as ipc, remote, shell} from 'electron';
 import {AppContext} from './context';
 import {KEYMAP_NAMES, SELECTORS, TWITTER_COLOR} from './constants';
 
@@ -253,6 +253,33 @@ export default class KeymapsHandler {
         }
         const qtButton = selectionButtons[1] as HTMLElement;
         qtButton.click();
+    }
+
+    'open-images'(_: AppContext) {
+        if (inputIsFocused() || this.focusedTweet === null) {
+            return;
+        }
+        const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailInTweet) as HTMLElement | null;
+        if (thumb === null) {
+            return;
+        }
+        thumb.click();
+    }
+
+    'open-images-in-browser'(_: AppContext) {
+        if (inputIsFocused() || this.focusedTweet === null) {
+            return;
+        }
+        const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailInTweet) as HTMLAnchorElement | null;
+        if (thumb === null) {
+            return;
+        }
+        let url = thumb.href;
+        if (url.startsWith('/')) {
+            // When only path is specified (internal links)
+            url = 'https://twitter.com' + url;
+        }
+        shell.openExternal(url);
     }
 
     'open-devtools'(_: AppContext) {

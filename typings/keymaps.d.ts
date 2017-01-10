@@ -19,4 +19,6 @@ type KeymapName
     | 'retweet-tweet'
     | 'quote-tweet'
     | 'like-tweet'
+    | 'open-images'
+    | 'open-images-in-browser'
 ;
