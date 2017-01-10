@@ -7,7 +7,7 @@ Twitter client based on https://mobile.twitter.com in menu bar.
 
 Features (under construction):
 
-- Twitter API doesn't provide many features (trace conversation, groupd DM, votes, ...). But this client can provide them.
+- Provide all features even if Twitter API doesn't provide (tracing conversation, group DM, votes, ...)
 - Kill promoted tweets
 - User defined CSS
 - User defined tweet filters written in JavaScript
