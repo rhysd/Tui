@@ -75,6 +75,7 @@ function setupNormalWindow(config: Config) {
             height: 800,
             icon: icon_path,
             show: false,
+            useContentSize: true,
         });
         win.once('ready-to-show', () => {
             win.show();
