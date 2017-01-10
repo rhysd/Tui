@@ -13,7 +13,7 @@
     "tslint": "tslint $(git ls-files | grep -E \"\\.tsx?$\")",
     "stylelint": "stylelint renderer/style.css webview/style.css",
     "lint": "npm-run-all --parallel tslint stylelint",
-    "watch": "guard --watchdir main renderer typings",
+    "watch": "guard --watchdir main renderer typings webview",
     "debug": "NODE_ENV=development electron .",
     "start": "NODE_ENV=production electron .",
     "preversion": "npm run lint"
