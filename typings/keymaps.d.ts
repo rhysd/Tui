@@ -14,4 +14,5 @@ type KeymapName
     | 'switch-search'
     | 'open-devtools'
     | 'new-tweet'
+    | 'send-tweet'
 ;

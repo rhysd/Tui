@@ -10,6 +10,7 @@ export const SELECTORS = {
     tabItems: `._2QuQvRFT._2ZoxDI7c`,
     newTweet: '._2tOLusnc._2ZBD52R7',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
+    sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
@@ -24,6 +25,7 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'switch-direct-messages',
     'switch-search',
     'new-tweet',
+    'send-tweet',
     'open-devtools',
 ];
 

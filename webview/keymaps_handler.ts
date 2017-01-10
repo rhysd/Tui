@@ -153,6 +153,13 @@ export default class KeymapsHandler {
         }
     }
 
+    'send-tweet'(_: AppContext) {
+        const button = document.querySelector(SELECTORS.sendTweet) as HTMLElement | null;
+        if (button !== null) {
+            button.click();
+        }
+    }
+
     'open-devtools'(_: AppContext) {
         remote.getCurrentWebContents().openDevTools({mode: 'detach'});
     }

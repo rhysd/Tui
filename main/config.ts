@@ -21,6 +21,7 @@ const DEFAULT_CONFIG = {
         'mod+3': 'switch-direct-messages',
         'mod+4': 'switch-search',
         'tab': 'new-tweet',
+        'ctrl+enter': 'send-tweet',
     },
 } as Config;
 
