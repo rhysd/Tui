@@ -13,4 +13,5 @@ type KeymapName
     | 'switch-direct-messages'
     | 'switch-search'
     | 'open-devtools'
+    | 'new-tweet'
 ;

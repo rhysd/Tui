@@ -71,6 +71,9 @@ export default class KeymapsHandler {
         const items = document.querySelectorAll(SELECTORS.tabItems);
         if (items.length > index) {
             (items[index] as HTMLElement).click();
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -86,6 +89,12 @@ export default class KeymapsHandler {
     }
 
     'unfocus-tweet'(_: AppContext) {
+        const cancel = document.querySelector(SELECTORS.cancelNewTweet) as HTMLElement | null;
+        if (cancel !== null) {
+            // In 'Edit Tweet' window, cancel tweet instead of removing focus.
+            cancel.click();
+            return;
+        }
         this.setCurrentFocusedTweet(null);
     }
 
@@ -104,7 +113,7 @@ export default class KeymapsHandler {
     }
 
     'scroll-up-to-new-tweet'(_: AppContext) {
-        const e = document.querySelector(SELECTORS.newTweet) as HTMLElement | null;
+        const e = document.querySelector(SELECTORS.scrollUpToNewTweet) as HTMLElement | null;
         if (e !== null) {
             e.click();
             return;
@@ -128,6 +137,20 @@ export default class KeymapsHandler {
 
     'switch-search'(_: AppContext) {
         this.clickTab(3);
+    }
+
+    // Note:
+    // It can start to edit direct message also on 'Direct Messages' tab.
+    'new-tweet'(ctx: AppContext) {
+        const button = document.querySelector(SELECTORS.newTweet) as HTMLElement | null;
+        if (button !== null) {
+            button.click();
+        } else {
+            if (this.clickTab(0)) {
+                // If 'New Tweet' button not found, repeat again after moving to 'Home Timeline' tab.
+                this['new-tweet'](ctx);
+            }
+        }
     }
 
     'open-devtools'(_: AppContext) {

@@ -20,6 +20,7 @@ const DEFAULT_CONFIG = {
         'mod+2': 'switch-notifications',
         'mod+3': 'switch-direct-messages',
         'mod+4': 'switch-search',
+        'tab': 'new-tweet',
     },
 } as Config;
 
