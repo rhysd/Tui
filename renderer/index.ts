@@ -1,6 +1,7 @@
 import {ipcRenderer as ipc} from 'electron';
 import WebView from './webview';
 import {DEFAULT_HOME_URL, IS_DEBUG} from './constants';
+import KeymapsForwarder from './keymaps_forwarder';
 import log from './log';
 
 ipc.once('tuitter:config', (_: any, config: Config) => {
@@ -13,6 +14,10 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
         }
         if (config.zoom_factor && config.zoom_factor > 0.0) {
             wv.element.setZoomFactor(config.zoom_factor);
+        }
+        if (config.keymaps) {
+            const forwarder = new KeymapsForwarder(wv);
+            forwarder.forwardAll(config.keymaps);
         }
     });
 });

@@ -49,5 +49,10 @@ export default class WebView {
             this.elem.src = url;
         });
     }
+
+    // XXX: Typing channel names
+    sendIpc(channel: string, ...args: any[]) {
+        this.elem.send(channel, ...args);
+    }
 }
 

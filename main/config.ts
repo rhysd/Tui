@@ -9,6 +9,16 @@ const DEFAULT_CONFIG = {
     always_on_top: false,
     normal_window: false,
     zoom_factor: 0.9,
+    keymaps: {
+        'mod+j': 'next-tweet',
+        'mod+k': 'previous-tweet',
+        'esc': 'unfocus-tweet',
+        'mod+n': 'scroll-up-to-new-tweet',
+        'mod+1': 'switch-home-timeline',
+        'mod+2': 'switch-notifications',
+        'mod+3': 'switch-direct-messages',
+        'mod+4': 'switch-search',
+    },
 } as Config;
 
 export default function loadConfig(): Promise<Config> {

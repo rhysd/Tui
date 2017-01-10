@@ -1,4 +1,5 @@
 import {dispatchContext} from './context';
+import KeymapsHandler from './keymaps_handler';
 
 // TODO:
 // Make PluginManager
@@ -17,6 +18,8 @@ const handler = () => {
             console.log('Tui: Reached to "interactive" state. Will inject codes');
             dispatchContext().then(ctx => {
                 ctx.tweetWatcher.on('added', applyFilterPlugin);
+                const keymaps = new KeymapsHandler(ctx);
+                keymaps.subscribeIpc();
             });
             // Note: Ensure to run this clause once
             document.removeEventListener('readystatechange', handler);
