@@ -108,6 +108,7 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `open-images`            | Open image or video in the focused tweet                    | `i`          |
 | `open-images-in-browser` | Open image or video in focused tweet with external browser  | `I`          |
 | `open-tweet`             | Open tweet page for the focused tweet                       | `o`          |
+| `open-links`             | Open links contained in the focused tweet with browser      | `l`          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
 
 ## TODOs

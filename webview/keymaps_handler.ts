@@ -259,7 +259,7 @@ export default class KeymapsHandler {
         if (inputIsFocused() || this.focusedTweet === null) {
             return;
         }
-        const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailInTweet) as HTMLElement | null;
+        const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailImageInTweet) as HTMLElement | null;
         if (thumb === null) {
             return;
         }
@@ -270,7 +270,7 @@ export default class KeymapsHandler {
         if (inputIsFocused() || this.focusedTweet === null) {
             return;
         }
-        const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailInTweet) as HTMLAnchorElement | null;
+        const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailImageInTweet) as HTMLAnchorElement | null;
         if (thumb === null) {
             return;
         }
@@ -291,6 +291,38 @@ export default class KeymapsHandler {
             return;
         }
         body.click();
+    }
+
+    'open-links'(_: AppContext) {
+        if (inputIsFocused() || this.focusedTweet === null) {
+            return;
+        }
+        let urls = [];
+
+        const text = this.focusedTweet.querySelector(SELECTORS.tweetText) as HTMLDivElement | null;
+        if (text !== null) {
+            const links = text.querySelectorAll('a');
+            for (const l of links) {
+                const u = (l as HTMLAnchorElement).href;
+                if (u) {
+                    urls.push(u);
+                }
+            }
+        }
+
+        const thumbnail = this.focusedTweet.querySelector(SELECTORS.thumbnailLinkInTweet) as HTMLAnchorElement | null;
+        if (thumbnail !== null) {
+            urls.push(thumbnail.href);
+        }
+
+        console.log('Tui: Open links:', urls);
+
+        for (const u of urls) {
+            if (!u.startsWith('https://mobile.twitter.com')) {
+                // Do not open internal links with browser (e.g. @screen_name in tweet text)
+                shell.openExternal(u);
+            }
+        }
     }
 
     'open-devtools'(_: AppContext) {

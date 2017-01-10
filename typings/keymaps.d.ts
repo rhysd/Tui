@@ -22,4 +22,5 @@ type KeymapName
     | 'open-images'
     | 'open-images-in-browser'
     | 'open-tweet'
+    | 'open-links'
 ;
