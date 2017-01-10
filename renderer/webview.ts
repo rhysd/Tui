@@ -1,5 +1,7 @@
 import * as path from 'path';
+import {shell} from 'electron';
 import {USERAGENT} from './constants';
+import log from './log';
 
 export default class WebView {
     private elem: Electron.WebViewElement;
@@ -23,6 +25,12 @@ export default class WebView {
 
         wv.addEventListener('new-window', e => {
             e.preventDefault();
+            const url = e.url;
+            if (!url.startsWith('https://mobile.twitter.com') && !url.startsWith('about:')) {
+                log.debug('Trying to navigate to outside! Will open in browser:', url);
+                shell.openExternal(url);
+                return;
+            }
             wv.src = e.url;
         });
         wv.addEventListener('crashed', () => {
