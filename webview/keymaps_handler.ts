@@ -32,7 +32,17 @@ export default class KeymapsHandler {
         return null;
     }
 
-    private moveFocusByOffset(offset: number) {
+    private setCurrentFocusedTweet(tw: HTMLDivElement | null) {
+        if (this.focusedTweet !== null) {
+            this.focusedTweet.style.border = null;
+        }
+        this.focusedTweet = tw;
+        if (tw !== null) {
+            tw.style.border = '1px solid #1da1f2';
+        }
+    }
+
+    private moveFocusByOffset(offset: number, alignWithTop: boolean) {
         const tweets = document.querySelectorAll(SELECTORS.tweet);
 
         // 'tweets' is NodeList. Array.prototype.indexOf() is not available.
@@ -52,9 +62,9 @@ export default class KeymapsHandler {
             return;
         }
 
-        next.scrollIntoView();
+        next.scrollIntoView(alignWithTop);
 
-        this.focusedTweet = next;
+        this.setCurrentFocusedTweet(next);
     }
 
     private clickTab(index: number) {
@@ -65,25 +75,32 @@ export default class KeymapsHandler {
     }
 
     'next-tweet'(_: AppContext) {
-        this.moveFocusByOffset(1);
+        this.moveFocusByOffset(1, false);
     }
 
     'previous-tweet'(_: AppContext) {
-        this.moveFocusByOffset(-1);
+        // Do not align with top of window because scrollIntoView() does not
+        // consider header's height. If we set alignWithTop to true, tweet
+        // would be hidden by header partially.
+        this.moveFocusByOffset(-1, false);
     }
 
     'unfocus-tweet'(_: AppContext) {
-        this.focusedTweet = null;
+        this.setCurrentFocusedTweet(null);
     }
 
     'scroll-down-page'(_: AppContext) {
         window.scrollBy(0, window.innerHeight);
-        this.focusedTweet = this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems));
+        this.setCurrentFocusedTweet(
+            this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
+        );
     }
 
     'scroll-up-page'(_: AppContext) {
         window.scrollBy(0, -window.innerHeight);
-        this.focusedTweet = this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems));
+        this.setCurrentFocusedTweet(
+            this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
+        );
     }
 
     'scroll-up-to-new-tweet'(_: AppContext) {
