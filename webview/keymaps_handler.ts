@@ -282,6 +282,17 @@ export default class KeymapsHandler {
         shell.openExternal(url);
     }
 
+    'open-tweet'(_: AppContext) {
+        if (inputIsFocused() || this.focusedTweet === null) {
+            return;
+        }
+        const body = this.focusedTweet.querySelector(SELECTORS.tweetBody) as HTMLDivElement | null;
+        if (body === null) {
+            return;
+        }
+        body.click();
+    }
+
     'open-devtools'(_: AppContext) {
         if (inputIsFocused()) {
             return;

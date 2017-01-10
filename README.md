@@ -101,12 +101,13 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `switch-search`          | Switch to 'Search' tab                                      | `4`          |
 | `new-tweet`              | Start editing a new tweet                                   | `tab`        |
 | `send-tweet`             | Send current editing tweet                                  | `ctrl+enter` |
-| `reply-tweet`            | Reply to focused tweet                                      | `enter`      |
-| `retweet-tweet`          | Retweet focused tweet                                       | `R`          |
-| `quote-tweet`            | Retweet with quoting focused tweet                          | `Q`          |
-| `like-tweet`             | Like with quoting focused tweet                             | `L`          |
-| `open-images`            | Open image or video in focused tweet                        | `i`          |
+| `reply-tweet`            | Reply to the focused tweet                                  | `enter`      |
+| `retweet-tweet`          | Retweet the focused tweet                                   | `R`          |
+| `quote-tweet`            | Retweet with quoting the focused tweet                      | `Q`          |
+| `like-tweet`             | Like with quoting the focused tweet                         | `L`          |
+| `open-images`            | Open image or video in the focused tweet                    | `i`          |
 | `open-images-in-browser` | Open image or video in focused tweet with external browser  | `I`          |
+| `open-tweet`             | Open tweet page for the focused tweet                       | `o`          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
 
 ## TODOs

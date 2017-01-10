@@ -21,4 +21,5 @@ type KeymapName
     | 'like-tweet'
     | 'open-images'
     | 'open-images-in-browser'
+    | 'open-tweet'
 ;

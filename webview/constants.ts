@@ -14,6 +14,7 @@ export const SELECTORS = {
     tweetActions: 'button.RQ5ECnGZ._1m0pnxeJ',
     selectionDialogItems: '.MmJh82_T.SpbPGaHr._3vxCixKF._2Rz0TobF._1pzUva68._1qpWiIkN._3f2NsD-H',
     thumbnailInTweet: 'a._2YXT0EI-',
+    tweetBody: 'div.I8DvYjmD._2HNcekSk', 
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
@@ -35,6 +36,7 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'like-tweet',
     'open-images',
     'open-images-in-browser',
+    'open-tweet',
     'open-devtools',
 ];
 
