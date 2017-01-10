@@ -74,7 +74,10 @@ function setupNormalWindow(config: Config) {
             width: 600,
             height: 800,
             icon: icon_path,
-            titleBarStyle: 'hidden-inset',
+            show: false,
+        });
+        win.once('ready-to-show', () => {
+            win.show();
         });
         win.loadURL(HTML);
         win.webContents.once('dom-ready', () => {
