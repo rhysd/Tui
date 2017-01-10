@@ -29,3 +29,5 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'open-devtools',
 ];
 
+
+export const TWITTER_COLOR = '#1da1f2';

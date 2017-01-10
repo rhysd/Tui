@@ -1,6 +1,26 @@
 import {ipcRenderer as ipc, remote} from 'electron';
 import {AppContext} from './context';
-import {KEYMAP_NAMES, SELECTORS} from './constants';
+import {KEYMAP_NAMES, SELECTORS, TWITTER_COLOR} from './constants';
+
+function inputIsFocused() {
+    const focused = document.activeElement;
+    switch (focused.tagName) {
+        case 'TEXTAREA': {
+            return true;
+        }
+        case 'INPUT': {
+            const type = focused.getAttribute('type');
+            return type === 'search' ||
+                   type === 'text' ||
+                   type === 'url' ||
+                   type === 'email' ||
+                   type === 'tel' ||
+                   type === 'number';
+        }
+        default:
+            return false;
+    }
+}
 
 export default class KeymapsHandler {
     private focusedTweet: HTMLDivElement | null = null;
@@ -38,7 +58,7 @@ export default class KeymapsHandler {
         }
         this.focusedTweet = tw;
         if (tw !== null) {
-            tw.style.border = '1px solid #1da1f2';
+            tw.style.border = '1px solid ' + TWITTER_COLOR;
         }
     }
 
@@ -78,10 +98,16 @@ export default class KeymapsHandler {
     }
 
     'next-tweet'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         this.moveFocusByOffset(1, false);
     }
 
     'previous-tweet'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         // Do not align with top of window because scrollIntoView() does not
         // consider header's height. If we set alignWithTop to true, tweet
         // would be hidden by header partially.
@@ -99,6 +125,9 @@ export default class KeymapsHandler {
     }
 
     'scroll-down-page'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         window.scrollBy(0, window.innerHeight);
         this.setCurrentFocusedTweet(
             this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
@@ -106,6 +135,9 @@ export default class KeymapsHandler {
     }
 
     'scroll-up-page'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         window.scrollBy(0, -window.innerHeight);
         this.setCurrentFocusedTweet(
             this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
@@ -113,6 +145,9 @@ export default class KeymapsHandler {
     }
 
     'scroll-up-to-new-tweet'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         const e = document.querySelector(SELECTORS.scrollUpToNewTweet) as HTMLElement | null;
         if (e !== null) {
             e.click();
@@ -124,24 +159,39 @@ export default class KeymapsHandler {
 
     // Note: Should use location.href = 'https://mobile.twitter.com/home'?
     'switch-home-timeline'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         this.clickTab(0);
     }
 
     'switch-notifications'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         this.clickTab(1);
     }
 
     'switch-direct-messages'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         this.clickTab(2);
     }
 
     'switch-search'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         this.clickTab(3);
     }
 
     // Note:
     // It can start to edit direct message also on 'Direct Messages' tab.
     'new-tweet'(ctx: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         const button = document.querySelector(SELECTORS.newTweet) as HTMLElement | null;
         if (button !== null) {
             button.click();
@@ -161,6 +211,9 @@ export default class KeymapsHandler {
     }
 
     'open-devtools'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         remote.getCurrentWebContents().openDevTools({mode: 'detach'});
     }
 }

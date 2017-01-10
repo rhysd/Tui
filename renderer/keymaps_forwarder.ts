@@ -14,11 +14,14 @@ export default class KeymapsForwarder {
 
     forward(key: string, name: KeymapName) {
         Mousetrap.bind(key, e => {
-            e.preventDefault();
-
             log.debug('Key pressed: ' + key, name);
+
             if (name === null) {
                 return;
+            }
+
+            if (e.code === 'Tab') {
+                e.preventDefault();
             }
 
             const channel = `tuitter:keymap:${name}`;

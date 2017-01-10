@@ -83,22 +83,22 @@ Default font size is a bit bigger because https://mobile.twitter.com is original
 
 Define keymaps of this application as JSON object. The key is a key sequence and the value is an action name.
 For example, `"mod+shift+j": "next-tweet"` assigns `next-tweet` action to key sequence `Cmd+Shift+J` (or `Ctrl+Shift+J` on other OS).
+`mod` means `Cmd` in macOS and `Ctrl` in other OS.
 
 The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that this format is different from `hot_key` above.
-`mod` means `Cmd` in macOS and `Ctrl` in other OS.
 
 | Action Name              | Description                                                 | Default Key  |
 |--------------------------|-------------------------------------------------------------|--------------|
-| `next-tweet`             | Scroll down window per one tweet                            | `mod+j`      |
-| `previous-tweet`         | Scroll up window per one tweet                              | `mod+k`      |
+| `next-tweet`             | Scroll down window per one tweet                            | `j`          |
+| `previous-tweet`         | Scroll up window per one tweet                              | `k`          |
 | `unfocus-tweet`          | Unfocus current focus on tweet. It can cancel editing tweet | `esc`        |
-| `scroll-down-page`       | Scroll down window per page                                 | `mod+f`      |
-| `scroll-up-page`         | Scroll up window per page                                   | `mod+b`      |
-| `scroll-up-to-new-tweet` | Scroll to newest tweet when 'New Tweet' popup is displayed  | `mod+n`      |
-| `switch-home-timeline`   | Switch to 'Home Timeline' tab                               | `mod+1`      |
-| `switch-notifications`   | Switch to 'Notifications' tab                               | `mod+2`      |
-| `switch-direct-messages` | Switch to 'Direct Messages' tab                             | `mod+3`      |
-| `switch-search`          | Switch to 'Search' tab                                      | `mod+4`      |
+| `scroll-down-page`       | Scroll down window per page                                 | `f`          |
+| `scroll-up-page`         | Scroll up window per page                                   | `b`          |
+| `scroll-up-to-new-tweet` | Scroll to newest tweet when 'New Tweet' popup is displayed  | `n`          |
+| `switch-home-timeline`   | Switch to 'Home Timeline' tab                               | `1`          |
+| `switch-notifications`   | Switch to 'Notifications' tab                               | `2`          |
+| `switch-direct-messages` | Switch to 'Direct Messages' tab                             | `3`          |
+| `switch-search`          | Switch to 'Search' tab                                      | `4`          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
 | `new-tweet`              | Start editing a new tweet                                   | `tab`        |
 | `send-tweet`             | Send current editing tweet                                  | `ctrl+enter` |
