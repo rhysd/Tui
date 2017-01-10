@@ -14,10 +14,13 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'next-tweet',
     'previous-tweet',
     'unfocus-tweet',
+    'scroll-down-page',
+    'scroll-up-page',
     'scroll-up-to-new-tweet',
     'switch-home-timeline',
     'switch-notifications',
     'switch-direct-messages',
     'switch-search',
+    'open-devtools',
 ];
 

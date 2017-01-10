@@ -13,6 +13,8 @@ const DEFAULT_CONFIG = {
         'mod+j': 'next-tweet',
         'mod+k': 'previous-tweet',
         'esc': 'unfocus-tweet',
+        'mod+f': 'scroll-down-page',
+        'mod+b': 'scroll-up-page',
         'mod+n': 'scroll-up-to-new-tweet',
         'mod+1': 'switch-home-timeline',
         'mod+2': 'switch-notifications',

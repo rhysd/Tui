@@ -1,4 +1,4 @@
-import {ipcRenderer as ipc} from 'electron';
+import {ipcRenderer as ipc, remote} from 'electron';
 import {AppContext} from './context';
 import {KEYMAP_NAMES, SELECTORS} from './constants';
 
@@ -76,6 +76,16 @@ export default class KeymapsHandler {
         this.focusedTweet = null;
     }
 
+    'scroll-down-page'(_: AppContext) {
+        window.scrollBy(0, window.innerHeight);
+        this.focusedTweet = this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems));
+    }
+
+    'scroll-up-page'(_: AppContext) {
+        window.scrollBy(0, -window.innerHeight);
+        this.focusedTweet = this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems));
+    }
+
     'scroll-up-to-new-tweet'(_: AppContext) {
         const e = document.querySelector(SELECTORS.newTweet) as HTMLElement | null;
         if (e !== null) {
@@ -101,5 +111,9 @@ export default class KeymapsHandler {
 
     'switch-search'(_: AppContext) {
         this.clickTab(3);
+    }
+
+    'open-devtools'(_: AppContext) {
+        remote.getCurrentWebContents().openDevTools({mode: 'detach'});
     }
 }
