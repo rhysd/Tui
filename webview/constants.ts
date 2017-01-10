@@ -11,6 +11,8 @@ export const SELECTORS = {
     newTweet: '._2tOLusnc._2ZBD52R7',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
     sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',
+    tweetActions: 'button.RQ5ECnGZ._1m0pnxeJ',
+    selectionDialogItems: '.MmJh82_T.SpbPGaHr._3vxCixKF._2Rz0TobF._1pzUva68._1qpWiIkN._3f2NsD-H',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
@@ -26,6 +28,10 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'switch-search',
     'new-tweet',
     'send-tweet',
+    'reply-tweet',
+    'retweet-tweet',
+    'quote-tweet',
+    'like-tweet',
     'open-devtools',
 ];
 

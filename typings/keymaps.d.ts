@@ -15,4 +15,8 @@ type KeymapName
     | 'open-devtools'
     | 'new-tweet'
     | 'send-tweet'
+    | 'reply-tweet'
+    | 'retweet-tweet'
+    | 'quote-tweet'
+    | 'like-tweet'
 ;

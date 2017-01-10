@@ -99,9 +99,13 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `switch-notifications`   | Switch to 'Notifications' tab                               | `2`          |
 | `switch-direct-messages` | Switch to 'Direct Messages' tab                             | `3`          |
 | `switch-search`          | Switch to 'Search' tab                                      | `4`          |
-| `open-devtools`          | Open DevTools for current page                              | N/A          |
 | `new-tweet`              | Start editing a new tweet                                   | `tab`        |
 | `send-tweet`             | Send current editing tweet                                  | `ctrl+enter` |
+| `reply-tweet`            | Reply to focused tweet                                      | `enter`      |
+| `retweet-tweet`          | Retweet focused tweet                                       | `R`          |
+| `quote-tweet`            | Retweet with quoting focused tweet                          | `Q`          |
+| `like-tweet`             | Like with quoting focused tweet                             | `L`          |
+| `open-devtools`          | Open DevTools for current page                              | N/A          |
 
 ## TODOs
 

@@ -87,6 +87,19 @@ export default class KeymapsHandler {
         this.setCurrentFocusedTweet(next);
     }
 
+    private clickTweetAction(index: number) {
+        if (inputIsFocused() || this.focusedTweet === null) {
+            return false;
+        }
+        const actions = this.focusedTweet.querySelectorAll(SELECTORS.tweetActions);
+        console.log('Tui: test:', actions);
+        if (actions.length !== 4) {
+            return false;
+        }
+        (actions[index] as HTMLElement).click();
+        return true;
+    }
+
     private clickTab(index: number) {
         const items = document.querySelectorAll(SELECTORS.tabItems);
         if (items.length > index) {
@@ -208,6 +221,38 @@ export default class KeymapsHandler {
         if (button !== null) {
             button.click();
         }
+    }
+
+    'reply-tweet'(_: AppContext) {
+        this.clickTweetAction(0);
+    }
+
+    'like-tweet'(_: AppContext) {
+        this.clickTweetAction(2);
+    }
+
+    'retweet-tweet'(_: AppContext) {
+        if (!this.clickTweetAction(1)) {
+            return;
+        }
+        const selectionButtons = document.querySelectorAll(SELECTORS.selectionDialogItems);
+        if (selectionButtons.length < 2) {
+            return;
+        }
+        const rtButton = selectionButtons[0] as HTMLElement;
+        rtButton.click();
+    }
+
+    'quote-tweet'(_: AppContext) {
+        if (!this.clickTweetAction(1)) {
+            return;
+        }
+        const selectionButtons = document.querySelectorAll(SELECTORS.selectionDialogItems);
+        if (selectionButtons.length < 2) {
+            return;
+        }
+        const qtButton = selectionButtons[1] as HTMLElement;
+        qtButton.click();
     }
 
     'open-devtools'(_: AppContext) {

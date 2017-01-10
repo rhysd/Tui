@@ -21,6 +21,10 @@ const DEFAULT_CONFIG = {
         '3': 'switch-direct-messages',
         '4': 'switch-search',
         'tab': 'new-tweet',
+        'enter': 'reply-tweet',
+        'R': 'retweet-tweet',
+        'Q': 'quote-tweet',
+        'L': 'like-tweet',
         'ctrl+enter': 'send-tweet',
     },
 } as Config;
