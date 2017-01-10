@@ -1,10 +1,11 @@
 import * as path from 'path';
-import * as menubar from 'menubar';
 import {
     app,
     globalShortcut,
     BrowserWindow,
 } from 'electron';
+import * as menubar from 'menubar';
+import windowState = require('electron-window-state');
 import loadConfig from './config';
 import log from './log';
 
@@ -26,6 +27,10 @@ app.on('will-quit', () => {
 function setupMenuBar(config: Config) {
     log.debug('Setup a menubar window');
     return new Promise<Menubar.MenubarApp>(resolve => {
+        const state = windowState({
+            defaultWidth: DEFAULT_WIDTH,
+            defaultHeight: DEFAULT_HEIGHT,
+        });
         const icon = path.join(__dirname, '..', 'resources', `tray-icon-${
             config.icon_color === 'white' ? 'white' : 'black'
         }@2x.png`);
@@ -33,8 +38,8 @@ function setupMenuBar(config: Config) {
         const mb = menubar({
             index: HTML,
             icon,
-            width: DEFAULT_WIDTH,
-            height: DEFAULT_HEIGHT,
+            width: state.width,
+            height: state.height,
             alwaysOnTop: IS_DEBUG || !!config.always_on_top,
         });
         mb.once('ready', () => mb.showWindow());
@@ -58,6 +63,7 @@ function setupMenuBar(config: Config) {
             mb.window.webContents.once('dom-ready', () => {
                 mb.window.webContents.send('tuitter:config', config);
             });
+            state.manage(mb.window);
             resolve(mb);
         });
     });
@@ -66,13 +72,19 @@ function setupMenuBar(config: Config) {
 function setupNormalWindow(config: Config) {
     log.debug('Setup a normal window');
     return new Promise<Electron.BrowserWindow>(resolve => {
+        const state = windowState({
+            defaultWidth: 600,
+            defaultHeight: 800,
+        });
         const icon_path = path.join(__dirname, '..', 'resources', 'icon.png');
-        if (process.platform === 'darwin') {
+        if (process.argv[0].endsWith('Electron') && process.platform === 'darwin') {
             app.dock.setIcon(icon_path);
         }
         const win = new BrowserWindow({
-            width: 600,
-            height: 800,
+            width: state.width,
+            height: state.height,
+            x: state.x,
+            y: state.y,
             icon: icon_path,
             show: false,
             useContentSize: true,
@@ -80,7 +92,16 @@ function setupNormalWindow(config: Config) {
         win.once('ready-to-show', () => {
             win.show();
         });
+
+        if (state.isFullScreen) {
+            win.setFullScreen(true);
+        } else if (state.isMaximized) {
+            win.maximize();
+        }
+        state.manage(win);
+
         win.loadURL(HTML);
+
         win.webContents.once('dom-ready', () => {
             log.debug('Normal window application was launched');
             if (config.hot_key) {
