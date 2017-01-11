@@ -1,4 +1,5 @@
-import {ipcRenderer as ipc} from 'electron';
+import * as path from 'path';
+import {ipcRenderer as ipc, remote} from 'electron';
 import WebView from './webview';
 import {DEFAULT_HOME_URL, IS_DEBUG} from './constants';
 import KeymapsForwarder from './keymaps_forwarder';
@@ -19,6 +20,8 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
             const forwarder = new KeymapsForwarder(wv);
             forwarder.forwardAll(config.keymaps);
         }
+        const user_css = path.join(remote.app.getPath('userData'), 'user.css');
+        wv.applyCSS(user_css).catch(e => log.debug(e));
     });
 });
 

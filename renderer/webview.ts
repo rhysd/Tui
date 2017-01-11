@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from 'fs';
 import {shell} from 'electron';
 import {USERAGENT} from './constants';
 import log from './log';
@@ -61,6 +62,18 @@ export default class WebView {
     // XXX: Typing channel names
     sendIpc(channel: string, ...args: any[]) {
         this.elem.send(channel, ...args);
+    }
+
+    applyCSS(file: string) {
+        return new Promise<void>((resolve, reject) => {
+            fs.readFile(file, 'utf8', (err, data) => {
+                if (err) {
+                    return reject(err);
+                }
+                this.elem.insertCSS(data);
+                resolve();
+            });
+        });
     }
 }
 

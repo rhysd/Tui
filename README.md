@@ -37,20 +37,22 @@ One is for renderer process of native window. Another is for `<webview>` which a
 $ NODE_ENV=development tuitter
 ```
 
-## Config
+## Application Directory
 
-Configuration is written in JSON file. Please edit it with your favorite editor.
-If you want to reset configuration, please simply remove the JSON file and restart application.
-
-```sh
-$ $EDITOR {data dir}/config.json
-```
-
-The `{data dir}` is depending on the OS.
+Tui has a directory for application data. The path depends on your OS.
 
 - `~/Library/Application\ Support/Tui` for macOS
 - `~/.config/Tui` for Linux
 - `%APPDATA%\Tui` for Windows.
+
+## Config
+
+Configuration is written in JSON file in application direcotry. Please edit it with your favorite editor.
+If you want to reset configuration, please simply remove the JSON file and restart application.
+
+```sh
+$ $EDITOR {app dir}/config.json
+```
 
 To know type of values of each keys, please see [type definition](./typings/config.d.ts).
 
@@ -113,6 +115,11 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `browser-go-forward`     | Navigate to go forward like a browser                       | N/A          |
 | `browser-reload`         | Navigate to reload like a browser                           | N/A          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
+
+## User Defined CSS
+
+When you put `user.css` in application directory, Tui automatically loads it and applies to underlying https://mobile.twitter.com.
+You can create a theme for https://mobile.twitter.com and hide some elements by `display: none`.
 
 ## TODOs
 
