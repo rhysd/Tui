@@ -19,7 +19,9 @@ export default function manageTrayIconState(tray: Electron.Tray, color: string) 
     let current: State = 'normal';
     function subscribe(channel: string, state: State, icon: string) {
         ipc.on(channel, () => {
-            if (current === state) {
+            if (current === state || (current === 'notified' && state === 'informed')) {
+                // 'notified' is more important than 'informed'. So 'informed' should not
+                // override 'notified'.
                 return;
             }
             log.debug(`Notification changed ${current} -> ${state}`);

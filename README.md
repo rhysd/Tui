@@ -45,6 +45,29 @@ Tui has a directory for application data. The path depends on your OS.
 - `~/.config/Tui` for Linux
 - `%APPDATA%\Tui` for Windows.
 
+## Notifications
+
+There is an icon in menu bar. You can toggle application window by clicking it.
+And you can notice that there are notifications or direct messages by the color of it.
+
+### Normal Icon
+
+![normal icon](https://github.com/rhysd/ss/blob/master/Tui/normal.jpg?raw=true)
+
+Normally icon in menu bar is black (or white).
+
+### Notified Icon
+
+![informed icon](https://github.com/rhysd/ss/blob/master/Tui/informed.jpg?raw=true)
+
+When there are some unread notifications in 'Notifications' tab, icon will be blue.
+
+### Important Notice Icon
+
+![notified icon](https://github.com/rhysd/ss/blob/master/Tui/notified.jpg?raw=true)
+
+When there are unread direct messages, icon will be red.
+
 ## Config
 
 Configuration is written in JSON file in application direcotry. Please edit it with your favorite editor.
