@@ -12,6 +12,7 @@ Features (under construction):
 - User defined CSS
 - User defined tweet filters written in JavaScript
 - Various keymaps to do many things only with keyboard
+- You can choose menu bar window or normal window
 - Available on macOS, Linux and Windows
 
 All links outside https://mobile.twitter.com in tweets are opened in an external browser.
@@ -81,31 +82,6 @@ $ $EDITOR {app dir}/config.json
 
 To know type of values of each keys, please see [type definition](./typings/config.d.ts).
 
-### hot\_key
-
-`hot_key` is a key sequence to toggle application window. The shortcut key is defined globally.
-The format is a [Electron's accelerator](https://github.com/electron/electron/blob/master/docs/api/accelerator.md). Please see the document to know how to configure this value.
-Default value is `"CmdOrCtrl+Shift+S"`. If you want to disable, please set empty string or `null`. 
-
-### icon\_color
-
-Color of icon in menu bar. `"white"` or `"black"` is available. Default value is `"black"`.
-
-### always\_on\_top
-
-When this value is set to `true`, the window won't be hidden if it loses a focus. Default value is `false`.
-
-### normal\_window
-
-When this value is set to `true`, application will be launched as a normal window application.
-If menu bar behavior does not work for you, please use set this value to `true` to avoid it.
-Default value is `false`.
-
-### zoom\_factor
-
-Font zoom factor in application. It should be positive number. For example, `0.7` means `70%` font zooming.
-Default font size is a bit bigger because https://mobile.twitter.com is originally for mobile devices. So default value is `0.9`.
-
 ### keymaps
 
 Define keymaps of this application as JSON object. The key is a key sequence and the value is an action name.
@@ -141,6 +117,33 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `browser-reload`         | Navigate to reload like a browser                           | N/A          |
 | `quit-app`               | Quit application                                            | N/A          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
+
+### normal\_window
+
+When this value is set to `true`, application will be launched as a normal window application.
+If menu bar behavior does not work for you, please use set this value to `true` to avoid it.
+Default value is `false`.
+
+<img src="https://github.com/rhysd/ss/blob/master/Tui/normal_window.png?raw=true" width="443" alt="normal window mode"/>
+
+### hot\_key
+
+`hot_key` is a key sequence to toggle application window. The shortcut key is defined globally.
+The format is a [Electron's accelerator](https://github.com/electron/electron/blob/master/docs/api/accelerator.md). Please see the document to know how to configure this value.
+Default value is `"CmdOrCtrl+Shift+S"`. If you want to disable, please set empty string or `null`. 
+
+### icon\_color
+
+Color of icon in menu bar. `"white"` or `"black"` is available. Default value is `"black"`.
+
+### always\_on\_top
+
+When this value is set to `true`, the window won't be hidden if it loses a focus. Default value is `false`.
+
+### zoom\_factor
+
+Font zoom factor in application. It should be positive number. For example, `0.7` means `70%` font zooming.
+Default font size is a bit bigger because https://mobile.twitter.com is originally for mobile devices. So default value is `0.9`.
 
 ## User Defined CSS
 
