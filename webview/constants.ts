@@ -1,6 +1,7 @@
 export const CLASS_NAMES = {
     tweet: '_1eF_MiFx',
     scrollUpToNewTweet: '_1olbCNTo',
+    header: '_7kIt4uMb',
 };
 
 export const SELECTORS = {
@@ -17,6 +18,8 @@ export const SELECTORS = {
     tweetBody: 'div.I8DvYjmD._2HNcekSk', 
     tweetText: 'h1._3f2NsD-H',
     thumbnailLinkInTweet: 'div._3hdqTVua._3f2NsD-H a._3kGl_FG7',
+    header: `header.${CLASS_NAMES.header}`,
+    notifications: 'svg._20oY9XAa',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [

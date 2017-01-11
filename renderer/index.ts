@@ -26,5 +26,22 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
         const user_js = path.join(remote.app.getPath('userData'), 'user.js');
         wv.executeJS(user_js).catch(e => log.debug(e));
     });
+    wv.on('ipc', (channel: string) => {
+        switch (channel) {
+            case 'tuitter:notified:mentions': {
+                ipc.send('tuitter:tray:informed');
+                break;
+            }
+            case 'tuitter:notified:messages': {
+                ipc.send('tuitter:tray:notified');
+                break;
+            }
+            case 'tuitter:un-notified:mentions':
+            case 'tuitter:un-notified:messages': {
+                ipc.send('tuitter:tray:normal');
+                break;
+            }
+            default: break;
+        }
+    });
 });
-

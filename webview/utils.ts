@@ -1,3 +1,6 @@
+// XXX:
+// Use MutationObserver and observe 'subtree' of <div id="react-root"></div>
+// When first tweet element is found, stop observing.
 export function doPollingForElementExists(selector: string, retry: number) {
     return new Promise<HTMLElement>(resolve => {
         let count = 0;

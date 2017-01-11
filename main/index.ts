@@ -3,11 +3,13 @@ import {
     app,
     globalShortcut,
     BrowserWindow,
+    Tray,
 } from 'electron';
 import * as menubar from 'menubar';
 import windowState = require('electron-window-state');
 import loadConfig from './config';
 import log from './log';
+import manageTrayIconState from './tray_icon_state';
 
 const IS_DEBUG = process.env.NODE_ENV === 'development';
 const HTML = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}${IS_DEBUG ? '?react_perf' : ''}`;
@@ -24,6 +26,12 @@ app.on('will-quit', () => {
     log.debug('Application is quitting');
 });
 
+function trayIcon(color: string) {
+    return path.join(__dirname, '..', 'resources', `tray-icon-${
+        color === 'white' ? 'white' : 'black'
+    }@2x.png`);
+}
+
 function startMenuBar(config: Config) {
     log.debug('Setup a menubar window');
     return new Promise<void>(resolve => {
@@ -31,13 +39,10 @@ function startMenuBar(config: Config) {
             defaultWidth: DEFAULT_WIDTH,
             defaultHeight: DEFAULT_HEIGHT,
         });
-        const icon = path.join(__dirname, '..', 'resources', `tray-icon-${
-            config.icon_color === 'white' ? 'white' : 'black'
-        }@2x.png`);
-        log.debug('Will launch application:', HTML, icon);
+        log.debug('Will launch application:', HTML);
         const mb = menubar({
             index: HTML,
-            icon,
+            icon: trayIcon(config.icon_color),
             width: state.width,
             height: state.height,
             alwaysOnTop: IS_DEBUG || !!config.always_on_top,
@@ -64,6 +69,7 @@ function startMenuBar(config: Config) {
                 mb.window.webContents.send('tuitter:config', config);
             });
             state.manage(mb.window);
+            manageTrayIconState(mb.tray, config.icon_color);
             resolve();
         });
     });
@@ -101,21 +107,23 @@ function startNormalWindow(config: Config) {
         win.loadURL(HTML);
         state.manage(win);
 
+        const toggleWindow = () => {
+            if (win.isFocused()) {
+                log.debug('Toggle window: shown -> hidden');
+                win.hide();
+            } else {
+                log.debug('Toggle window: hidden -> shown');
+                win.show();
+            }
+        };
+
         win.webContents.on('dom-ready', () => {
             win.webContents.send('tuitter:config', config);
         });
         win.webContents.once('dom-ready', () => {
             log.debug('Normal window application was launched');
             if (config.hot_key) {
-                globalShortcut.register(config.hot_key, () => {
-                    if (win.isFocused()) {
-                        log.debug('Toggle window: shown -> hidden');
-                        win.hide();
-                    } else {
-                        log.debug('Toggle window: hidden -> shown');
-                        win.show();
-                    }
-                });
+                globalShortcut.register(config.hot_key, toggleWindow);
                 log.debug('Hot key was set to:', config.hot_key);
             }
             if (IS_DEBUG) {
@@ -123,6 +131,14 @@ function startNormalWindow(config: Config) {
             }
             resolve();
         });
+
+        const tray = new Tray(trayIcon(config.icon_color));
+        tray.on('click', toggleWindow);
+        tray.on('double-click', toggleWindow);
+        if (process.platform === 'darwin') {
+            tray.setHighlightMode('never');
+        }
+        manageTrayIconState(tray, config.icon_color);
     });
 }
 

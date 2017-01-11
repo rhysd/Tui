@@ -1,10 +1,11 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import {EventEmitter} from 'events';
 import {shell} from 'electron';
 import {USERAGENT} from './constants';
 import log from './log';
 
-export default class WebView {
+export default class WebView extends EventEmitter {
     private elem: Electron.WebViewElement;
     private mounted = false;
 
@@ -17,6 +18,7 @@ export default class WebView {
     }
 
     constructor() {
+        super();
         const wv = document.createElement('webview');
         wv.id = 'main-webview';
         wv.setAttribute('useragent', USERAGENT);
@@ -36,6 +38,10 @@ export default class WebView {
         });
         wv.addEventListener('crashed', () => {
             log.error('Webview crashed! Reload <webview> to recover.');
+        });
+        wv.addEventListener('ipc-message', e => {
+            log.debug('IPC message from ', e.channel, e.args);
+            this.emit('ipc', e.channel, ...e.args);
         });
         this.elem = wv;
     }
