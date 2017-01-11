@@ -60,7 +60,7 @@ function setupMenuBar(config: Config) {
             if (IS_DEBUG) {
                 mb.window.webContents.openDevTools({mode: 'detach'});
             }
-            mb.window.webContents.once('dom-ready', () => {
+            mb.window.webContents.on('dom-ready', () => {
                 mb.window.webContents.send('tuitter:config', config);
             });
             state.manage(mb.window);
@@ -102,6 +102,9 @@ function setupNormalWindow(config: Config) {
 
         win.loadURL(HTML);
 
+        win.webContents.on('dom-ready', () => {
+            win.webContents.send('tuitter:config', config);
+        });
         win.webContents.once('dom-ready', () => {
             log.debug('Normal window application was launched');
             if (config.hot_key) {
@@ -116,7 +119,6 @@ function setupNormalWindow(config: Config) {
                 });
                 log.debug('Hot key was set to:', config.hot_key);
             }
-            win.webContents.send('tuitter:config', config);
             if (IS_DEBUG) {
                 win.webContents.openDevTools({mode: 'detach'});
             }
