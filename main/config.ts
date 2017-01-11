@@ -10,6 +10,7 @@ const DEFAULT_CONFIG = {
     normal_window: false,
     zoom_factor: 0.9,
     keymaps: {
+        /* tslint:disable:object-literal-key-quotes */
         'j': 'next-tweet',
         'k': 'previous-tweet',
         'esc': 'unfocus-tweet',
@@ -31,6 +32,7 @@ const DEFAULT_CONFIG = {
         'l': 'open-links',
         'backspace': 'browser-go-back',
         'ctrl+enter': 'send-tweet',
+        /* tslint:enable:object-literal-key-quotes */
     },
 } as Config;
 

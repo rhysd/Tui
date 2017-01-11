@@ -15,7 +15,7 @@ export const SELECTORS = {
     tweetActions: 'button.RQ5ECnGZ._1m0pnxeJ',
     selectionDialogItems: '.MmJh82_T.SpbPGaHr._3vxCixKF._2Rz0TobF._1pzUva68._1qpWiIkN._3f2NsD-H',
     thumbnailImageInTweet: 'a._2YXT0EI-',
-    tweetBody: 'div.I8DvYjmD._2HNcekSk', 
+    tweetBody: 'div.I8DvYjmD._2HNcekSk',
     tweetText: 'h1._3f2NsD-H',
     thumbnailLinkInTweet: 'div._3hdqTVua._3f2NsD-H a._3kGl_FG7',
     header: `header.${CLASS_NAMES.header}`,
