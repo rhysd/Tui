@@ -29,6 +29,7 @@ const DEFAULT_CONFIG = {
         'I': 'open-images-in-browser',
         'o': 'open-tweet',
         'l': 'open-links',
+        'backspace': 'browser-go-back',
         'ctrl+enter': 'send-tweet',
     },
 } as Config;
