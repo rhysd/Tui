@@ -12,7 +12,7 @@ import log from './log';
 import manageTrayIconState from './tray_icon_state';
 
 const IS_DEBUG = process.env.NODE_ENV === 'development';
-const HTML = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}${IS_DEBUG ? '?react_perf' : ''}`;
+const HTML = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}`;
 const DEFAULT_WIDTH = 340;
 const DEFAULT_HEIGHT = 400;
 
