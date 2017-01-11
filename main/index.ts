@@ -14,7 +14,7 @@ const HTML = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}${IS
 const DEFAULT_WIDTH = 340;
 const DEFAULT_HEIGHT = 400;
 
-const appReady = new Promise(resolve => app.on('ready', resolve));
+const appReady = new Promise<void>(resolve => app.once('ready', resolve));
 
 process.on('unhandledRejection', (reason: string) => {
     log.error('FATAL: Unhandled rejection! Reason:', reason);
@@ -24,9 +24,9 @@ app.on('will-quit', () => {
     log.debug('Application is quitting');
 });
 
-function setupMenuBar(config: Config) {
+function startMenuBar(config: Config) {
     log.debug('Setup a menubar window');
-    return new Promise<Menubar.MenubarApp>(resolve => {
+    return new Promise<void>(resolve => {
         const state = windowState({
             defaultWidth: DEFAULT_WIDTH,
             defaultHeight: DEFAULT_HEIGHT,
@@ -64,14 +64,14 @@ function setupMenuBar(config: Config) {
                 mb.window.webContents.send('tuitter:config', config);
             });
             state.manage(mb.window);
-            resolve(mb);
+            resolve();
         });
     });
 }
 
-function setupNormalWindow(config: Config) {
+function startNormalWindow(config: Config) {
     log.debug('Setup a normal window');
-    return new Promise<Electron.BrowserWindow>(resolve => {
+    return new Promise<void>(resolve => {
         const state = windowState({
             defaultWidth: 600,
             defaultHeight: 800,
@@ -98,9 +98,8 @@ function setupNormalWindow(config: Config) {
         } else if (state.isMaximized) {
             win.maximize();
         }
-        state.manage(win);
-
         win.loadURL(HTML);
+        state.manage(win);
 
         win.webContents.on('dom-ready', () => {
             win.webContents.send('tuitter:config', config);
@@ -122,18 +121,17 @@ function setupNormalWindow(config: Config) {
             if (IS_DEBUG) {
                 win.webContents.openDevTools({mode: 'detach'});
             }
-            resolve(win);
+            resolve();
         });
     });
 }
 
 // Note:
-// No need to wait for 'ready' event when launching menubar style application
-// because 'menubar' package internally waits for app being ready.
-loadConfig().then(
-    c => c.normal_window ?
-        appReady.then(() => setupNormalWindow(c)) :
-        setupMenuBar(c)
+// 'menubar' package internally waits for app being ready.
+// But windowState() calls electron.screen internally and it requires
+// that app is ready.
+Promise.all([loadConfig(), appReady]).then(([c, _]) =>
+    c.normal_window ? startNormalWindow(c) : startMenuBar(c)
 ).then(() => {
     log.debug('Application launched!');
 });
