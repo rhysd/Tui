@@ -337,11 +337,22 @@ export default class KeymapsHandler {
         if (inputIsFocused() || this.focusedTweet === null) {
             return false;
         }
-        const actions = this.focusedTweet.querySelectorAll(SELECTORS.tweetActions);
-        console.log('Tui: test:', actions);
-        if (actions.length !== 4) {
+
+        const actionsBodies = this.focusedTweet.querySelectorAll(SELECTORS.tweetActions);
+        if (actionsBodies.length === 0) {
+            console.error('Unexpected number of actions body in tweet element:', actionsBodies);
             return false;
         }
+
+        // Tweet element may contain multiple tweets because of conversation
+        const actionsBody = actionsBodies[actionsBodies.length - 1] as HTMLDivElement;
+
+        const actions = actionsBody.querySelectorAll(SELECTORS.tweetAction);
+        if (actions.length !== 4) {
+            console.error('Unexpected number of actions in tweet element:', actions);
+            return false;
+        }
+
         (actions[index] as HTMLElement).click();
         return true;
     }

@@ -12,7 +12,7 @@ export const SELECTORS = {
     newTweet: '._2tOLusnc._2ZBD52R7',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
     sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',
-    tweetActions: 'button.RQ5ECnGZ._1m0pnxeJ',
+    tweetAction: 'button.RQ5ECnGZ._1m0pnxeJ',
     selectionDialogItems: '.MmJh82_T.SpbPGaHr._3vxCixKF._2Rz0TobF._1pzUva68._1qpWiIkN._3f2NsD-H',
     thumbnailImageInTweet: 'a._2YXT0EI-',
     tweetBody: 'div.I8DvYjmD._2HNcekSk',
@@ -20,6 +20,7 @@ export const SELECTORS = {
     thumbnailLinkInTweet: 'div._3hdqTVua._3f2NsD-H a._3kGl_FG7',
     header: `header.${CLASS_NAMES.header}`,
     notifications: 'svg._20oY9XAa',
+    tweetActions: 'div._1t1yuVSm._3_8jWiwP._32ievKrg._3f2NsD-H',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
