@@ -90,7 +90,6 @@ export default class KeymapsHandler {
         const e = document.querySelector(SELECTORS.scrollUpToNewTweet) as HTMLElement | null;
         if (e !== null) {
             e.click();
-            return;
         } else {
             window.scrollTo(0, 0);
         }
@@ -273,6 +272,10 @@ export default class KeymapsHandler {
             return;
         }
         c.reload();
+    }
+
+    'quit-app'(_: AppContext) {
+        remote.app.quit();
     }
 
     'open-devtools'(_: AppContext) {

@@ -26,4 +26,5 @@ type KeymapName
     | 'browser-go-back'
     | 'browser-go-forward'
     | 'browser-reload'
+    | 'quit-app'
 ;

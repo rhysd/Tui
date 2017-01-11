@@ -48,6 +48,7 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'browser-go-back',
     'browser-go-forward',
     'browser-reload',
+    'quit-app',
 ];
 
 export const TWITTER_COLOR = '#1da1f2';

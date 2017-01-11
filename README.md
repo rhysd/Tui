@@ -114,6 +114,7 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `browser-go-back`        | Navigate to go back like a browser                          | `backspace`  |
 | `browser-go-forward`     | Navigate to go forward like a browser                       | N/A          |
 | `browser-reload`         | Navigate to reload like a browser                           | N/A          |
+| `quit-app`               | Quit application                                            | N/A          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
 
 ## User Defined CSS
