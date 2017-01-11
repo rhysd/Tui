@@ -93,6 +93,7 @@ export default class KeymapsHandler {
         } else {
             window.scrollTo(0, 0);
         }
+        this.setCurrentFocusedTweet(null);
     }
 
     // Note: Should use location.href = 'https://mobile.twitter.com/home'?
