@@ -121,6 +121,12 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 When you put `user.css` in application directory, Tui automatically loads it and applies to underlying https://mobile.twitter.com.
 You can create a theme for https://mobile.twitter.com and hide some elements by `display: none`.
 
+## User Defined JS Script
+
+You can also put `user.js` in application directory. It will be loaded when loading https://mobile.twitter.com at first.
+Please do not assume that it's loaded deterministically. It will be loaded while loading https://mobile.twitter.com.
+DOM may not be ready yet. In that case, you need to wait `load` event.
+
 ## TODOs
 
 This application is under construction.

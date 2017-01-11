@@ -20,8 +20,11 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
             const forwarder = new KeymapsForwarder(wv);
             forwarder.forwardAll(config.keymaps);
         }
+
         const user_css = path.join(remote.app.getPath('userData'), 'user.css');
         wv.applyCSS(user_css).catch(e => log.debug(e));
+        const user_js = path.join(remote.app.getPath('userData'), 'user.js');
+        wv.executeJS(user_js).catch(e => log.debug(e));
     });
 });
 

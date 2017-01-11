@@ -75,5 +75,17 @@ export default class WebView {
             });
         });
     }
+
+    executeJS(file: string) {
+        return new Promise<void>((resolve, reject) => {
+            fs.readFile(file, 'utf8', (err, code) => {
+                if (err) {
+                    return reject(err);
+                }
+                this.elem.executeJavaScript(code);
+                resolve();
+            });
+        });
+    }
 }
 
