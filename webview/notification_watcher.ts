@@ -30,6 +30,28 @@ export default class NotiicationWatcher {
     private mentionNotified = false;
     private messageNotified = false;
 
+    start(header: HTMLElement) {
+        const elems = header.querySelectorAll(SELECTORS.notifications);
+        if (elems.length < 3) {
+            console.error('Tui: Notification icons were not found:', elems);
+            return;
+        }
+
+        this.mentionObserver = setupNotificationObserver(
+            elems[1].parentElement as HTMLElement,
+            this.onMentionsChanged,
+        );
+        this.messageObserver = setupNotificationObserver(
+            elems[2].parentElement as HTMLElement,
+            this.onMessagesChanged,
+        );
+    }
+
+    isWatching() {
+        return this.mentionObserver !== null &&
+               this.messageObserver !== null;
+    }
+
     private onMentionsChanged = (added: boolean, removed: boolean) => {
         console.log('Tui: Mention notification changed', added, removed);
         if (added && !removed) {
@@ -63,27 +85,4 @@ export default class NotiicationWatcher {
             this.messageNotified = false;
         }
     }
-
-    start(header: HTMLElement) {
-        const elems = header.querySelectorAll(SELECTORS.notifications);
-        if (elems.length < 3) {
-            console.error('Tui: Notification icons were not found:', elems);
-            return;
-        }
-
-        this.mentionObserver = setupNotificationObserver(
-            elems[1].parentElement as HTMLElement,
-            this.onMentionsChanged,
-        );
-        this.messageObserver = setupNotificationObserver(
-            elems[2].parentElement as HTMLElement,
-            this.onMessagesChanged,
-        );
-    }
-
-    isWatching() {
-        return this.mentionObserver !== null &&
-               this.messageObserver !== null;
-    }
-
 }
