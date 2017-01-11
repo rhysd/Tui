@@ -24,27 +24,45 @@ function setupNotificationObserver(target: HTMLElement, cb: (a: boolean, b: bool
     return o;
 }
 
-function onMentionsChanged(added: boolean, removed: boolean) {
-    console.log('Tui: Mention notification changed', added, removed);
-    if (added && !removed) {
-        ipc.sendToHost('tuitter:notified:mentions');
-    } else if (!added && removed) {
-        ipc.sendToHost('tuitter:un-notified:mentions');
-    }
-}
-
-function onMessagesChanged(added: boolean, removed: boolean) {
-    console.log('Tui: Messaages notification changed', added, removed);
-    if (added && !removed) {
-        ipc.sendToHost('tuitter:notified:messages');
-    } else if (!added && removed) {
-        ipc.sendToHost('tuitter:un-notified:messages');
-    }
-}
-
 export default class NotiicationWatcher {
     private mentionObserver: MutationObserver | null = null;
     private messageObserver: MutationObserver | null = null;
+    private mentionNotified = false;
+    private messageNotified = false;
+
+    private onMentionsChanged = (added: boolean, removed: boolean) => {
+        console.log('Tui: Mention notification changed', added, removed);
+        if (added && !removed) {
+            if (!this.messageNotified) {
+                // 'notified' is more important than 'informed'. So 'informed' should not
+                // override 'notified'.
+                ipc.sendToHost('tuitter:notified:mentions');
+            }
+            this.mentionNotified = true;
+        } else if (!added && removed) {
+            if (this.messageNotified) {
+                ipc.sendToHost('tuitter:notified:messages');
+            } else {
+                ipc.sendToHost('tuitter:un-notified:mentions');
+            }
+            this.mentionNotified = false;
+        }
+    }
+
+    private onMessagesChanged = (added: boolean, removed: boolean) => {
+        console.log('Tui: Messaages notification changed', added, removed);
+        if (added && !removed) {
+            ipc.sendToHost('tuitter:notified:messages');
+            this.messageNotified = true;
+        } else if (!added && removed) {
+            if (this.mentionNotified) {
+                ipc.sendToHost('tuitter:notified:mentions');
+            } else {
+                ipc.sendToHost('tuitter:un-notified:messages');
+            }
+            this.messageNotified = false;
+        }
+    }
 
     start(header: HTMLElement) {
         const elems = header.querySelectorAll(SELECTORS.notifications);
@@ -55,11 +73,11 @@ export default class NotiicationWatcher {
 
         this.mentionObserver = setupNotificationObserver(
             elems[1].parentElement as HTMLElement,
-            onMentionsChanged,
+            this.onMentionsChanged,
         );
         this.messageObserver = setupNotificationObserver(
             elems[2].parentElement as HTMLElement,
-            onMessagesChanged,
+            this.onMessagesChanged,
         );
     }
 
@@ -67,4 +85,5 @@ export default class NotiicationWatcher {
         return this.mentionObserver !== null &&
                this.messageObserver !== null;
     }
+
 }

@@ -14,6 +14,8 @@ Features (under construction):
 - Various keymaps to do many things only with keyboard
 - Available on macOS, Linux and Windows
 
+All links outside https://mobile.twitter.com in tweets are opened in an external browser.
+
 ## Installation
 
 This application is on pre-alpha stage. So currently only available with [npm](https://npmjs.com).
