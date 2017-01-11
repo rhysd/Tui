@@ -41,6 +41,9 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'open-tweet',
     'open-links',
     'open-devtools',
+    'browser-go-back',
+    'browser-go-forward',
+    'browser-reload',
 ];
 
 export const TWITTER_COLOR = '#1da1f2';

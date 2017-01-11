@@ -325,6 +325,30 @@ export default class KeymapsHandler {
         }
     }
 
+    'browser-go-back'(_: AppContext) {
+        const c = remote.getCurrentWebContents();
+        if (inputIsFocused() || !c.canGoBack()) {
+            return;
+        }
+        c.goBack();
+    }
+
+    'browser-go-forward'(_: AppContext) {
+        const c = remote.getCurrentWebContents();
+        if (inputIsFocused() || !c.canGoForward()) {
+            return;
+        }
+        c.goForward();
+    }
+
+    'browser-reload'(_: AppContext) {
+        const c = remote.getCurrentWebContents();
+        if (inputIsFocused() || !c.canGoBack()) {
+            return;
+        }
+        c.reload();
+    }
+
     'open-devtools'(_: AppContext) {
         if (inputIsFocused()) {
             return;
