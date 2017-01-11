@@ -54,11 +54,11 @@ export default class NotiicationWatcher {
         }
 
         this.mentionObserver = setupNotificationObserver(
-            elems[1] as HTMLElement,
+            elems[1].parentElement as HTMLElement,
             onMentionsChanged,
         );
         this.messageObserver = setupNotificationObserver(
-            elems[2] as HTMLElement,
+            elems[2].parentElement as HTMLElement,
             onMessagesChanged,
         );
     }
