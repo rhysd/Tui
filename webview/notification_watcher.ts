@@ -37,14 +37,20 @@ export default class NotiicationWatcher {
             return;
         }
 
-        this.mentionObserver = setupNotificationObserver(
-            elems[1].parentElement as HTMLElement,
-            this.onMentionsChanged,
-        );
-        this.messageObserver = setupNotificationObserver(
-            elems[2].parentElement as HTMLElement,
-            this.onMessagesChanged,
-        );
+        const mention = elems[1].parentElement as HTMLElement;
+        const message = elems[2].parentElement as HTMLElement;
+
+        this.mentionObserver = setupNotificationObserver(mention,this.onMentionsChanged);
+        this.messageObserver = setupNotificationObserver(message, this.onMessagesChanged);
+
+        // Detect first state
+
+        if (message.querySelector(SELECTORS.notificationIndicator) !== null) {
+            this.messageDetected();
+        }
+        if (mention.querySelector(SELECTORS.notificationIndicator) !== null) {
+            this.mentionDetected();
+        }
     }
 
     isWatching() {
@@ -52,15 +58,24 @@ export default class NotiicationWatcher {
                this.messageObserver !== null;
     }
 
+    private mentionDetected() {
+        if (!this.messageNotified) {
+            // 'notified' is more important than 'informed'. So 'informed' should not
+            // override 'notified'.
+            ipc.sendToHost('tuitter:notified:mentions');
+        }
+        this.mentionNotified = true;
+    }
+
+    private messageDetected() {
+        ipc.sendToHost('tuitter:notified:messages');
+        this.messageNotified = true;
+    }
+
     private onMentionsChanged = (added: boolean, removed: boolean) => {
         console.log('Tui: Mention notification changed', added, removed);
         if (added && !removed) {
-            if (!this.messageNotified) {
-                // 'notified' is more important than 'informed'. So 'informed' should not
-                // override 'notified'.
-                ipc.sendToHost('tuitter:notified:mentions');
-            }
-            this.mentionNotified = true;
+            this.mentionDetected();
         } else if (!added && removed) {
             if (this.messageNotified) {
                 ipc.sendToHost('tuitter:notified:messages');
@@ -74,8 +89,7 @@ export default class NotiicationWatcher {
     private onMessagesChanged = (added: boolean, removed: boolean) => {
         console.log('Tui: Messaages notification changed', added, removed);
         if (added && !removed) {
-            ipc.sendToHost('tuitter:notified:messages');
-            this.messageNotified = true;
+            this.messageDetected();
         } else if (!added && removed) {
             if (this.mentionNotified) {
                 ipc.sendToHost('tuitter:notified:mentions');

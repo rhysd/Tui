@@ -21,6 +21,7 @@ export const SELECTORS = {
     header: `header.${CLASS_NAMES.header}`,
     notifications: 'svg._20oY9XAa',
     tweetActions: 'div._1t1yuVSm._3_8jWiwP._32ievKrg._3f2NsD-H',
+    notificationIndicator: 'span.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
