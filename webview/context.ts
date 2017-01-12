@@ -7,6 +7,7 @@ export class AppContext {
     location = location;
     tweetWatcher = new TweetWatcher();
     notificationWatcher = new NotificationWatcher();
+    timelineRoot: HTMLDivElement | null = null;
 
     isHomeTimeline() {
         return this.location.pathname === '/home';
@@ -21,6 +22,7 @@ export class AppContext {
     }
 
     startWatchers(root: HTMLDivElement, header: HTMLElement) {
+        this.timelineRoot = root;
         this.tweetWatcher.start(root);
         this.notificationWatcher.start(header);
     }

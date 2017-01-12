@@ -1,6 +1,7 @@
 import * as glob from 'glob';
 import {remote} from 'electron';
 import {AppContext} from './context';
+import {SELECTORS} from './constants';
 
 export interface Plugin {
     onStart?(context: AppContext): void;
@@ -42,6 +43,8 @@ export default class PluginManger {
 
     constructor(pluginPaths: string[], private ctx: AppContext) {
         console.log('Tui: Plugin manager constructed with paths:', pluginPaths);
+        const existingTweets = ctx.timelineRoot === null ?
+            [] : ctx.timelineRoot.querySelectorAll(SELECTORS.tweet);
         for (const p of pluginPaths) {
             const plugin = this.loadPlugin(p);
             if (plugin === null) {
@@ -52,11 +55,16 @@ export default class PluginManger {
             if (plugin.onStart) {
                 plugin.onStart(ctx);
             }
+            if (plugin.onTweetStatus) {
+                for (const tw of existingTweets) {
+                    plugin.onTweetStatus(tw as HTMLDivElement, ctx);
+                }
+            }
         }
         ctx.tweetWatcher.on('added', this.onTweetAdded);
     }
 
-    loadPlugin(path: string): Plugin {
+    loadPlugin(path: string) {
         try {
             const p = require(path) as Plugin;
             console.log('Tui: Plugin loaded:', p);
