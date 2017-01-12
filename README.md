@@ -10,7 +10,7 @@ Features (under construction):
 - Provide all features even if Twitter API doesn't provide (tracing conversation, group DM, votes, sync with https://twitter.com, ...)
 - Kill promoted tweets
 - User defined CSS
-- User defined tweet filters written in JavaScript
+- User defined tweet filters written in JavaScript as commonjs modules
 - Various keymaps to do many things only with keyboard
 - You can choose menu bar window or normal window
 - Available on macOS, Linux and Windows
@@ -132,6 +132,17 @@ Default value is `false`.
 The format is a [Electron's accelerator](https://github.com/electron/electron/blob/master/docs/api/accelerator.md). Please see the document to know how to configure this value.
 Default value is `"CmdOrCtrl+Shift+S"`. If you want to disable, please set empty string or `null`. 
 
+### plugins
+
+String array of paths to your plugins. As described below, plugin is loaded with Node.js's `require()`.
+So it can be a single file path or npm package directory path.
+You can specify both absolute path and relative path to application directory.
+For example, when you have `{app dir}/some_plugin.js`, you can specify `["some_plugin.js"]` as the value.
+
+These paths can caontains glob. For example, `plugins/*.js` will load all JavaScript files in `{app dir}/plugins` directory.
+
+Default value is `[]`.
+
 ### icon\_color
 
 Color of icon in menu bar. `"white"` or `"black"` is available. Default value is `"black"`.
@@ -149,6 +160,45 @@ Default font size is a bit bigger because https://mobile.twitter.com is original
 
 Home URL loaded when application starts. If you see a list or something isntead of home timeline, please modify this URL.
 Default value is `"https://mobile.twitter.com"`.
+
+## Plugin
+
+Tui can load your JavaScript plugin and you can hook some points in application. Plugin paths can be specified in `config.json` (see above).
+Each paths will be loaded with Node.js's `require()`. So you can create a plugin as a single JavaScript or npm package structure directory.
+
+Plugin must export one object which (may) contains hooks as property. Current supported hooks are:
+
+- `onStart(ctx)`: When application started
+- `onTweetStatus(tw, ctx)`: When a tweet appears in application's timeline. `tw` is a DOM element which represents a tweet.
+
+The `ctx` parameter is an instance of [`AppContext` class](./webview/context.ts).
+Interface definition is [described in TypeScript code](./webview/plugin_manager.ts).
+
+Plugins are loaded in https://mobile.twitter.com context. So you can modify DOM element directly.
+
+Below is a super simple plugin to filter f\*ck words.
+
+```javascript
+const NG_WORDS = [
+    'Fuck',
+    'fuck',
+];
+
+module.exports = {
+    onTweetStatus(tw, ctx) {
+        const text = tw.innerText;
+        for (const w of NG_WORDS) {
+            if (text.indexOf(w) >= 0) {
+                tw.style.display = 'none';
+                break;
+            }
+        }
+    }
+};
+```
+
+To see the log, it's easy way to specify environment variable `NODE_ENV=development`. It opens DevTools at app starting.
+Or there is a keymap to open DevTools (it's not assigned to any key by default).
 
 ## User Defined CSS
 
