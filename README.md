@@ -5,7 +5,7 @@ Twitter client based on https://mobile.twitter.com in menu bar.
 
 <img src="https://github.com/rhysd/ss/blob/master/Tui/desktop.jpg?raw=true" width="700" alt="application screenshot"/>
 
-Features (under construction):
+Features
 
 - Provide all features even if Twitter API doesn't provide (tracing conversation, group DM, votes, sync with https://twitter.com, ...)
 - Kill promoted tweets
@@ -19,7 +19,9 @@ All links outside https://mobile.twitter.com in tweets are opened in an external
 
 ## Installation
 
-This application is on pre-alpha stage. So currently only available with [npm](https://npmjs.com).
+Download archived file for your environment from [release page](https://github.com/rhysd/Tui/releases). Please follow the instruction in the release page.
+
+Or available as [npm package](https://www.npmjs.com/package/tuitter).
 
 ```
 $ npm install --global tuitter
@@ -219,7 +221,6 @@ DOM may not be ready yet. In that case, you need to wait `load` event.
 
 ## TODOs
 
-This application is under construction.
 Please visit [the Project page](https://github.com/rhysd/Tui/projects/1) to know the features I'm planning.
 
 ## Development
