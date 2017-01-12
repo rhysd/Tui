@@ -49,6 +49,8 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'browser-go-back',
     'browser-go-forward',
     'browser-reload',
+    'zoom-in',
+    'zoom-out',
     'quit-app',
 ];
 

@@ -34,6 +34,8 @@ const DEFAULT_CONFIG = {
         'l': 'open-links',
         'backspace': 'browser-go-back',
         'ctrl+enter': 'send-tweet',
+        'mod+plus': 'zoom-in',
+        'mod+-': 'zoom-out',
         /* tslint:enable:object-literal-key-quotes */
     },
 } as Config;

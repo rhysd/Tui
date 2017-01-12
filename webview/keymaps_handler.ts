@@ -276,7 +276,25 @@ export default class KeymapsHandler {
     }
 
     'quit-app'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
         remote.app.quit();
+    }
+
+    'zoom-in'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
+        this.modifyZoomFactor(0.1);
+        remote.getCurrentWebContents();
+    }
+
+    'zoom-out'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
+        this.modifyZoomFactor(-0.1);
     }
 
     'open-devtools'(_: AppContext) {
@@ -369,5 +387,12 @@ export default class KeymapsHandler {
         } else {
             return false;
         }
+    }
+
+    private modifyZoomFactor(diff: number) {
+        const c = remote.getCurrentWebContents();
+        c.getZoomFactor(factor => {
+            c.setZoomFactor(factor + diff);
+        });
     }
 }

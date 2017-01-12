@@ -115,6 +115,8 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `browser-go-back`        | Navigate to go back like a browser                          | `backspace`  |
 | `browser-go-forward`     | Navigate to go forward like a browser                       | N/A          |
 | `browser-reload`         | Navigate to reload like a browser                           | N/A          |
+| `zoom-in`                | Zoom font size by 10%                                       | `mod+plus`   |
+| `zoom-out`               | Zoom font size by -10%                                      | `mod+-`      |
 | `quit-app`               | Quit application                                            | N/A          |
 | `open-devtools`          | Open DevTools for current page                              | N/A          |
 
@@ -199,6 +201,8 @@ module.exports = {
 
 To see the log, it's easy way to specify environment variable `NODE_ENV=development`. It opens DevTools at app starting.
 Or there is a keymap to open DevTools (it's not assigned to any key by default).
+
+Note that hooks are called with blocking. Please do not execute heavy process or consider to use `setTimeout()` to defer heavy process.
 
 ## User Defined CSS
 
