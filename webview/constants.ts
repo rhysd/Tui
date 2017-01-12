@@ -9,7 +9,7 @@ export const SELECTORS = {
     notificationCount: '.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
     scrollUpToNewTweet: `.${CLASS_NAMES.scrollUpToNewTweet}`,
     tabItems: `._2QuQvRFT._2ZoxDI7c`,
-    newTweet: '._2tOLusnc._2ZBD52R7',
+    newTweetButton: '._2tOLusnc._2ZBD52R7',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
     sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',
     tweetAction: 'button.RQ5ECnGZ._1m0pnxeJ',
@@ -22,6 +22,7 @@ export const SELECTORS = {
     notifications: 'svg._20oY9XAa',
     tweetActions: 'div._1t1yuVSm._3_8jWiwP._32ievKrg._3f2NsD-H',
     notificationIndicator: 'span.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
+    newTweetTextarea: 'textarea._2wjpwbis._1YGC8xFq._2RmultvD._1VqMahaT._2Z8UymHS',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [

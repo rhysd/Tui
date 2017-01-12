@@ -131,9 +131,14 @@ export default class KeymapsHandler {
         if (inputIsFocused()) {
             return;
         }
-        const button = document.querySelector(SELECTORS.newTweet) as HTMLElement | null;
+        const button = document.querySelector(SELECTORS.newTweetButton) as HTMLElement | null;
         if (button !== null) {
             button.click();
+            // Ensure to focus textare to input a tweet text
+            const textarea = document.querySelector(SELECTORS.newTweetTextarea) as HTMLElement | null;
+            if (textarea !== null) {
+                textarea.focus();
+            }
         } else {
             if (this.clickTab(0)) {
                 // If 'New Tweet' button not found, repeat again after moving to 'Home Timeline' tab.
