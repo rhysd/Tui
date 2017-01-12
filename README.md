@@ -149,7 +149,8 @@ Default value is `[]`.
 
 ### icon\_color
 
-Color of icon in menu bar. `"white"` or `"black"` is available. Default value is `"black"`.
+Color of icon in menu bar. `"white"` or `"black"` is available. In macOS, it's depending on the system is dark mode or not.
+In other platforms, default value is or `"black"`.
 
 ### always\_on\_top
 
