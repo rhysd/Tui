@@ -134,11 +134,7 @@ export default class KeymapsHandler {
         const button = document.querySelector(SELECTORS.newTweetButton) as HTMLElement | null;
         if (button !== null) {
             button.click();
-            // Ensure to focus textare to input a tweet text
-            const textarea = document.querySelector(SELECTORS.newTweetTextarea) as HTMLElement | null;
-            if (textarea !== null) {
-                textarea.focus();
-            }
+            this.focusNewTweetTextarea();
         } else {
             if (this.clickTab(0)) {
                 // If 'New Tweet' button not found, repeat again after moving to 'Home Timeline' tab.
@@ -156,6 +152,7 @@ export default class KeymapsHandler {
 
     'reply-tweet'(_: AppContext) {
         this.clickTweetAction(0);
+        this.focusNewTweetTextarea();
     }
 
     'like-tweet'(_: AppContext) {
@@ -184,6 +181,7 @@ export default class KeymapsHandler {
         }
         const qtButton = selectionButtons[1] as HTMLElement;
         qtButton.click();
+        this.focusNewTweetTextarea();
     }
 
     'open-images'(_: AppContext) {
@@ -399,5 +397,15 @@ export default class KeymapsHandler {
         c.getZoomFactor(factor => {
             c.setZoomFactor(factor + diff);
         });
+    }
+
+    // Ensure to focus textare to input a tweet text
+    private focusNewTweetTextarea() {
+        const textarea = document.querySelector(SELECTORS.newTweetTextarea) as HTMLElement | null;
+        if (textarea === null) {
+            console.error('Tui: Textarea not found after clicking new tweet button.');
+            return;
+        }
+        setTimeout(() => textarea.focus(), 0);
     }
 }
