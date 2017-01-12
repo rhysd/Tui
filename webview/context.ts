@@ -8,6 +8,7 @@ export class AppContext {
     tweetWatcher = new TweetWatcher();
     notificationWatcher = new NotificationWatcher();
     timelineRoot: HTMLDivElement | null = null;
+    selectors = SELECTORS;
 
     isHomeTimeline() {
         return this.location.pathname === '/home';
@@ -30,10 +31,6 @@ export class AppContext {
 
 export function dispatchContext() {
     const ctx = new AppContext();
-    if (ctx.isMessagesPage()) {
-        return Promise.resolve(ctx);
-    }
-
     return Promise.all([
         doPollingForElementExists(SELECTORS.tweet, 25),
         doPollingForElementExists(SELECTORS.header, 25),
