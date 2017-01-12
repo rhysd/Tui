@@ -25,6 +25,7 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
         wv.applyCSS(user_css).catch(e => log.debug(e));
         const user_js = path.join(remote.app.getPath('userData'), 'user.js');
         wv.executeJS(user_js).catch(e => log.debug(e));
+        wv.sendIpc('tuitter:plugin-paths', config.plugins || []);
     });
     wv.on('ipc', (channel: string) => {
         switch (channel) {

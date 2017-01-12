@@ -1,25 +1,27 @@
+import {ipcRenderer as ipc} from 'electron';
 import {dispatchContext} from './context';
 import KeymapsHandler from './keymaps_handler';
+import PluginManager from './plugin_manager';
 
-// TODO:
-// Make PluginManager
-// TODO:
-// Get list of plugin files via IPC
-// TODO:
-// Implement loading plugin
-
-function applyFilterPlugin(tweet: HTMLDivElement) {
-    console.error('Tui: TODO: Apply plugin to tweet element:', tweet);
-}
+const pluginPaths = new Promise<string[]>(resolve => {
+    ipc.once('tuitter:plugin-paths', (_: any, paths: string[]) => {
+        console.log('Tui: Received plugin paths:', paths);
+        resolve(paths);
+    });
+});
 
 const handler = () => {
     switch (document.readyState) {
         case 'interactive': {
             console.log('Tui: Reached to "interactive" state. Will inject codes');
             dispatchContext().then(ctx => {
-                ctx.tweetWatcher.on('added', applyFilterPlugin);
                 const keymaps = new KeymapsHandler(ctx);
                 keymaps.subscribeIpc();
+                pluginPaths
+                    .then(paths => PluginManager.create(paths, ctx))
+                    .then(manager => {
+                        console.log('Tui: Plugin manager created:', manager);
+                    });
             });
             // Note: Ensure to run this clause once
             document.removeEventListener('readystatechange', handler);
