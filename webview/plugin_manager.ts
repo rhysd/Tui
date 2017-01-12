@@ -44,6 +44,10 @@ export default class PluginManger {
         console.log('Tui: Plugin manager constructed with paths:', pluginPaths);
         for (const p of pluginPaths) {
             const plugin = this.loadPlugin(p);
+            if (plugin === null) {
+                // Simply ignore the plugin on failing to load it.
+                continue;
+            }
             this.plugins[p] = plugin;
             if (plugin.onStart) {
                 plugin.onStart(ctx);
@@ -53,9 +57,14 @@ export default class PluginManger {
     }
 
     loadPlugin(path: string): Plugin {
-        const p = require(path) as Plugin;
-        console.log('Tui: Plugin loaded:', p);
-        return p;
+        try {
+            const p = require(path) as Plugin;
+            console.log('Tui: Plugin loaded:', p);
+            return p;
+        } catch (e) {
+            console.error('Tui: Failed to load a plugin from ' + path, e);
+            return null;
+        }
     }
 
     private onTweetAdded = (tw: HTMLDivElement) => {
