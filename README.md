@@ -145,6 +145,11 @@ When this value is set to `true`, the window won't be hidden if it loses a focus
 Font zoom factor in application. It should be positive number. For example, `0.7` means `70%` font zooming.
 Default font size is a bit bigger because https://mobile.twitter.com is originally for mobile devices. So default value is `0.9`.
 
+### home\_url
+
+Home URL loaded when application starts. If you see a list or something isntead of home timeline, please modify this URL.
+Default value is `"https://mobile.twitter.com"`.
+
 ## User Defined CSS
 
 When you put `user.css` in application directory, Tui automatically loads it and applies to underlying https://mobile.twitter.com.

@@ -9,6 +9,7 @@ const DEFAULT_CONFIG = {
     always_on_top: false,
     normal_window: false,
     zoom_factor: 0.9,
+    home_url: 'https://mobile.twitter.com',
     keymaps: {
         /* tslint:disable:object-literal-key-quotes */
         'j': 'next-tweet',

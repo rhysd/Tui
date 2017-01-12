@@ -66,6 +66,7 @@ function startMenuBar(config: Config) {
                 mb.window.webContents.openDevTools({mode: 'detach'});
             }
             mb.window.webContents.on('dom-ready', () => {
+                log.debug('Send config to renderer procress');
                 mb.window.webContents.send('tuitter:config', config);
             });
             state.manage(mb.window);
@@ -118,6 +119,7 @@ function startNormalWindow(config: Config) {
         };
 
         win.webContents.on('dom-ready', () => {
+            log.debug('Send config to renderer procress');
             win.webContents.send('tuitter:config', config);
         });
         win.webContents.once('dom-ready', () => {

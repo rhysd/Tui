@@ -6,5 +6,6 @@ interface Config {
     always_on_top: boolean;
     normal_window: boolean;
     zoom_factor: number;
+    home_url: string;
     keymaps: KeymapsConfig;
 }
