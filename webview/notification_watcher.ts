@@ -40,7 +40,7 @@ export default class NotiicationWatcher {
         const mention = elems[1].parentElement as HTMLElement;
         const message = elems[2].parentElement as HTMLElement;
 
-        this.mentionObserver = setupNotificationObserver(mention,this.onMentionsChanged);
+        this.mentionObserver = setupNotificationObserver(mention, this.onMentionsChanged);
         this.messageObserver = setupNotificationObserver(message, this.onMessagesChanged);
 
         // Detect first state

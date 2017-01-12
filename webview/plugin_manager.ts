@@ -9,6 +9,8 @@ export interface Plugin {
 }
 
 export default class PluginManger {
+    public plugins: {[absolutePath: string]: Plugin} = {};
+
     static create(globPaths: string[], ctx: AppContext) {
         if (globPaths.length === 0) {
             return Promise.resolve(new PluginManger([], ctx));
@@ -38,8 +40,6 @@ export default class PluginManger {
             )
         );
     }
-
-    public plugins: {[absolutePath: string]: Plugin} = {};
 
     constructor(pluginPaths: string[], private ctx: AppContext) {
         console.log('Tui: Plugin manager constructed with paths:', pluginPaths);

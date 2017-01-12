@@ -21,6 +21,7 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
             forwarder.forwardAll(config.keymaps);
         }
 
+        wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e));
         const user_css = path.join(remote.app.getPath('userData'), 'user.css');
         wv.applyCSS(user_css).catch(e => log.debug(e));
         const user_js = path.join(remote.app.getPath('userData'), 'user.js');

@@ -3,7 +3,7 @@ Tui
 
 Twitter client based on https://mobile.twitter.com in menu bar.
 
-![screenshot](https://github.com/rhysd/ss/blob/master/Tui/main.jpg?raw=true)
+<img src="https://github.com/rhysd/ss/blob/master/Tui/desktop.jpg?raw=true" width="700" alt="application screenshot"/>
 
 Features (under construction):
 
@@ -181,7 +181,7 @@ Plugins are loaded in https://mobile.twitter.com context. So you can modify DOM 
 Below is a super simple plugin to filter f\*ck words.
 
 ```javascript
-const NG_WORDS = [
+const FWORDS = [
     'Fuck',
     'fuck',
 ];
@@ -189,7 +189,7 @@ const NG_WORDS = [
 module.exports = {
     onTweetStatus(tw, ctx) {
         const text = tw.innerText;
-        for (const w of NG_WORDS) {
+        for (const w of FWORDS) {
             if (text.indexOf(w) >= 0) {
                 tw.style.display = 'none';
                 break;
