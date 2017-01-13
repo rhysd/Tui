@@ -22,6 +22,8 @@ const handler = () => {
                     .then(manager => {
                         console.log('Tui: Plugin manager created:', manager);
                     });
+            }).catch(e => {
+                console.error('Tui: Error on initialization:', e);
             });
             // Note: Ensure to run this clause once
             document.removeEventListener('readystatechange', handler);

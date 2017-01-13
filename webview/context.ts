@@ -1,6 +1,6 @@
 import TweetWatcher from './tweet_watcher';
 import NotificationWatcher from './notification_watcher';
-import {doPollingForElementExists} from './utils';
+import {observeElementAppears} from './utils';
 import {SELECTORS} from './constants';
 
 export class AppContext {
@@ -32,9 +32,10 @@ export class AppContext {
 export function dispatchContext() {
     const ctx = new AppContext();
     return Promise.all([
-        doPollingForElementExists(SELECTORS.tweet, 25),
-        doPollingForElementExists(SELECTORS.header, 25),
+        observeElementAppears(SELECTORS.tweet),
+        observeElementAppears(SELECTORS.header),
     ]).then(([tw, header]) => {
+        console.log('Tui: Timeline root element and header element found:', tw, header);
         const parent = tw.parentNode;
         if (parent === null) {
             console.error('Tui: No parent found for:', tw);

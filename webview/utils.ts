@@ -1,20 +1,24 @@
-// XXX:
-// Use MutationObserver and observe 'subtree' of <div id="react-root"></div>
-// When first tweet element is found, stop observing.
-export function doPollingForElementExists(selector: string, retry: number) {
-    return new Promise<HTMLElement>(resolve => {
-        let count = 0;
-        function watch() {
-            const e = document.querySelector(selector);
-            if (e !== null) {
-                return resolve(e as HTMLElement);
-            }
-            if (count < retry) {
-                ++count;
-                window.setTimeout(watch, 200);
-            }
+export function observeElementAppears(selector: string) {
+    return new Promise<HTMLElement>((resolve, reject) => {
+        const root = document.getElementById('react-root');
+        if (root === null) {
+            return reject(new Error('No react-root element found'));
         }
-        watch();
+
+        const observer = new MutationObserver(muts => {
+            for (const mut of muts) {
+                for (const n of mut.addedNodes) {
+                    if ((n as HTMLElement).matches(selector)) {
+                        observer.disconnect();
+                        return resolve(n as HTMLElement);
+                    }
+                }
+            }
+        });
+
+        observer.observe(root, {
+            childList: true,
+            subtree: true,
+        });
     });
 }
-
