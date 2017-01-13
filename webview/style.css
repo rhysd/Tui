@@ -2,3 +2,8 @@
 ._3oxnid3o._3f2NsD-H {
   display: none;
 }
+
+/* Kill a panel which includes tweet button and timeline title */
+._3ITjOJ53._3f2NsD-H {
+  display: none;
+}

@@ -17,6 +17,8 @@ Features
 
 All links outside https://mobile.twitter.com in tweets are opened in an external browser.
 
+When you want to make a new tweet, press `n` (it can be changed in config).
+
 ## Installation
 
 Download archived file for your environment from [release page](https://github.com/rhysd/Tui/releases). Please follow the instruction in the release page.
