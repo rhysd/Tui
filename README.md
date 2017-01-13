@@ -75,7 +75,7 @@ When there are unread direct messages, icon will be red.
 
 ## Config
 
-Configuration is written in JSON file in application direcotry. Please edit it with your favorite editor.
+Configuration is written in JSON file in application directory. Please edit it with your favorite editor.
 If you want to reset configuration, please simply remove the JSON file and restart application.
 
 ```sh
@@ -143,7 +143,7 @@ So it can be a single file path or npm package directory path.
 You can specify both absolute path and relative path to application directory.
 For example, when you have `{app dir}/some_plugin.js`, you can specify `["some_plugin.js"]` as the value.
 
-These paths can caontains glob. For example, `plugins/*.js` will load all JavaScript files in `{app dir}/plugins` directory.
+These paths can contain glob. For example, `plugins/*.js` will load all JavaScript files in `{app dir}/plugins` directory.
 
 Default value is `[]`.
 
@@ -163,7 +163,7 @@ Default font size is a bit bigger because https://mobile.twitter.com is original
 
 ### home\_url
 
-Home URL loaded when application starts. If you see a list or something isntead of home timeline, please modify this URL.
+Home URL loaded when application starts. If you see a list or something instead of home timeline, please modify this URL.
 Default value is `"https://mobile.twitter.com"`.
 
 ## Plugin
@@ -179,7 +179,7 @@ Plugin must export one object which (may) contains hooks as property. Current su
 The `ctx` parameter is an instance of [`AppContext` class](./webview/context.ts).
 Interface definition is [described in TypeScript code](./webview/plugin_manager.ts).
 
-Plugins are loaded in https://mobile.twitter.com context. So you can modify DOM element directly.
+Plugins are loaded in https://mobile.twitter.com context. So you can modify DOM element directly and freely.
 
 Below is a super simple plugin to filter f\*ck words.
 
@@ -220,9 +220,10 @@ You can also put `user.js` in application directory. It will be loaded when load
 Please do not assume that it's loaded deterministically. It will be loaded while loading https://mobile.twitter.com.
 DOM may not be ready yet. In that case, you need to wait `load` event.
 
-## TODOs
+## Future
 
-Please visit [the Project page](https://github.com/rhysd/Tui/projects/1) to know the features I'm planning.
+- Switch multi accounts
+- Tests
 
 ## Development
 
