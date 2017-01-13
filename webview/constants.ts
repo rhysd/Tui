@@ -29,6 +29,7 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'scroll-down-page',
     'scroll-up-page',
     'scroll-up-to-top',
+    'scroll-down-to-bottom',
     'switch-home-timeline',
     'switch-notifications',
     'switch-direct-messages',

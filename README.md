@@ -102,6 +102,7 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `scroll-down-page`       | Scroll down window per page                                 | `f`          |
 | `scroll-up-page`         | Scroll up window per page                                   | `b`          |
 | `scroll-up-to-top`       | Scroll to newest tweet when 'New Tweet' popup is displayed  | `t`          |
+| `scroll-down-to-bottom`  | Scroll to the bottom of timeline                            | N/A          |
 | `switch-home-timeline`   | Switch to 'Home Timeline' tab                               | `1`          |
 | `switch-notifications`   | Switch to 'Notifications' tab                               | `2`          |
 | `switch-direct-messages` | Switch to 'Direct Messages' tab                             | `3`          |

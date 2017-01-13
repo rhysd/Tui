@@ -46,6 +46,7 @@ function startMenuBar(config: Config) {
             width: state.width,
             height: state.height,
             alwaysOnTop: IS_DEBUG || !!config.always_on_top,
+            tooltip: 'Tui',
         });
         mb.once('ready', () => mb.showWindow());
         mb.once('after-create-window', () => {

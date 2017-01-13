@@ -96,6 +96,14 @@ export default class KeymapsHandler {
         this.setCurrentFocusedTweet(null);
     }
 
+    'scroll-down-to-bottom'(_: AppContext) {
+        if (inputIsFocused()) {
+            return;
+        }
+        window.scrollTo(0, document.body.scrollHeight);
+        this.setCurrentFocusedTweet(null);
+    }
+
     // Note: Should use location.href = 'https://mobile.twitter.com/home'?
     'switch-home-timeline'(_: AppContext) {
         if (inputIsFocused()) {
