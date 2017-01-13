@@ -133,8 +133,15 @@ export default class KeymapsHandler {
         }
         const button = document.querySelector(SELECTORS.newTweetButton) as HTMLElement | null;
         if (button !== null) {
-            button.click();
-            this.focusNewTweetTextarea();
+            // XXX:
+            // Keyboard event is not canceled with preventDefault() in renderer process
+            // because it also prevents user input.
+            // Here we need to avoid entering the character to text area by shortcut.
+            // So I added 100ms delay to this.
+            setTimeout(() => {
+                button.click();
+                this.focusNewTweetTextarea();
+            }, 100);
         } else {
             if (this.clickTab(0)) {
                 // If 'New Tweet' button not found, repeat again after moving to 'Home Timeline' tab.
@@ -151,8 +158,15 @@ export default class KeymapsHandler {
     }
 
     'reply-tweet'(_: AppContext) {
-        this.clickTweetAction(0);
-        this.focusNewTweetTextarea();
+        // XXX:
+        // Keyboard event is not canceled with preventDefault() in renderer process
+        // because it also prevents user input.
+        // Here we need to avoid entering the character to text area by shortcut.
+        // So I added 100ms delay to this.
+        setTimeout(() => {
+            this.clickTweetAction(0);
+            this.focusNewTweetTextarea();
+        }, 100);
     }
 
     'like-tweet'(_: AppContext) {
@@ -180,8 +194,16 @@ export default class KeymapsHandler {
             return;
         }
         const qtButton = selectionButtons[1] as HTMLElement;
-        qtButton.click();
-        this.focusNewTweetTextarea();
+
+        // XXX:
+        // Keyboard event is not canceled with preventDefault() in renderer process
+        // because it also prevents user input.
+        // Here we need to avoid entering the character to text area by shortcut.
+        // So I added 100ms delay to this.
+        setTimeout(() => {
+            qtButton.click();
+            this.focusNewTweetTextarea();
+        }, 100);
     }
 
     'open-images'(_: AppContext) {
