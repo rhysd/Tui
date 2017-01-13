@@ -181,6 +181,7 @@ The `ctx` parameter is an instance of [`AppContext` class](./webview/context.ts)
 Interface definition is [described in TypeScript code](./webview/plugin_manager.ts).
 
 Plugins are loaded in https://mobile.twitter.com context. So you can modify DOM element directly and freely.
+As member of `AppContext` instance, there are [many useful CSS selectors](./webview/constants.ts) to choose proper element.
 
 Below is a super simple plugin to filter f\*ck words.
 
@@ -192,7 +193,11 @@ const FWORDS = [
 
 module.exports = {
     onTweetStatus(tw, ctx) {
-        const text = tw.innerText;
+        const textElement = tw.querySelector(ctx.selectors.tweetTextBody);
+        if (textElement === null) {
+            return;
+        }
+        const text = textElement.innerText;
         for (const w of FWORDS) {
             if (text.indexOf(w) >= 0) {
                 tw.style.display = 'none';
@@ -223,7 +228,7 @@ DOM may not be ready yet. In that case, you need to wait `load` event.
 
 ## Future
 
-- Switch multi accounts
+- Switch multi accounts (but I don't have sub account. Does anyone want this feature?)
 - Tests
 
 ## Development

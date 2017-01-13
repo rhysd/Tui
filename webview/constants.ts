@@ -1,13 +1,7 @@
-export const CLASS_NAMES = {
-    tweet: '_1eF_MiFx',
-    scrollUpToNewTweet: '_1olbCNTo',
-    header: '_7kIt4uMb',
-};
-
 export const SELECTORS = {
-    tweet: `div.${CLASS_NAMES.tweet}[role="row"]`,
+    tweet: 'div._1eF_MiFx[role="row"]',
     notificationCount: '.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
-    scrollUpToNewTweet: `.${CLASS_NAMES.scrollUpToNewTweet}`,
+    scrollUpToNewTweet: '._1olbCNTo',
     tabItems: `._2QuQvRFT._2ZoxDI7c`,
     newTweetButton: '._2tOLusnc._2ZBD52R7',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
@@ -18,7 +12,7 @@ export const SELECTORS = {
     tweetBody: 'div.I8DvYjmD._2HNcekSk',
     tweetText: 'h1._3f2NsD-H',
     thumbnailLinkInTweet: 'div._3hdqTVua._3f2NsD-H a._3kGl_FG7',
-    header: `header.${CLASS_NAMES.header}`,
+    header: 'header._7kIt4uMb',
     notifications: 'svg._20oY9XAa',
     tweetActions: 'div._1t1yuVSm._3_8jWiwP._32ievKrg._3f2NsD-H',
     notificationIndicator: 'span.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',

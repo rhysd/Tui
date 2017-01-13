@@ -1,5 +1,5 @@
 import {EventEmitter} from 'events';
-import {CLASS_NAMES} from './constants';
+import {SELECTORS} from './constants';
 
 // TODO:
 // Need to trace root of timeline.
@@ -21,15 +21,14 @@ export default class TweetWatcher extends EventEmitter {
         }
 
         const observer = new MutationObserver(mutations => {
-            const tweetClassName = CLASS_NAMES.tweet;
             for (const m of mutations) {
                 for (const n of m.addedNodes) {
-                    if ((n as HTMLDivElement).className === tweetClassName) {
+                    if ((n as HTMLDivElement).matches(SELECTORS.tweet)) {
                         this.emit('added', n);
                     }
                 }
                 for (const n of m.removedNodes) {
-                    if ((n as HTMLDivElement).className === tweetClassName) {
+                    if ((n as HTMLDivElement).matches(SELECTORS.tweet)) {
                         this.emit('removed', n);
                     }
                 }
