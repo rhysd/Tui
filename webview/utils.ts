@@ -5,10 +5,12 @@ export function observeElementAppears(selector: string) {
             return reject(new Error('No react-root element found'));
         }
 
-        const e = root.querySelector(selector) as HTMLElement | null;
-        if (e !== null) {
-            // Target element already exists.
-            return resolve(e);
+        {
+            const e = root.querySelector(selector) as HTMLElement | null;
+            if (e !== null) {
+                // Target element already exists.
+                return resolve(e);
+            }
         }
 
         const observer = new MutationObserver(muts => {
