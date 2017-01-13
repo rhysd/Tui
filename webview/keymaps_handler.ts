@@ -83,7 +83,7 @@ export default class KeymapsHandler {
         );
     }
 
-    'scroll-up-to-new-tweet'(_: AppContext) {
+    'scroll-up-to-top'(_: AppContext) {
         if (inputIsFocused()) {
             return;
         }

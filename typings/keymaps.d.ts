@@ -7,7 +7,7 @@ type KeymapName
     | 'unfocus-tweet'
     | 'scroll-down-page'
     | 'scroll-up-page'
-    | 'scroll-up-to-new-tweet'
+    | 'scroll-up-to-top'
     | 'switch-home-timeline'
     | 'switch-notifications'
     | 'switch-direct-messages'
