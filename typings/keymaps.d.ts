@@ -23,6 +23,7 @@ type KeymapName
     | 'open-images-in-browser'
     | 'open-tweet'
     | 'open-links'
+    | 'show-user'
     | 'browser-go-back'
     | 'browser-go-forward'
     | 'browser-reload'

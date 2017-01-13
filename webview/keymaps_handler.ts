@@ -254,6 +254,23 @@ export default class KeymapsHandler {
         }
     }
 
+    'show-user'(_: AppContext) {
+        if (inputIsFocused() || this.focusedTweet === null) {
+            return;
+        }
+
+        const icons = this.focusedTweet.querySelectorAll(SELECTORS.tweetUserIcon);
+        if (icons.length === 0) {
+            return;
+        }
+
+        // Choose last icon when it contains conversation
+        const target = icons[icons.length - 1] as HTMLElement;
+
+        console.log('Tui: Open user:', target);
+        target.click();
+    }
+
     'browser-go-back'(_: AppContext) {
         const c = remote.getCurrentWebContents();
         if (inputIsFocused() || !c.canGoBack()) {

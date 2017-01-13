@@ -35,6 +35,7 @@ function makeDefaultConfig() {
             'I': 'open-images-in-browser',
             'o': 'open-tweet',
             'l': 'open-links',
+            'u': 'show-user',
             'backspace': 'browser-go-back',
             'ctrl+enter': 'send-tweet',
             'mod+plus': 'zoom-in',

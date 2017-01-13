@@ -23,6 +23,9 @@ export const SELECTORS = {
     tweetActions: 'div._1t1yuVSm._3_8jWiwP._32ievKrg._3f2NsD-H',
     notificationIndicator: 'span.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
     newTweetTextarea: 'textarea._2wjpwbis._1YGC8xFq._2RmultvD._1VqMahaT._2Z8UymHS',
+    tweetUserIcon: 'a._24RufZsF',
+    tweetUserName: 'a.Fe7ul3Lt._1hmq-Mkf.OrIwTY0I._3fg7OHdb._2DggF3sL._25OmqECI',
+    tweetTextBody: 'span.Fe7ul3Lt._10YWDZsG._1rTfukg4._2DggF3sL',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
@@ -46,6 +49,7 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'open-images-in-browser',
     'open-tweet',
     'open-links',
+    'show-user',
     'open-devtools',
     'browser-go-back',
     'browser-go-forward',
