@@ -1,3 +1,4 @@
+import * as electron from 'electron';
 import TweetWatcher from './tweet_watcher';
 import NotificationWatcher from './notification_watcher';
 import {observeElementAppears} from './utils';
@@ -7,6 +8,7 @@ export class AppContext {
     readonly tweetWatcher = new TweetWatcher();
     readonly notificationWatcher = new NotificationWatcher();
     readonly selectors = SELECTORS;
+    readonly electron = electron;
     timelineRoot: HTMLDivElement | null = null;
     private readonly location = location;
 

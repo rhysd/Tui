@@ -1,11 +1,14 @@
 import * as glob from 'glob';
-import {remote} from 'electron';
+import {remote, ipcRenderer as ipc} from 'electron';
 import {AppContext} from './context';
 import {SELECTORS} from './constants';
 
 export interface Plugin {
     onStart?(context: AppContext): void;
     onTweetStatus?(tweetElement: HTMLDivElement, context: AppContext): void;
+    onKeymap?: {
+        [keymapName: string]: (context: AppContext) => void;
+    }
 }
 
 export default class PluginManger {
@@ -43,34 +46,46 @@ export default class PluginManger {
 
     constructor(pluginPaths: string[], private ctx: AppContext) {
         console.log('Tui: Plugin manager constructed with paths:', pluginPaths);
-        const existingTweets = ctx.timelineRoot === null ?
-            [] : ctx.timelineRoot.querySelectorAll(SELECTORS.tweet);
+        const existingTweets = ctx.timelineRoot === null ?  [] :
+            ctx.timelineRoot.querySelectorAll(SELECTORS.tweet) as NodeListOf<HTMLElement>;
         for (const p of pluginPaths) {
             const plugin = this.loadPlugin(p);
-            if (plugin === null) {
+            if (plugin !== null) {
                 // Simply ignore the plugin on failing to load it.
-                continue;
-            }
-            this.plugins[p] = plugin;
-            if (plugin.onStart) {
-                plugin.onStart(ctx);
-            }
-            if (plugin.onTweetStatus) {
-                for (const tw of existingTweets) {
-                    plugin.onTweetStatus(tw as HTMLDivElement, ctx);
-                }
+                this.registerPlugin(p, plugin, existingTweets);
             }
         }
         ctx.tweetWatcher.on('added', this.onTweetAdded);
     }
 
-    loadPlugin(path: string) {
+    registerPlugin(pluginPath: string, plugin: Plugin, currentTimeline: Iterable<HTMLElement>) {
+        this.plugins[pluginPath] = plugin;
+        if (plugin.onStart) {
+            plugin.onStart(this.ctx);
+        }
+        if (plugin.onTweetStatus) {
+            for (const tw of currentTimeline) {
+                plugin.onTweetStatus(tw as HTMLDivElement, this.ctx);
+            }
+        }
+        if (plugin.onKeymap) {
+            for (const name in plugin.onKeymap) {
+                const callback = plugin.onKeymap[name];
+                ipc.on(`tuitter:keymap:${name}`, () => {
+                    callback(this.ctx);
+                });
+            }
+        }
+    }
+
+    loadPlugin(absolutePath: string) {
         try {
-            const p = require(path) as Plugin;
+            // Note: require() always fails after preloading script.
+            const p = require(absolutePath) as Plugin;
             console.log('Tui: Plugin loaded:', p);
             return p;
         } catch (e) {
-            console.error('Tui: Failed to load a plugin from ' + path, e);
+            console.error('Tui: Failed to load a plugin from ' + absolutePath, e);
             return null;
         }
     }

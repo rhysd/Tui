@@ -179,6 +179,7 @@ Plugin must export one object which (may) contains hooks as property. Current su
 
 - `onStart(ctx)`: When application started
 - `onTweetStatus(tw, ctx)`: When a tweet appears in application's timeline. `tw` is a DOM element which represents a tweet.
+- `onKeymap`: An object value whose keys are keymap name and values are the corresponding process.
 
 The `ctx` parameter is an instance of [`AppContext` class](./webview/context.ts).
 Interface definition is [described in TypeScript code](./webview/plugin_manager.ts).
@@ -209,6 +210,24 @@ module.exports = {
         }
     }
 };
+```
+
+You can also create your original keymap with this.
+
+```javascript
+module.exports = {
+    onKeymap: {
+        'show-my-cool-list': ctx => {
+            // Note that all external links outside https://mobile.twitter.com are opened in a browser.
+            href.location = 'https://mobile.twitter.com/Linda_pp/lists/my-cool-list';
+        }
+    }
+};
+
+// And add your original keymap in config.json
+//  "keymaps": {
+//    "mod+l": "show-my-cool-list"
+//  },
 ```
 
 To see the log, it's easy way to specify environment variable `NODE_ENV=development`. It opens DevTools at app starting.
