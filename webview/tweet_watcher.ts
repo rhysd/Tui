@@ -8,7 +8,7 @@ import {CLASS_NAMES} from './constants';
 // because it's SPA built with React.js.
 
 export default class TweetWatcher extends EventEmitter {
-    observer: MutationObserver | null = null;
+    private observer: MutationObserver | null = null;
 
     constructor() {
         super();

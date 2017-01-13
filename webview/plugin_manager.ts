@@ -9,7 +9,7 @@ export interface Plugin {
 }
 
 export default class PluginManger {
-    public plugins: {[absolutePath: string]: Plugin} = {};
+    public readonly plugins: {[absolutePath: string]: Plugin} = {};
 
     static create(globPaths: string[], ctx: AppContext) {
         if (globPaths.length === 0) {

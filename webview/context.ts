@@ -4,11 +4,11 @@ import {doPollingForElementExists} from './utils';
 import {SELECTORS} from './constants';
 
 export class AppContext {
-    location = location;
-    tweetWatcher = new TweetWatcher();
-    notificationWatcher = new NotificationWatcher();
+    readonly tweetWatcher = new TweetWatcher();
+    readonly notificationWatcher = new NotificationWatcher();
+    readonly selectors = SELECTORS;
     timelineRoot: HTMLDivElement | null = null;
-    selectors = SELECTORS;
+    private readonly location = location;
 
     isHomeTimeline() {
         return this.location.pathname === '/home';
