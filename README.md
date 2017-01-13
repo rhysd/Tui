@@ -101,12 +101,12 @@ The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that
 | `unfocus-tweet`          | Unfocus current focus on tweet. It can cancel editing tweet | `esc`        |
 | `scroll-down-page`       | Scroll down window per page                                 | `f`          |
 | `scroll-up-page`         | Scroll up window per page                                   | `b`          |
-| `scroll-up-to-new-tweet` | Scroll to newest tweet when 'New Tweet' popup is displayed  | `n`          |
+| `scroll-up-to-top`       | Scroll to newest tweet when 'New Tweet' popup is displayed  | `t`          |
 | `switch-home-timeline`   | Switch to 'Home Timeline' tab                               | `1`          |
 | `switch-notifications`   | Switch to 'Notifications' tab                               | `2`          |
 | `switch-direct-messages` | Switch to 'Direct Messages' tab                             | `3`          |
 | `switch-search`          | Switch to 'Search' tab                                      | `4`          |
-| `new-tweet`              | Start editing a new tweet                                   | `tab`        |
+| `new-tweet`              | Start editing a new tweet                                   | `n`          |
 | `send-tweet`             | Send current editing tweet                                  | `ctrl+enter` |
 | `reply-tweet`            | Reply to the focused tweet                                  | `enter`      |
 | `retweet-tweet`          | Retweet the focused tweet                                   | `R`          |
