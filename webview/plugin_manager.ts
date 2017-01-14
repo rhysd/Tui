@@ -4,11 +4,11 @@ import {AppContext} from './context';
 import {SELECTORS} from './constants';
 
 export interface Plugin {
-    onStart?(context: AppContext): void;
-    onTweetStatus?(tweetElement: HTMLDivElement, context: AppContext): void;
     onKeymap?: {
         [keymapName: string]: (context: AppContext) => void;
-    }
+    };
+    onStart?(context: AppContext): void;
+    onTweetStatus?(tweetElement: HTMLDivElement, context: AppContext): void;
 }
 
 export default class PluginManger {
