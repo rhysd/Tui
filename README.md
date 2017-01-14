@@ -9,8 +9,8 @@ Features
 
 - Provide all features even if Twitter API doesn't provide (tracing conversation, group DM, votes, sync with https://twitter.com, ...)
 - Kill promoted tweets
-- User defined CSS
-- User defined tweet filters written in JavaScript as commonjs modules
+- User defined CSS ([themes](#themes))
+- User defined tweet filters written in JavaScript as commonjs modules ([plugins](#plugins))
 - Various keymaps to do many things only with keyboard
 - You can choose menu bar window or normal window
 - Available on macOS, Linux and Windows
@@ -235,12 +235,20 @@ Or there is a keymap to open DevTools (it's not assigned to any key by default).
 
 Note that hooks are called with blocking. Please do not execute heavy process or consider to use `setTimeout()` to defer heavy process.
 
+### <a name="plugins"> Plugins List
+
+- [tui-plugin-filter-by-text](https://github.com/rhysd/tui-plugin-filter-by-text)
+
 ## User Defined CSS
 
 When you put `user.css` in application directory, Tui automatically loads it and applies to underlying https://mobile.twitter.com.
 You can create a theme for https://mobile.twitter.com and hide some elements by `display: none`.
 
 [This](https://github.com/rhysd/dogfiles/blob/master/stylish/twitter.css) is one example of `user.css`.
+
+### <a name="themes"> Themes
+
+- [tui-theme-dark](https://github.com/rhysd/tui-theme-dark)
 
 ## User Defined JS Script
 
