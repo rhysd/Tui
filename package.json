@@ -56,7 +56,7 @@
     "electron-window-state": "^4.0.1",
     "glob": "^7.1.1",
     "loglevel": "^1.4.1",
-    "menubar": "github:rhysd/menubar#ensure-to-launch-app",
+    "menubar": "github:rhysd/menubar#rhysd-fixes",
     "mousetrap": "^1.6.0"
   }
 }

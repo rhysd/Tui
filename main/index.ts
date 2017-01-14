@@ -12,6 +12,7 @@ import log from './log';
 import manageTrayIconState from './tray_icon_state';
 
 const IS_DEBUG = process.env.NODE_ENV === 'development';
+const IS_DARWIN = process.platform === 'darwin';
 const HTML = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}`;
 const DEFAULT_WIDTH = 340;
 const DEFAULT_HEIGHT = 400;
@@ -47,6 +48,7 @@ function startMenuBar(config: Config) {
             height: state.height,
             alwaysOnTop: IS_DEBUG || !!config.always_on_top,
             tooltip: 'Tui',
+            showDockIcon: true,
         });
         mb.once('ready', () => mb.showWindow());
         mb.once('after-create-window', () => {
@@ -85,7 +87,7 @@ function startNormalWindow(config: Config) {
             defaultHeight: 800,
         });
         const icon_path = path.join(__dirname, '..', 'resources', 'icon.png');
-        if (process.argv[0].endsWith('Electron') && process.platform === 'darwin') {
+        if (process.argv[0].endsWith('Electron') && IS_DARWIN) {
             app.dock.setIcon(icon_path);
         }
         const win = new BrowserWindow({
@@ -112,7 +114,11 @@ function startNormalWindow(config: Config) {
         const toggleWindow = () => {
             if (win.isFocused()) {
                 log.debug('Toggle window: shown -> hidden');
-                win.hide();
+                if (IS_DARWIN) {
+                    app.hide();
+                } else {
+                    win.hide();
+                }
             } else {
                 log.debug('Toggle window: hidden -> shown');
                 win.show();
@@ -138,7 +144,7 @@ function startNormalWindow(config: Config) {
         const tray = new Tray(trayIcon(config.icon_color));
         tray.on('click', toggleWindow);
         tray.on('double-click', toggleWindow);
-        if (process.platform === 'darwin') {
+        if (IS_DARWIN) {
             tray.setHighlightMode('never');
         }
         manageTrayIconState(tray, config.icon_color);
