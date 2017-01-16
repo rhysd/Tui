@@ -9,5 +9,5 @@ interface Config {
     home_url: string;
     plugins: string[];
     keymaps: KeymapsConfig;
-    accounts?: string[];
+    accounts?: string[] | null;
 }

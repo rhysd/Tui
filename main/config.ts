@@ -42,6 +42,7 @@ function makeDefaultConfig() {
             'mod+-': 'zoom-out',
             /* tslint:enable:object-literal-key-quotes */
         },
+        accounts: null,
     } as Config;
 }
 

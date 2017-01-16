@@ -9,6 +9,7 @@ Features
 
 - Provide all features even if Twitter API doesn't provide (tracing conversation, group DM, votes, sync with https://twitter.com, ...)
 - Kill promoted tweets
+- Support [multi-accounts](#multi-accounts)
 - User defined CSS ([themes](#themes))
 - User defined tweet filters written in JavaScript as commonjs modules ([plugins](#plugins))
 - Various keymaps to do many things only with keyboard
@@ -18,6 +19,9 @@ Features
 All links outside https://mobile.twitter.com in tweets are opened in an external browser.
 
 When you want to make a new tweet, press `n` (it can be changed in config).
+
+Even if you use menubar window, you can enter/leave fullscreen mode via menu item (View -> Enter/Leave FullScreen).
+In fullscreen mode, app behaves like as normal window. Fullscreen mode is especially useful on macOS with split view.
 
 ## Installation
 
@@ -151,6 +155,21 @@ These paths can contain glob. For example, `plugins/*.js` will load all JavaScri
 
 Default value is `[]`.
 
+### accounts
+
+`accounts` is a list of your accounts. Items should be `@screen_name`.
+When this value is set, you can [switch account via menu item](#multi-accounts)
+This value is not set by default (`null`).
+
+```json
+{
+  "accounts": [
+    "@main_account",
+    "@sub_account"
+  ]
+}
+```
+
 ### icon\_color
 
 Color of icon in menu bar. `"white"` or `"black"` is available. In macOS, it's depending on the system is dark mode or not.
@@ -169,6 +188,14 @@ Default font size is a bit bigger because https://mobile.twitter.com is original
 
 Home URL loaded when application starts. If you see a list or something instead of home timeline, please modify this URL.
 Default value is `"https://mobile.twitter.com"`.
+
+## <a name="multi-accounts">Multi-accounts
+
+When you set `accounts` value in your `config.json`, you can switch among your accounts via menu item.
+When application has a focus, you can see 'Accounts' menu item in menu bar.
+By clicking the item, you can see current one and switch to other.
+
+![screenshot of switching accounts](https://github.com/rhysd/ss/blob/master/Tui/accounts.jpg?raw=true)
 
 ## Plugin
 
@@ -258,7 +285,7 @@ DOM may not be ready yet. In that case, you need to wait `load` event.
 
 ## Future
 
-- Switch multi accounts (but I don't have sub account. Does anyone want this feature?)
+- Dynamically toggle menubar <-> normal window
 - Tests
 
 ## Development
