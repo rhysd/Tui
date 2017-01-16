@@ -10,6 +10,7 @@ import windowState = require('electron-window-state');
 import loadConfig from './config';
 import log from './log';
 import manageTrayIconState from './tray_icon_state';
+import AccountSwitcher from './account_switcher';
 
 const IS_DEBUG = process.env.NODE_ENV === 'development';
 const IS_DARWIN = process.platform === 'darwin';
@@ -35,7 +36,7 @@ function trayIcon(color: string) {
 
 function startMenuBar(config: Config) {
     log.debug('Setup a menubar window');
-    return new Promise<void>(resolve => {
+    return new Promise<Electron.BrowserWindow>(resolve => {
         const state = windowState({
             defaultWidth: DEFAULT_WIDTH,
             defaultHeight: DEFAULT_HEIGHT,
@@ -74,14 +75,14 @@ function startMenuBar(config: Config) {
             });
             state.manage(mb.window);
             manageTrayIconState(mb.tray, config.icon_color);
-            resolve();
+            resolve(mb.window);
         });
     });
 }
 
 function startNormalWindow(config: Config) {
     log.debug('Setup a normal window');
-    return new Promise<void>(resolve => {
+    return new Promise<Electron.BrowserWindow>(resolve => {
         const state = windowState({
             defaultWidth: 600,
             defaultHeight: 800,
@@ -138,7 +139,7 @@ function startNormalWindow(config: Config) {
             if (IS_DEBUG) {
                 win.webContents.openDevTools({mode: 'detach'});
             }
-            resolve();
+            resolve(win);
         });
 
         const tray = new Tray(trayIcon(config.icon_color));
@@ -151,12 +152,24 @@ function startNormalWindow(config: Config) {
     });
 }
 
+function setupAccountSwitcher(c: Config, win: Electron.BrowserWindow) {
+    if (!c.accounts || c.accounts.length === 0) {
+        return;
+    }
+    new AccountSwitcher(win, c.accounts);
+}
+
 // Note:
 // 'menubar' package internally waits for app being ready.
 // But windowState() calls electron.screen internally and it requires
 // that app is ready.
 Promise.all([loadConfig(), appReady]).then(([c, _]) =>
-    c.normal_window ? startNormalWindow(c) : startMenuBar(c)
+    (
+        c.normal_window ?
+            startNormalWindow(c) : startMenuBar(c)
+    ).then(
+        win => setupAccountSwitcher(c, win)
+    )
 ).then(() => {
     log.debug('Application launched!');
 });
