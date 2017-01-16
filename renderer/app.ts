@@ -1,7 +1,7 @@
 import * as path from 'path';
-import {ipcRenderer as ipc, remote} from 'electron';
+import {ipcRenderer as ipc} from 'electron';
 import WebView from './webview';
-import {DEFAULT_HOME_URL, IS_DEBUG} from './constants';
+import {DEFAULT_HOME_URL, IS_DEBUG, APP_DIRECTORY} from './constants';
 import KeymapsForwarder from './keymaps_forwarder';
 import log from './log';
 
@@ -32,14 +32,19 @@ export default class RendererApp {
                 forwarder.forwardAll(this.config.keymaps);
             }
 
-            wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e));
-            const user_css = path.join(remote.app.getPath('userData'), 'user.css');
-            wv.applyCSS(user_css).catch(e => log.debug(e));
-            const user_js = path.join(remote.app.getPath('userData'), 'user.js');
-            wv.executeJS(user_js).catch(e => log.debug(e));
             wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
             log.debug('Have switched to account', wv.screenName);
         });
+
+        wv.on('dom-ready', () => {
+            // Apply CSS in order style.css -> theme.css -> user.css
+            wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e))
+            .then(() => wv.applyCSS(path.join(APP_DIRECTORY, 'theme.css'))).catch(e => log.debug(e))
+            .then(() => wv.applyCSS(path.join(APP_DIRECTORY, 'user.css'))).catch(e => log.debug(e));
+
+            wv.executeJS(path.join(APP_DIRECTORY, 'user.js')).catch(e => log.debug(e));
+        });
+
         wv.on('ipc', (channel: string) => {
             switch (channel) {
                 case 'tuitter:notified:mentions': {

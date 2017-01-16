@@ -37,6 +37,10 @@ export default class WebView extends EventEmitter {
         this.emit('ipc', e.channel, ...e.args);
     }
 
+    private readonly onDomReady = () => {
+        this.emit('dom-ready');
+    }
+
     constructor(public readonly screenName: string) {
         super();
         const wv = document.createElement('webview');
@@ -49,6 +53,7 @@ export default class WebView extends EventEmitter {
         wv.addEventListener('new-window', this.onNewWindow);
         wv.addEventListener('crashed', this.onCrashed);
         wv.addEventListener('ipc-message', this.onIpcMessage);
+        wv.addEventListener('dom-ready', this.onDomReady);
         this.elem = wv;
     }
 
@@ -56,6 +61,7 @@ export default class WebView extends EventEmitter {
         this.elem.removeEventListener('new-window', this.onNewWindow);
         this.elem.removeEventListener('crashed', this.onCrashed);
         this.elem.removeEventListener('ipc-message', this.onIpcMessage);
+        this.elem.removeEventListener('dom-ready', this.onDomReady);
         this.removeAllListeners();
         if (this.elem.isDevToolsOpened()) {
             this.elem.closeDevTools();
@@ -100,6 +106,7 @@ export default class WebView extends EventEmitter {
                     return reject(err);
                 }
                 this.elem.insertCSS(data);
+                log.debug('Applied CSS: ', file);
                 resolve();
             });
         });
@@ -112,6 +119,7 @@ export default class WebView extends EventEmitter {
                     return reject(err);
                 }
                 this.elem.executeJavaScript(code);
+                log.debug('Executed JS: ', file);
                 resolve();
             });
         });

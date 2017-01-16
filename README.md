@@ -10,7 +10,7 @@ Features
 - Provide all features even if Twitter API doesn't provide (tracing conversation, group DM, votes, sync with https://twitter.com, ...)
 - Kill promoted tweets
 - Support [multi-accounts](#multi-accounts)
-- User defined CSS ([themes](#themes))
+- User defined CSS and [Themes](#themes)
 - User defined tweet filters written in JavaScript as commonjs modules ([plugins](#plugins))
 - Various keymaps to do many things only with keyboard
 - You can choose menu bar window or normal window
@@ -273,7 +273,13 @@ You can create a theme for https://mobile.twitter.com and hide some elements by 
 
 [This](https://github.com/rhysd/dogfiles/blob/master/stylish/twitter.css) is one example of `user.css`.
 
-### <a name="themes"> Themes
+## <a name="themes"> Themes
+
+You can also put `theme.css` in application directory. It's also applied on loading https://mobile.twitter.com.
+This CSS file intends to be used for changing colors in the page. `theme.css` is always loaded before loading `user.css`.
+So you can override theme styles in `user.css` without modifying `theme.css`.
+
+Below is a list of themes provided:
 
 - [tui-theme-dark](https://github.com/rhysd/tui-theme-dark)
 
