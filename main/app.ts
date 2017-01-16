@@ -24,7 +24,7 @@ function trayIcon(color: string) {
     }@2x.png`);
 }
 
-export default class App {
+export default class MainApp {
     win: Electron.BrowserWindow | null = null;
     switcher: AccountSwitcher | null = null;
     notification: TrayNotification | null = null;

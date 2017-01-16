@@ -5,7 +5,7 @@ import {DEFAULT_HOME_URL, IS_DEBUG} from './constants';
 import KeymapsForwarder from './keymaps_forwarder';
 import log from './log';
 
-export default class App {
+export default class RendererApp {
     private wv: WebView | null = null;
 
     constructor(private readonly config: Config) {

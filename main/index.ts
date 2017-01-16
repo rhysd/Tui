@@ -1,6 +1,6 @@
 import {app} from 'electron';
 import loadConfig from './config';
-import App from './app';
+import MainApp from './app';
 import log from './log';
 
 const appReady = new Promise<void>(resolve => app.once('ready', resolve));
@@ -14,7 +14,7 @@ app.on('will-quit', () => {
 });
 
 Promise.all([
-    loadConfig().then(c => new App(c)),
+    loadConfig().then(c => new MainApp(c)),
     appReady
 ]).then(([app, _]) => app.start()).then(() => {
     log.debug('Application launched!');

@@ -56,6 +56,7 @@ export default class WebView extends EventEmitter {
         this.elem.removeEventListener('new-window', this.onNewWindow);
         this.elem.removeEventListener('crashed', this.onCrashed);
         this.elem.removeEventListener('ipc-message', this.onIpcMessage);
+        this.removeAllListeners();
         if (this.elem.isDevToolsOpened()) {
             this.elem.closeDevTools();
         }
