@@ -20,8 +20,7 @@ export default class RendererApp {
 
         const wv = new WebView(screenName);
         wv.mountTo(document.getElementById('webview-container')!);
-        const defaultUrl = this.config.home_url || DEFAULT_HOME_URL;
-        wv.openURL(defaultUrl).then(() => {
+        wv.openURL(this.config.home_url || DEFAULT_HOME_URL).then(() => {
             if (IS_DEBUG) {
                 wv.contents.openDevTools({mode: 'detach'});
             }
@@ -39,7 +38,6 @@ export default class RendererApp {
             const user_js = path.join(remote.app.getPath('userData'), 'user.js');
             wv.executeJS(user_js).catch(e => log.debug(e));
             wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
-            wv.sendIpc('tuitter:default-url', defaultUrl);
             log.debug('Have switched to account', wv.screenName);
         });
         wv.on('ipc', (channel: string) => {

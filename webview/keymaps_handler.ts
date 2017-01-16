@@ -23,7 +23,6 @@ function inputIsFocused() {
 }
 
 export default class KeymapsHandler {
-    private defaultUrl = '';
     private focusedTweet: HTMLDivElement | null = null;
     constructor(private context: AppContext) {
     }
@@ -35,10 +34,6 @@ export default class KeymapsHandler {
                 this[name].bind(this)(this.context);
             });
         }
-    }
-
-    setDefaultURL(u: string) {
-        this.defaultUrl = u;
     }
 
     'next-tweet'(_: AppContext) {
@@ -136,14 +131,6 @@ export default class KeymapsHandler {
             return;
         }
         this.clickTab(3);
-    }
-
-    'switch-default-url'(_: AppContext) {
-        if (inputIsFocused() || this.defaultUrl.length === 0) {
-            return;
-        }
-        const c = remote.getCurrentWebContents();
-        c.loadURL(this.defaultUrl);
     }
 
     // Note:

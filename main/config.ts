@@ -26,7 +26,6 @@ function makeDefaultConfig() {
             '2': 'switch-notifications',
             '3': 'switch-direct-messages',
             '4': 'switch-search',
-            '0': 'switch-default-url',
             'n': 'new-tweet',
             'enter': 'reply-tweet',
             'R': 'retweet-tweet',

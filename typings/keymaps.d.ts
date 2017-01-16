@@ -12,7 +12,6 @@ type KeymapName
     | 'switch-home-timeline'
     | 'switch-notifications'
     | 'switch-direct-messages'
-    | 'switch-default-url'
     | 'switch-search'
     | 'open-devtools'
     | 'new-tweet'
