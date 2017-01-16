@@ -6,9 +6,8 @@ import {USERAGENT} from './constants';
 import log from './log';
 
 export default class WebView extends EventEmitter {
-    public mounted = false;
-    public screenName = '';
     private elem: Electron.WebViewElement;
+    private mounted = false;
 
     get element() {
         return this.elem;
@@ -38,11 +37,12 @@ export default class WebView extends EventEmitter {
         this.emit('ipc', e.channel, ...e.args);
     }
 
-    constructor() {
+    constructor(public readonly screenName: string) {
         super();
         const wv = document.createElement('webview');
         wv.id = 'main-webview';
         wv.setAttribute('useragent', USERAGENT);
+        wv.setAttribute('partition', 'persist:' + screenName);
         wv.setAttribute('autosize', 'on');
         wv.setAttribute('preload', `file://${path.join(__dirname, '../webview/index.js')}`);
 
@@ -64,18 +64,15 @@ export default class WebView extends EventEmitter {
             return;
         }
         parent.removeChild(this.elem);
-        this.mounted = false;
         log.debug('Unmounted <webview>', this.screenName);
     }
 
-    mountTo(parent: HTMLElement, screenName: string) {
+    mountTo(parent: HTMLElement) {
         if (this.mounted) {
             throw new Error('<webview> is already mounted');
         }
-        this.elem.setAttribute('partition', 'persist:' + screenName);
         parent.appendChild(this.elem);
         this.mounted = true;
-        this.screenName = screenName;
         log.debug(`Mounted webview for @${this.screenName}`, this.elem);
     }
 

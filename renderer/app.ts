@@ -5,13 +5,42 @@ import {DEFAULT_HOME_URL, IS_DEBUG} from './constants';
 import KeymapsForwarder from './keymaps_forwarder';
 import log from './log';
 
-export default class RendererApp {
-    private wv: WebView;
+export default class App {
+    private wv: WebView | null = null;
 
     constructor(private readonly config: Config) {
-        this.wv = new WebView();
         this.switchTo(this.getFirstScreenName());
-        this.wv.on('ipc', (channel: string) => {
+    }
+
+    switchTo(screenName: string) {
+        if (this.wv !== null) {
+            this.wv.unmount();
+            this.wv = null;
+        }
+
+        const wv = new WebView(screenName);
+        wv.mountTo(document.getElementById('webview-container')!);
+        wv.openURL(this.config.home_url || DEFAULT_HOME_URL).then(() => {
+            if (IS_DEBUG) {
+                wv.contents.openDevTools({mode: 'detach'});
+            }
+            if (this.config.zoom_factor && this.config.zoom_factor > 0.0) {
+                wv.element.setZoomFactor(this.config.zoom_factor);
+            }
+            if (this.config.keymaps) {
+                const forwarder = new KeymapsForwarder(wv);
+                forwarder.forwardAll(this.config.keymaps);
+            }
+
+            wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e));
+            const user_css = path.join(remote.app.getPath('userData'), 'user.css');
+            wv.applyCSS(user_css).catch(e => log.debug(e));
+            const user_js = path.join(remote.app.getPath('userData'), 'user.js');
+            wv.executeJS(user_js).catch(e => log.debug(e));
+            wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
+            log.debug('Have switched to account', wv.screenName);
+        });
+        wv.on('ipc', (channel: string) => {
             switch (channel) {
                 case 'tuitter:notified:mentions': {
                     ipc.send('tuitter:tray:informed');
@@ -29,34 +58,7 @@ export default class RendererApp {
                 default: break;
             }
         });
-    }
-
-    switchTo(screenName: string) {
-        if (this.wv.mounted) {
-            this.wv.unmount();
-        }
-
-        this.wv.mountTo(document.getElementById('webview-container')!, screenName);
-        this.wv.openURL(this.config.home_url || DEFAULT_HOME_URL).then(() => {
-            if (IS_DEBUG) {
-                this.wv.contents.openDevTools({mode: 'detach'});
-            }
-            if (this.config.zoom_factor && this.config.zoom_factor > 0.0) {
-                this.wv.element.setZoomFactor(this.config.zoom_factor);
-            }
-            if (this.config.keymaps) {
-                const forwarder = new KeymapsForwarder(this.wv);
-                forwarder.forwardAll(this.config.keymaps);
-            }
-
-            this.wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e));
-            const user_css = path.join(remote.app.getPath('userData'), 'user.css');
-            this.wv.applyCSS(user_css).catch(e => log.debug(e));
-            const user_js = path.join(remote.app.getPath('userData'), 'user.js');
-            this.wv.executeJS(user_js).catch(e => log.debug(e));
-            this.wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
-            log.debug('Have switched to account', this.wv.screenName);
-        });
+        this.wv = wv;
     }
 
     private getFirstScreenName() {
@@ -70,4 +72,5 @@ export default class RendererApp {
             return n;
         }
     }
+
 }
