@@ -139,7 +139,10 @@ export default class KeymapsHandler {
         if (inputIsFocused()) {
             return;
         }
-        const button = document.querySelector(SELECTORS.newTweetButton) as HTMLElement | null;
+        const button = (
+            document.querySelector(SELECTORS.newTweetButton) ||
+            document.querySelector(SELECTORS.newTweetButtonB)
+        ) as HTMLElement | null;
         if (button !== null) {
             // XXX:
             // Keyboard event is not canceled with preventDefault() in renderer process
@@ -431,6 +434,18 @@ export default class KeymapsHandler {
 
     private clickTab(index: number) {
         const items = document.querySelectorAll(SELECTORS.tabItems);
+        if (items.length === 0) {
+            return false;
+        }
+
+        // Note:
+        // Consider B type UI in A/B testing.
+        // B type UI has user icon at the most left of header.
+        // So, we need to skip it on clicking tab items.
+        if (items[0].querySelector(SELECTORS.loginIcon) !== null) {
+            index += 1;
+        }
+
         if (items.length > index) {
             (items[index] as HTMLElement).click();
             return true;

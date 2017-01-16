@@ -7,3 +7,8 @@
 ._3ITjOJ53._3f2NsD-H {
   display: none;
 }
+
+/* Kill tweet button on type B (consider A/B testing) */
+a._3TEZxQV {
+  display: none;
+}

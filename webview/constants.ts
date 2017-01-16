@@ -4,6 +4,7 @@ export const SELECTORS = {
     scrollUpToNewTweet: '._1olbCNTo',
     tabItems: `._2QuQvRFT._2ZoxDI7c`,
     newTweetButton: '._2tOLusnc._2ZBD52R7',
+    newTweetButtonB: 'a._3TEZxQV',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
     sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',
     tweetAction: 'button.RQ5ECnGZ._1m0pnxeJ',
@@ -20,6 +21,7 @@ export const SELECTORS = {
     tweetUserIcon: 'a._24RufZsF',
     tweetUserName: 'a.Fe7ul3Lt._1hmq-Mkf.OrIwTY0I._3fg7OHdb._2DggF3sL._25OmqECI',
     tweetTextBody: 'span.Fe7ul3Lt._10YWDZsG._1rTfukg4._2DggF3sL',
+    loginIcon: '.MLZaeRvv._1-I0zYji._3FdDVqR1',
 };
 
 export const KEYMAP_NAMES: KeymapName[] = [
