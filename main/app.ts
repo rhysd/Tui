@@ -175,7 +175,7 @@ export default class MainApp {
         this.switcher = new AccountSwitcher(this.win, this.config.accounts);
         this.switcher.on('will-switch', () => {
             if (this.notification === null) {
-                log.error('Cannot reset notification state on switching account because no notification instance found (bug)')
+                log.error('Cannot reset notification state on switching account because no notification instance found (bug)');
                 return;
             }
             this.notification.reset();

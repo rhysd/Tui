@@ -17,30 +17,6 @@ export default class WebView extends EventEmitter {
         return this.elem.getWebContents();
     }
 
-    private readonly onNewWindow = (e: Electron.WebViewElement.NewWindowEvent) => {
-        e.preventDefault();
-        const url = e.url;
-        if (!url.startsWith('https://mobile.twitter.com') && !url.startsWith('about:')) {
-            log.debug('Trying to navigate to outside! Will open in browser:', url);
-            shell.openExternal(url);
-            return;
-        }
-        this.elem.src = e.url;
-    }
-
-    private readonly onCrashed = () => {
-        log.error('Webview crashed! Reload <webview> to recover.');
-    }
-
-    private readonly onIpcMessage = (e: Electron.WebViewElement.IpcMessageEvent) => {
-        log.debug('IPC message from ', e.channel, e.args);
-        this.emit('ipc', e.channel, ...e.args);
-    }
-
-    private readonly onDomReady = () => {
-        this.emit('dom-ready');
-    }
-
     constructor(public readonly screenName: string) {
         super();
         const wv = document.createElement('webview');
@@ -123,6 +99,30 @@ export default class WebView extends EventEmitter {
                 resolve();
             });
         });
+    }
+
+    private readonly onNewWindow = (e: Electron.WebViewElement.NewWindowEvent) => {
+        e.preventDefault();
+        const url = e.url;
+        if (!url.startsWith('https://mobile.twitter.com') && !url.startsWith('about:')) {
+            log.debug('Trying to navigate to outside! Will open in browser:', url);
+            shell.openExternal(url);
+            return;
+        }
+        this.elem.src = e.url;
+    }
+
+    private readonly onCrashed = () => {
+        log.error('Webview crashed! Reload <webview> to recover.');
+    }
+
+    private readonly onIpcMessage = (e: Electron.WebViewElement.IpcMessageEvent) => {
+        log.debug('IPC message from ', e.channel, e.args);
+        this.emit('ipc', e.channel, ...e.args);
+    }
+
+    private readonly onDomReady = () => {
+        this.emit('dom-ready');
     }
 }
 
