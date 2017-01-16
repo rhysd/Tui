@@ -34,6 +34,7 @@ export const KEYMAP_NAMES: KeymapName[] = [
     'switch-notifications',
     'switch-direct-messages',
     'switch-search',
+    'switch-default-url',
     'new-tweet',
     'send-tweet',
     'reply-tweet',

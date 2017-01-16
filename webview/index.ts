@@ -10,6 +10,13 @@ const pluginPaths = new Promise<string[]>(resolve => {
     });
 });
 
+const defaultUrl = new Promise<string>(resolve => {
+    ipc.once('tuitter:default-url', (_, url: string) => {
+        console.log('Tui: Received default URL:', url);
+        resolve(url);
+    });
+});
+
 const handler = () => {
     switch (document.readyState) {
         case 'interactive': {
@@ -22,6 +29,7 @@ const handler = () => {
                     .then(manager => {
                         console.log('Tui: Plugin manager created:', manager);
                     });
+                defaultUrl.then(u => keymaps.setDefaultURL(u));
             }).catch(e => {
                 console.error('Tui: Error on initialization:', e);
             });
