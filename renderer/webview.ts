@@ -17,33 +17,50 @@ export default class WebView extends EventEmitter {
         return this.elem.getWebContents();
     }
 
-    constructor() {
+    private readonly onNewWindow = (e: Electron.WebViewElement.NewWindowEvent) => {
+        e.preventDefault();
+        const url = e.url;
+        if (!url.startsWith('https://mobile.twitter.com') && !url.startsWith('about:')) {
+            log.debug('Trying to navigate to outside! Will open in browser:', url);
+            shell.openExternal(url);
+            return;
+        }
+        this.elem.src = e.url;
+    }
+
+    private readonly onCrashed = () => {
+        log.error('Webview crashed! Reload <webview> to recover.');
+    }
+
+    private readonly onIpcMessage = (e: Electron.WebViewElement.IpcMessageEvent) => {
+        log.debug('IPC message from ', e.channel, e.args);
+        this.emit('ipc', e.channel, ...e.args);
+    }
+
+    constructor(private screenName: string) {
         super();
         const wv = document.createElement('webview');
         wv.id = 'main-webview';
         wv.setAttribute('useragent', USERAGENT);
-        wv.setAttribute('partition', 'persist:tuitter');
+        wv.setAttribute('partition', 'persist:' + screenName);
         wv.setAttribute('autosize', 'on');
         wv.setAttribute('preload', `file://${path.join(__dirname, '../webview/index.js')}`);
 
-        wv.addEventListener('new-window', e => {
-            e.preventDefault();
-            const url = e.url;
-            if (!url.startsWith('https://mobile.twitter.com') && !url.startsWith('about:')) {
-                log.debug('Trying to navigate to outside! Will open in browser:', url);
-                shell.openExternal(url);
-                return;
-            }
-            wv.src = e.url;
-        });
-        wv.addEventListener('crashed', () => {
-            log.error('Webview crashed! Reload <webview> to recover.');
-        });
-        wv.addEventListener('ipc-message', e => {
-            log.debug('IPC message from ', e.channel, e.args);
-            this.emit('ipc', e.channel, ...e.args);
-        });
+        wv.addEventListener('new-window', this.onNewWindow);
+        wv.addEventListener('crashed', this.onCrashed);
+        wv.addEventListener('ipc-message', this.onIpcMessage);
         this.elem = wv;
+    }
+
+    unmount() {
+        this.elem.removeEventListener('new-window', this.onNewWindow);
+        this.elem.removeEventListener('crashed', this.onCrashed);
+        this.elem.removeEventListener('ipc-message', this.onIpcMessage);
+        const parent = this.elem.parentElement;
+        if (parent === null) {
+            return;
+        }
+        parent.removeChild(this.elem);
     }
 
     mountTo(parent: HTMLElement) {
@@ -52,6 +69,7 @@ export default class WebView extends EventEmitter {
         }
         parent.appendChild(this.elem);
         this.mounted = true;
+        log.debug(`Mounted webview for @${this.screenName}`, this.elem);
     }
 
     openURL(url: string) {

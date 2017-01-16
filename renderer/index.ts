@@ -5,9 +5,21 @@ import {DEFAULT_HOME_URL, IS_DEBUG} from './constants';
 import KeymapsForwarder from './keymaps_forwarder';
 import log from './log';
 
+function getScreenName(config: Config) {
+    if (!config.accounts || config.accounts.length === 0) {
+        return 'unknown-user';
+    }
+    const n = config.accounts[0];
+    if (n.startsWith('@')) {
+        return n.slice(1);
+    } else {
+        return n;
+    }
+}
+
 ipc.once('tuitter:config', (_: any, config: Config) => {
     log.debug('Config was sent from main:', config);
-    const wv = new WebView();
+    const wv = new WebView(getScreenName(config));
     wv.mountTo(document.getElementById('webview-container')!);
     wv.openURL(config.home_url || DEFAULT_HOME_URL).then(() => {
         if (IS_DEBUG) {
