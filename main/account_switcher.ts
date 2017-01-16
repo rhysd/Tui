@@ -1,16 +1,18 @@
+import {EventEmitter} from 'events';
 import {
     Menu,
     MenuItem,
 } from 'electron';
 import log from './log';
 
-export default class AccountSwitcher {
+export default class AccountSwitcher extends EventEmitter {
     currentIndex = 0;
 
     constructor(
         private win: Electron.BrowserWindow,
         accounts: string[],
     ) {
+        super();
         const submenu = [] as Electron.MenuItemOptions[];
         for (let i = 0; i < accounts.length; ++i) {
             let screenName = accounts[i];
@@ -45,5 +47,6 @@ export default class AccountSwitcher {
         this.win.webContents.send('tuitter:account', index, screenName);
         this.currentIndex = index;
         log.debug('Switch to other account', index, screenName);
+        this.emit('will-switch', index, screenName);
     }
 }
