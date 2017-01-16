@@ -15,6 +15,7 @@ import windowState = require('electron-window-state');
 const IS_DEBUG = process.env.NODE_ENV === 'development';
 const IS_DARWIN = process.platform === 'darwin';
 const HTML = `file://${path.join(__dirname, '..', 'renderer', 'index.html')}`;
+const APP_ICON = path.join(__dirname, '..', 'resources', 'icon.png');
 const DEFAULT_WIDTH = 340;
 const DEFAULT_HEIGHT = 400;
 
@@ -36,7 +37,12 @@ export default class MainApp {
         const openWindow = this.config.normal_window ? this.startNormalWindow : this.startMenuBar;
         return openWindow()
             .then(this.setupAccountSwitcher)
-            .then(() => this);
+            .then(() => {
+                if (IS_DARWIN && process.argv[0].endsWith('Electron')) {
+                    app.dock.setIcon(APP_ICON);
+                }
+                return this;
+            });
     }
 
     private startMenuBar = () => {
@@ -96,16 +102,12 @@ export default class MainApp {
                 defaultWidth: 600,
                 defaultHeight: 800,
             });
-            const icon_path = path.join(__dirname, '..', 'resources', 'icon.png');
-            if (process.argv[0].endsWith('Electron') && IS_DARWIN) {
-                app.dock.setIcon(icon_path);
-            }
             const win = new BrowserWindow({
                 width: state.width,
                 height: state.height,
                 x: state.x,
                 y: state.y,
-                icon: icon_path,
+                icon: APP_ICON,
                 show: false,
                 useContentSize: true,
             });
