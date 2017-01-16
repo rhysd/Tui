@@ -47,5 +47,8 @@ export function dispatchContext() {
         ctx.startWatchers(parent as HTMLDivElement, header as HTMLElement);
         return ctx;
     });
+    // TODO:
+    // On login window, there is no id="react-root" element. Instead there is
+    // After logging-in, SPA starts as React application.
 }
 
