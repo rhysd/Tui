@@ -13,6 +13,7 @@ const NotifiedIcon = path.join(__dirname, '..', 'resources', 'tray-icon-red@2x.p
 
 export default class TrayNotification {
     private state = 'normal';
+    private enabled = true;
 
     constructor(private tray: Electron.Tray, private readonly normalIcon: string) {
         this.subscribe('tuitter:tray:informed', 'informed', InformedIcon);
@@ -21,14 +22,26 @@ export default class TrayNotification {
     }
 
     reset() {
+        if (this.state === 'normal') {
+            return;
+        }
         log.debug('Reset notification state: normal');
         this.state = 'normal';
         this.tray.setImage(this.normalIcon);
     }
 
+    enable() {
+        this.enabled = true;
+    }
+
+    disable() {
+        this.reset();
+        this.enabled = false;
+    }
+
     private subscribe(channel: string, next: State, icon: string) {
         ipc.on(channel, () => {
-            if (this.state === next || this.tray === null) {
+            if (!this.enabled || this.state === next || this.tray === null) {
                 return;
             }
             log.debug(`Notification changed ${this.state} -> ${next}`);

@@ -7,6 +7,7 @@ interface Config {
     normal_window: boolean;
     zoom_factor: number;
     home_url: string;
+    notification: boolean;
     plugins: string[];
     keymaps: KeymapsConfig;
     accounts?: string[] | null;

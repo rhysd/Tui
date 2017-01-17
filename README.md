@@ -192,6 +192,10 @@ Default font size is a bit bigger because https://mobile.twitter.com is original
 Home URL loaded when application starts. If you see a list or something instead of home timeline, please modify this URL.
 Default value is `"https://mobile.twitter.com"`.
 
+### notification
+
+When this value is set to `false`, notification will be disabled and icon won't be changed even if new mentions or direct messages arrive. Default value is `true`.
+
 ## <a name="multi-accounts">Multi-accounts
 
 When you set `accounts` value in your `config.json`, you can switch among your accounts via menu item.

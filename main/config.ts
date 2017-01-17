@@ -14,6 +14,7 @@ function makeDefaultConfig() {
         normal_window: menubarBroken,
         zoom_factor: 0.9,
         home_url: 'https://mobile.twitter.com',
+        notification: true,
         plugins: [],
         keymaps: {
             /* tslint:disable:object-literal-key-quotes */

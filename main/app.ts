@@ -38,6 +38,9 @@ export default class MainApp {
         return openWindow()
             .then(this.setupAccountSwitcher)
             .then(() => {
+                if (this.config.notification === false) {
+                    this.notification!.disable();
+                }
                 if (IS_DARWIN && process.argv[0].endsWith('Electron')) {
                     app.dock.setIcon(APP_ICON);
                 }
