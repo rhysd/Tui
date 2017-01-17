@@ -41,6 +41,9 @@ function makeDefaultConfig() {
             'ctrl+enter': 'send-tweet',
             'mod+plus': 'zoom-in',
             'mod+-': 'zoom-out',
+            'mod+shift+l': 'last-account',
+            'mod+shift+n': 'next-account',
+            'mod+shift+p': 'previous-account',
             /* tslint:enable:object-literal-key-quotes */
         },
         accounts: null,

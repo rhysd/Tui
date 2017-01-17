@@ -30,5 +30,8 @@ type KeymapName
     | 'browser-reload'
     | 'zoom-in'
     | 'zoom-out'
+    | 'last-account'
+    | 'next-account'
+    | 'previous-account'
     | 'quit-app'
 ;

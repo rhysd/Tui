@@ -1,4 +1,4 @@
-import {remote, shell} from 'electron';
+import {remote, shell, ipcRenderer as ipc} from 'electron';
 import * as Mousetrap from 'mousetrap';
 import {AppContext} from './context';
 import {SELECTORS, TWITTER_COLOR} from './constants';
@@ -345,6 +345,18 @@ export default class KeymapsHandler {
 
     'open-devtools'() {
         remote.getCurrentWebContents().openDevTools({mode: 'detach'});
+    }
+
+    'last-account'() {
+        ipc.send('tuitter:switch-account-last');
+    }
+
+    'next-account'() {
+        ipc.send('tuitter:switch-account-next');
+    }
+
+    'previous-account'() {
+        ipc.send('tuitter:switch-account-prev');
     }
 
     private getFirstTweetInView(tweets: NodeList): HTMLDivElement | null {

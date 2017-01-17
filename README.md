@@ -98,43 +98,46 @@ For example, `"mod+shift+j": "next-tweet"` assigns `next-tweet` action to key se
 
 The key sequence format is [mousetrap](https://craig.is/killing/mice). Note that this format is different from `hot_key` above.
 
-| Action Name              | Description                                                 | Default Key  |
-|--------------------------|-------------------------------------------------------------|--------------|
-| `next-tweet`             | Scroll down window per one tweet                            | `j`          |
-| `previous-tweet`         | Scroll up window per one tweet                              | `k`          |
-| `unfocus-tweet`          | Unfocus current focus on tweet. It can cancel editing tweet | `esc`        |
-| `scroll-down-page`       | Scroll down window per page                                 | `f`          |
-| `scroll-up-page`         | Scroll up window per page                                   | `b`          |
-| `scroll-up-to-top`       | Scroll to newest tweet when 'New Tweet' popup is displayed  | `t`          |
-| `scroll-down-to-bottom`  | Scroll to the bottom of timeline                            | N/A          |
-| `switch-home-timeline`   | Switch to 'Home Timeline' tab                               | `1`          |
-| `switch-notifications`   | Switch to 'Notifications' tab                               | `2`          |
-| `switch-direct-messages` | Switch to 'Direct Messages' tab                             | `3`          |
-| `switch-search`          | Switch to 'Search' tab                                      | `4`          |
-| `new-tweet`              | Start editing a new tweet                                   | `n`          |
-| `send-tweet`             | Send current editing tweet                                  | `ctrl+enter` |
-| `reply-tweet`            | Reply to the focused tweet                                  | `enter`      |
-| `retweet-tweet`          | Retweet the focused tweet                                   | `R`          |
-| `quote-tweet`            | Retweet with quoting the focused tweet                      | `Q`          |
-| `like-tweet`             | Like with quoting the focused tweet                         | `L`          |
-| `open-images`            | Open image or video in the focused tweet                    | `i`          |
-| `open-images-in-browser` | Open image or video in focused tweet with external browser  | `I`          |
-| `open-tweet`             | Open tweet page for the focused tweet                       | `o`          |
-| `open-links`             | Open links contained in the focused tweet with browser      | `l`          |
-| `show-user`              | Open user page of the focused tweet's author                | `u`          |
-| `browser-go-back`        | Navigate to go back like a browser                          | `backspace`  |
-| `browser-go-forward`     | Navigate to go forward like a browser                       | N/A          |
-| `browser-reload`         | Navigate to reload like a browser                           | N/A          |
-| `zoom-in`                | Zoom font size by 10%                                       | `mod+plus`   |
-| `zoom-out`               | Zoom font size by -10%                                      | `mod+-`      |
-| `quit-app`               | Quit application                                            | N/A          |
-| `open-devtools`          | Open DevTools for current page                              | N/A          |
+| Action Name              | Description                                                 | Default Key   |
+|--------------------------|-------------------------------------------------------------|---------------|
+| `next-tweet`             | Scroll down window per one tweet                            | `j`           |
+| `previous-tweet`         | Scroll up window per one tweet                              | `k`           |
+| `unfocus-tweet`          | Unfocus current focus on tweet. It can cancel editing tweet | `esc`         |
+| `scroll-down-page`       | Scroll down window per page                                 | `f`           |
+| `scroll-up-page`         | Scroll up window per page                                   | `b`           |
+| `scroll-up-to-top`       | Scroll to newest tweet when 'New Tweet' popup is displayed  | `t`           |
+| `scroll-down-to-bottom`  | Scroll to the bottom of timeline                            | N/A           |
+| `switch-home-timeline`   | Switch to 'Home Timeline' tab                               | `1`           |
+| `switch-notifications`   | Switch to 'Notifications' tab                               | `2`           |
+| `switch-direct-messages` | Switch to 'Direct Messages' tab                             | `3`           |
+| `switch-search`          | Switch to 'Search' tab                                      | `4`           |
+| `new-tweet`              | Start editing a new tweet                                   | `n`           |
+| `send-tweet`             | Send current editing tweet                                  | `ctrl+enter`  |
+| `reply-tweet`            | Reply to the focused tweet                                  | `enter`       |
+| `retweet-tweet`          | Retweet the focused tweet                                   | `R`           |
+| `quote-tweet`            | Retweet with quoting the focused tweet                      | `Q`           |
+| `like-tweet`             | Like with quoting the focused tweet                         | `L`           |
+| `open-images`            | Open image or video in the focused tweet                    | `i`           |
+| `open-images-in-browser` | Open image or video in focused tweet with external browser  | `I`           |
+| `open-tweet`             | Open tweet page for the focused tweet                       | `o`           |
+| `open-links`             | Open links contained in the focused tweet with browser      | `l`           |
+| `show-user`              | Open user page of the focused tweet's author                | `u`           |
+| `browser-go-back`        | Navigate to go back like a browser                          | `backspace`   |
+| `browser-go-forward`     | Navigate to go forward like a browser                       | N/A           |
+| `browser-reload`         | Navigate to reload like a browser                           | N/A           |
+| `zoom-in`                | Zoom font size by 10%                                       | `mod+plus`    |
+| `zoom-out`               | Zoom font size by -10%                                      | `mod+-`       |
+| `last-account`           | Switch account to most recently used one                    | `mod+shift+l` |
+| `next-account`           | Switch account to next one in accounts list                 | `mod+shift+n` |
+| `previous-account`       | Switch account to previous one in accounts list             | `mod+shift+p` |
+| `quit-app`               | Quit application                                            | N/A           |
+| `open-devtools`          | Open DevTools for current page                              | N/A           |
 
 ### normal\_window
 
 When this value is set to `true`, application will be launched as a normal window application.
 If menu bar behavior does not work for you, please use set this value to `true` to avoid it.
-Default value is `false`.
+Default value is `false` on macOS or Linux, `true` on Windows because window position is broken in some version of Windows.
 
 <img src="https://github.com/rhysd/ss/blob/master/Tui/normal_window.png?raw=true" width="443" alt="normal window mode"/>
 
