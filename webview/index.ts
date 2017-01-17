@@ -29,7 +29,7 @@ const handler = () => {
                     return handlers;
                 });
                 Promise.all([pluginPaths, keymaps])
-                    .then(([paths, keymaps]) => PluginManager.create(paths, ctx, keymaps))
+                    .then(([paths, handlers]) => PluginManager.create(paths, ctx, handlers))
                     .then(manager => {
                         console.log('Tui: Plugin manager created:', manager);
                     });
