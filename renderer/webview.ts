@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import {EventEmitter} from 'events';
-import {shell} from 'electron';
+import {shell, ipcRenderer as ipc} from 'electron';
 import {USERAGENT} from './constants';
 import log from './log';
 
@@ -64,6 +64,7 @@ export default class WebView extends EventEmitter {
         return new Promise<void>(resolve => {
             const resolver = () => {
                 this.elem.removeEventListener('dom-ready', resolver);
+                ipc.send('tuitter:webview-loaded');
                 resolve();
             };
             this.elem.addEventListener('dom-ready', resolver);

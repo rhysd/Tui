@@ -4,6 +4,7 @@ import {
     globalShortcut,
     BrowserWindow,
     Tray,
+    ipcMain as ipc,
 } from 'electron';
 import * as menubar from 'menubar';
 import TrayNotification from './tray_notification';
@@ -115,7 +116,7 @@ export default class MainApp {
                 useContentSize: true,
                 autoHideMenuBar: true,
             });
-            win.once('ready-to-show', () => {
+            ipc.once('tuitter:webview-loaded', () => {
                 win.show();
             });
 
