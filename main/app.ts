@@ -41,6 +41,7 @@ export default class MainApp {
                 if (IS_DARWIN && process.argv[0].endsWith('Electron')) {
                     app.dock.setIcon(APP_ICON);
                 }
+                this.win!.setMenuBarVisibility(true);
                 return this;
             });
     }
@@ -62,6 +63,8 @@ export default class MainApp {
                 alwaysOnTop: IS_DEBUG || !!this.config.always_on_top,
                 tooltip: 'Tui',
                 showDockIcon: true,
+                autoHideMenuBar: true,
+                useContentSize: true,
             });
             mb.once('ready', () => mb.showWindow());
             mb.once('after-create-window', () => {
@@ -110,6 +113,7 @@ export default class MainApp {
                 icon: APP_ICON,
                 show: false,
                 useContentSize: true,
+                autoHideMenuBar: true,
             });
             win.once('ready-to-show', () => {
                 win.show();

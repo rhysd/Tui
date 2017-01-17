@@ -197,6 +197,8 @@ By clicking the item, you can see current one and switch to other.
 
 ![screenshot of switching accounts](https://github.com/rhysd/ss/blob/master/Tui/accounts.jpg?raw=true)
 
+If you use Windows, you can show menu bar by pressing Alt key.
+
 ## Plugin
 
 Tui can load your JavaScript plugin and you can hook some points in application. Plugin paths can be specified in `config.json` (see above).

@@ -5,12 +5,13 @@ import log from './log';
 
 function makeDefaultConfig() {
     const IsDarkMode = (process.platform === 'darwin') && systemPreferences.isDarkMode();
+    const menubarBroken = process.platform === 'win';
 
     return {
         hot_key: 'CmdOrCtrl+Shift+S',
         icon_color: IsDarkMode ? 'white' : 'black',
         always_on_top: false,
-        normal_window: false,
+        normal_window: menubarBroken,
         zoom_factor: 0.9,
         home_url: 'https://mobile.twitter.com',
         plugins: [],
