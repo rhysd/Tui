@@ -2,7 +2,6 @@ import * as path from 'path';
 import {ipcRenderer as ipc} from 'electron';
 import WebView from './webview';
 import {DEFAULT_HOME_URL, IS_DEBUG, APP_DIRECTORY} from './constants';
-import KeymapsForwarder from './keymaps_forwarder';
 import log from './log';
 
 export default class RendererApp {
@@ -27,12 +26,9 @@ export default class RendererApp {
             if (this.config.zoom_factor && this.config.zoom_factor > 0.0) {
                 wv.element.setZoomFactor(this.config.zoom_factor);
             }
-            if (this.config.keymaps) {
-                const forwarder = new KeymapsForwarder(wv);
-                forwarder.forwardAll(this.config.keymaps);
-            }
 
             wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
+            wv.sendIpc('tuitter:keymaps', this.config.keymaps || {});
             log.debug('Have switched to account', wv.screenName);
         });
 

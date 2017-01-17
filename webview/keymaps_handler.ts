@@ -1,15 +1,15 @@
-import {ipcRenderer as ipc, remote, shell} from 'electron';
+import {remote, shell} from 'electron';
+import * as Mousetrap from 'mousetrap';
 import {AppContext} from './context';
-import {KEYMAP_NAMES, SELECTORS, TWITTER_COLOR} from './constants';
+import {SELECTORS, TWITTER_COLOR} from './constants';
 
-function inputIsFocused() {
-    const focused = document.activeElement;
-    switch (focused.tagName) {
+function targetIsInput(target: HTMLElement) {
+    switch (target.tagName) {
         case 'TEXTAREA': {
             return true;
         }
         case 'INPUT': {
-            const type = focused.getAttribute('type');
+            const type = target.getAttribute('type');
             return type === 'search' ||
                    type === 'text' ||
                    type === 'url' ||
@@ -17,43 +17,86 @@ function inputIsFocused() {
                    type === 'tel' ||
                    type === 'number';
         }
+        // TODO: Add 'SELECT'
         default:
             return false;
     }
 }
 
-export default class KeymapsHandler {
-    private focusedTweet: HTMLDivElement | null = null;
-    constructor(private context: AppContext) {
+Mousetrap.prototype.stopCallback = (e: KeyboardEvent, elem: HTMLElement) => {
+    if (!targetIsInput(elem)) {
+        return false;
     }
 
-    subscribeIpc() {
-        for (const name of KEYMAP_NAMES) {
-            ipc.on(`tuitter:keymap:${name}`, () => {
-                console.log('Tui: Keymap received:', name);
-                this[name].bind(this)(this.context);
+    if (e.ctrlKey || e.altKey || e.metaKey) {
+        return false;
+    }
+
+    if (e.key === 'Escape') {
+        return false;
+    }
+
+    return true;
+};
+
+type CustomHandler = (c: AppContext, e: KeyboardEvent) => void;
+
+export default class KeymapsHandler {
+    private customHandlers: {[name: string]: CustomHandler} = {};
+    private focusedTweet: HTMLDivElement | null = null;
+    constructor(private config: KeymapsConfig, private context: AppContext) {
+    }
+
+    subscribeKeydown() {
+        for (const key in this.config) {
+            this.registerKeymap(key, this.config[key]);
+        }
+    }
+
+    registerKeymap(key: string, name: KeymapName | null) {
+        if (!name) {
+            // TODO: Register keymaps
+            return;
+        }
+
+        if (!this[name]) {
+            Mousetrap.bind(key, e => {
+                e.preventDefault();
+                console.log('Tui: Keydown: Custom action: ' + key, name, e);
+                const handle = this.customHandlers[name as string];
+                if (!handle) {
+                    console.error('Tui: No custom handler found for the action:', name);
+                    return;
+                }
+                handle(this.context, e);
+            });
+        } else {
+            const method = this[name].bind(this);
+            Mousetrap.bind(key, e => {
+                e.preventDefault();
+                console.log('Tui: Keydown: ' + key, name, e);
+                method(this.context, e);
             });
         }
     }
 
-    'next-tweet'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    registerCustomHandler(name: string, handler: CustomHandler) {
+        this.customHandlers[name] = handler;
+        console.log('Tui: Registered keymap: ' + name, handler);
+    }
+
+    'next-tweet'() {
         this.moveFocusByOffset(1, false);
     }
 
-    'previous-tweet'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'previous-tweet'() {
         // Do not align with top of window because scrollIntoView() does not
         // consider header's height. If we set alignWithTop to true, tweet
         // would be hidden by header partially.
         this.moveFocusByOffset(-1, false);
     }
 
-    'unfocus-tweet'(_: AppContext) {
+    'unfocus-tweet'() {
         const cancel = document.querySelector(SELECTORS.cancelNewTweet) as HTMLElement | null;
         if (cancel !== null) {
             // In 'Edit Tweet' window, cancel tweet instead of removing focus.
@@ -63,30 +106,21 @@ export default class KeymapsHandler {
         this.setCurrentFocusedTweet(null);
     }
 
-    'scroll-down-page'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'scroll-down-page'() {
         window.scrollBy(0, window.innerHeight);
         this.setCurrentFocusedTweet(
             this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
         );
     }
 
-    'scroll-up-page'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'scroll-up-page'() {
         window.scrollBy(0, -window.innerHeight);
         this.setCurrentFocusedTweet(
             this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
         );
     }
 
-    'scroll-up-to-top'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'scroll-up-to-top'() {
         const e = document.querySelector(SELECTORS.scrollUpToNewTweet) as HTMLElement | null;
         if (e !== null) {
             e.click();
@@ -96,63 +130,38 @@ export default class KeymapsHandler {
         this.setCurrentFocusedTweet(null);
     }
 
-    'scroll-down-to-bottom'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'scroll-down-to-bottom'() {
         window.scrollTo(0, document.body.scrollHeight);
         this.setCurrentFocusedTweet(null);
     }
 
     // Note: Should use location.href = 'https://mobile.twitter.com/home'?
-    'switch-home-timeline'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'switch-home-timeline'() {
         this.clickTab(0);
     }
 
-    'switch-notifications'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'switch-notifications'() {
         this.clickTab(1);
     }
 
-    'switch-direct-messages'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'switch-direct-messages'() {
         this.clickTab(2);
     }
 
-    'switch-search'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'switch-search'() {
         this.clickTab(3);
     }
 
     // Note:
     // It can start to edit direct message also on 'Direct Messages' tab.
     'new-tweet'(ctx: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
         const button = (
             document.querySelector(SELECTORS.newTweetButton) ||
             document.querySelector(SELECTORS.newTweetButtonB)
         ) as HTMLElement | null;
         if (button !== null) {
-            // XXX:
-            // Keyboard event is not canceled with preventDefault() in renderer process
-            // because it also prevents user input.
-            // Here we need to avoid entering the character to text area by shortcut.
-            // So I added 100ms delay to this.
-            setTimeout(() => {
-                button.click();
-                this.focusNewTweetTextarea();
-            }, 100);
+            button.click();
+            this.focusNewTweetTextarea();
         } else {
             if (this.clickTab(0)) {
                 // If 'New Tweet' button not found, repeat again after moving to 'Home Timeline' tab.
@@ -161,30 +170,23 @@ export default class KeymapsHandler {
         }
     }
 
-    'send-tweet'(_: AppContext) {
+    'send-tweet'() {
         const button = document.querySelector(SELECTORS.sendTweet) as HTMLElement | null;
         if (button !== null) {
             button.click();
         }
     }
 
-    'reply-tweet'(_: AppContext) {
-        // XXX:
-        // Keyboard event is not canceled with preventDefault() in renderer process
-        // because it also prevents user input.
-        // Here we need to avoid entering the character to text area by shortcut.
-        // So I added 100ms delay to this.
-        setTimeout(() => {
-            this.clickTweetAction(0);
-            this.focusNewTweetTextarea();
-        }, 100);
+    'reply-tweet'() {
+        this.clickTweetAction(0);
+        this.focusNewTweetTextarea();
     }
 
-    'like-tweet'(_: AppContext) {
+    'like-tweet'() {
         this.clickTweetAction(2);
     }
 
-    'retweet-tweet'(_: AppContext) {
+    'retweet-tweet'() {
         if (!this.clickTweetAction(1)) {
             return;
         }
@@ -196,7 +198,7 @@ export default class KeymapsHandler {
         rtButton.click();
     }
 
-    'quote-tweet'(_: AppContext) {
+    'quote-tweet'() {
         if (!this.clickTweetAction(1)) {
             return;
         }
@@ -206,19 +208,12 @@ export default class KeymapsHandler {
         }
         const qtButton = selectionButtons[1] as HTMLElement;
 
-        // XXX:
-        // Keyboard event is not canceled with preventDefault() in renderer process
-        // because it also prevents user input.
-        // Here we need to avoid entering the character to text area by shortcut.
-        // So I added 100ms delay to this.
-        setTimeout(() => {
-            qtButton.click();
-            this.focusNewTweetTextarea();
-        }, 100);
+        qtButton.click();
+        this.focusNewTweetTextarea();
     }
 
-    'open-images'(_: AppContext) {
-        if (inputIsFocused() || this.focusedTweet === null) {
+    'open-images'() {
+        if (this.focusedTweet === null) {
             return;
         }
         const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailImageInTweet) as HTMLElement | null;
@@ -228,8 +223,8 @@ export default class KeymapsHandler {
         thumb.click();
     }
 
-    'open-images-in-browser'(_: AppContext) {
-        if (inputIsFocused() || this.focusedTweet === null) {
+    'open-images-in-browser'() {
+        if (this.focusedTweet === null) {
             return;
         }
         const thumb = this.focusedTweet.querySelector(SELECTORS.thumbnailImageInTweet) as HTMLAnchorElement | null;
@@ -244,8 +239,8 @@ export default class KeymapsHandler {
         shell.openExternal(url);
     }
 
-    'open-tweet'(_: AppContext) {
-        if (inputIsFocused() || this.focusedTweet === null) {
+    'open-tweet'() {
+        if (this.focusedTweet === null) {
             return;
         }
         const body = this.focusedTweet.querySelector(SELECTORS.tweetBody) as HTMLDivElement | null;
@@ -255,8 +250,8 @@ export default class KeymapsHandler {
         body.click();
     }
 
-    'open-links'(_: AppContext) {
-        if (inputIsFocused() || this.focusedTweet === null) {
+    'open-links'() {
+        if (this.focusedTweet === null) {
             return;
         }
         let urls = [];
@@ -287,8 +282,8 @@ export default class KeymapsHandler {
         }
     }
 
-    'show-user'(_: AppContext) {
-        if (inputIsFocused() || this.focusedTweet === null) {
+    'show-user'() {
+        if (this.focusedTweet === null) {
             return;
         }
 
@@ -304,56 +299,42 @@ export default class KeymapsHandler {
         target.click();
     }
 
-    'browser-go-back'(_: AppContext) {
+    'browser-go-back'() {
         const c = remote.getCurrentWebContents();
-        if (inputIsFocused() || !c.canGoBack()) {
+        if (!c.canGoBack()) {
             return;
         }
+
         c.goBack();
     }
 
-    'browser-go-forward'(_: AppContext) {
+    'browser-go-forward'() {
         const c = remote.getCurrentWebContents();
-        if (inputIsFocused() || !c.canGoForward()) {
+        if (!c.canGoForward()) {
             return;
         }
+
         c.goForward();
     }
 
-    'browser-reload'(_: AppContext) {
-        const c = remote.getCurrentWebContents();
-        if (inputIsFocused() || !c.canGoBack()) {
-            return;
-        }
-        c.reload();
+    'browser-reload'() {
+        remote.getCurrentWebContents().reload();
     }
 
-    'quit-app'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'quit-app'() {
         remote.app.quit();
     }
 
-    'zoom-in'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'zoom-in'() {
         this.modifyZoomFactor(0.1);
         remote.getCurrentWebContents();
     }
 
-    'zoom-out'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'zoom-out'() {
         this.modifyZoomFactor(-0.1);
     }
 
-    'open-devtools'(_: AppContext) {
-        if (inputIsFocused()) {
-            return;
-        }
+    'open-devtools'() {
         remote.getCurrentWebContents().openDevTools({mode: 'detach'});
     }
 
@@ -409,7 +390,7 @@ export default class KeymapsHandler {
     }
 
     private clickTweetAction(index: number) {
-        if (inputIsFocused() || this.focusedTweet === null) {
+        if (this.focusedTweet === null) {
             return false;
         }
 

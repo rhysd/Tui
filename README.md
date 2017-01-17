@@ -239,12 +239,14 @@ module.exports = {
 };
 ```
 
-You can also create your original keymap with this.
+You can also create your original keymap with this. The `ctx` parameter is the same as above (`AppContext` instance), and
+the `event` parameter is a `KeyboardEvent` on the keydown event. Note that `event.preventDefault()` is already called.
+And keymap is not invoked when `<input>` or `<textarea>` is focused. So you need not to take care about them.
 
 ```javascript
 module.exports = {
     onKeymap: {
-        'show-my-cool-list': ctx => {
+        'show-my-cool-list': (ctx, event) => {
             // Note that all external links outside https://mobile.twitter.com are opened in a browser.
             href.location = 'https://mobile.twitter.com/Linda_pp/lists/my-cool-list';
         }

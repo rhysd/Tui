@@ -10,15 +10,26 @@ const pluginPaths = new Promise<string[]>(resolve => {
     });
 });
 
+const receivedKeymaps = new Promise<KeymapsConfig>(resolve => {
+    ipc.once('tuitter:keymaps', (_, k: KeymapsConfig) => {
+        console.log('Tui: Received keymappings:', k);
+        resolve(k);
+    });
+});
+
 const handler = () => {
     switch (document.readyState) {
         case 'interactive': {
             console.log('Tui: Reached to "interactive" state. Will inject codes');
             dispatchContext().then(ctx => {
-                const keymaps = new KeymapsHandler(ctx);
-                keymaps.subscribeIpc();
-                pluginPaths
-                    .then(paths => PluginManager.create(paths, ctx))
+                const keymaps = receivedKeymaps.then(k => {
+                    const handlers = new KeymapsHandler(k, ctx);
+                    handlers.subscribeKeydown();
+                    console.log('Now handling keymaps:', handlers);
+                    return handlers;
+                });
+                Promise.all([pluginPaths, keymaps])
+                    .then(([paths, keymaps]) => PluginManager.create(paths, ctx, keymaps))
                     .then(manager => {
                         console.log('Tui: Plugin manager created:', manager);
                     });

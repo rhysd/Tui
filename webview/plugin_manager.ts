@@ -1,7 +1,8 @@
 import * as glob from 'glob';
-import {remote, ipcRenderer as ipc} from 'electron';
+import {remote} from 'electron';
 import {AppContext} from './context';
 import {SELECTORS} from './constants';
+import KeymapsHandler from './keymaps_handler';
 
 export interface Plugin {
     onKeymap?: {
@@ -14,9 +15,9 @@ export interface Plugin {
 export default class PluginManger {
     public readonly plugins: {[absolutePath: string]: Plugin} = {};
 
-    static create(globPaths: string[], ctx: AppContext) {
+    static create(globPaths: string[], ctx: AppContext, keymaps: KeymapsHandler) {
         if (globPaths.length === 0) {
-            return Promise.resolve(new PluginManger([], ctx));
+            return Promise.resolve(new PluginManger([], keymaps, ctx));
         }
 
         const options = {
@@ -39,12 +40,13 @@ export default class PluginManger {
                     Array.prototype.push.apply(acc, p);
                     return acc;
                 }, []),
+                keymaps,
                 ctx,
             )
         );
     }
 
-    constructor(pluginPaths: string[], private ctx: AppContext) {
+    constructor(pluginPaths: string[], private keymaps: KeymapsHandler, private ctx: AppContext) {
         console.log('Tui: Plugin manager constructed with paths:', pluginPaths);
         const existingTweets = ctx.timelineRoot === null ?  [] :
             ctx.timelineRoot.querySelectorAll(SELECTORS.tweet) as NodeListOf<HTMLElement>;
@@ -71,9 +73,7 @@ export default class PluginManger {
         if (plugin.onKeymap) {
             for (const name in plugin.onKeymap) {
                 const callback = plugin.onKeymap[name];
-                ipc.on(`tuitter:keymap:${name}`, () => {
-                    callback(this.ctx);
-                });
+                this.keymaps.registerCustomHandler(name, callback);
             }
         }
     }
@@ -99,3 +99,5 @@ export default class PluginManger {
         }
     }
 }
+
+// throw 'onKeymap should be handled by KeymapsHandler';

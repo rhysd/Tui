@@ -24,36 +24,4 @@ export const SELECTORS = {
     loginIcon: '.MLZaeRvv._1-I0zYji._3FdDVqR1',
 };
 
-export const KEYMAP_NAMES: KeymapName[] = [
-    'next-tweet',
-    'previous-tweet',
-    'unfocus-tweet',
-    'scroll-down-page',
-    'scroll-up-page',
-    'scroll-up-to-top',
-    'scroll-down-to-bottom',
-    'switch-home-timeline',
-    'switch-notifications',
-    'switch-direct-messages',
-    'switch-search',
-    'new-tweet',
-    'send-tweet',
-    'reply-tweet',
-    'retweet-tweet',
-    'quote-tweet',
-    'like-tweet',
-    'open-images',
-    'open-images-in-browser',
-    'open-tweet',
-    'open-links',
-    'show-user',
-    'open-devtools',
-    'browser-go-back',
-    'browser-go-forward',
-    'browser-reload',
-    'zoom-in',
-    'zoom-out',
-    'quit-app',
-];
-
 export const TWITTER_COLOR = '#1da1f2';
