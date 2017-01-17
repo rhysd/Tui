@@ -4,6 +4,10 @@ import {AppContext} from './context';
 import {SELECTORS, TWITTER_COLOR} from './constants';
 
 function targetIsInput(target: HTMLElement) {
+    if (target.isContentEditable) {
+        return true;
+    }
+
     switch (target.tagName) {
         case 'TEXTAREA': {
             return true;
@@ -17,12 +21,17 @@ function targetIsInput(target: HTMLElement) {
                    type === 'tel' ||
                    type === 'number';
         }
-        // TODO: Add 'SELECT'
+        case 'SELECT': {
+            return true;
+        }
         default:
             return false;
     }
 }
 
+// stopCallback returns if the event should be captured by mousetrap.
+// By default, mousetrap does not capture any event on focusing on <input> and <textarea>.
+// I need to custom the behavior to capture input with modifiers or escape key.
 Mousetrap.prototype.stopCallback = (e: KeyboardEvent, elem: HTMLElement) => {
     if (!targetIsInput(elem)) {
         return false;

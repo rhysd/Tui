@@ -99,5 +99,3 @@ export default class PluginManger {
         }
     }
 }
-
-// throw 'onKeymap should be handled by KeymapsHandler';
