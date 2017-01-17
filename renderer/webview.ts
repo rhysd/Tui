@@ -55,6 +55,7 @@ export default class WebView extends EventEmitter {
             throw new Error('<webview> is already mounted');
         }
         parent.appendChild(this.elem);
+        this.elem.focus();
         this.mounted = true;
         log.debug(`Mounted webview for @${this.screenName}`, this.elem);
     }
@@ -99,6 +100,12 @@ export default class WebView extends EventEmitter {
                 resolve();
             });
         });
+    }
+
+    focus() {
+        if (this.mounted) {
+            this.elem.focus();
+        }
     }
 
     private readonly onNewWindow = (e: Electron.WebViewElement.NewWindowEvent) => {

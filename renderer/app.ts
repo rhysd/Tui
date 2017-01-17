@@ -1,5 +1,5 @@
 import * as path from 'path';
-import {ipcRenderer as ipc} from 'electron';
+import {ipcRenderer as ipc, remote} from 'electron';
 import WebView from './webview';
 import {DEFAULT_HOME_URL, IS_DEBUG, APP_DIRECTORY} from './constants';
 import log from './log';
@@ -9,6 +9,14 @@ export default class RendererApp {
 
     constructor(private readonly config: Config) {
         this.switchTo(this.getFirstScreenName());
+
+        // After hiding window, <webview> loses its focus.
+        // So when window is shown again, need to give <webview> focus again.
+        remote.getCurrentWindow().on('focus', () => {
+           if (this.wv !== null) {
+               this.wv.focus();
+           }
+        });
     }
 
     switchTo(screenName: string) {
