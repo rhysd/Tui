@@ -9,6 +9,14 @@ export default class RendererApp {
 
     constructor(private readonly config: Config) {
         this.switchTo(this.getFirstScreenName());
+
+        // After hiding window, <webview> loses its focus.
+        // So when window is shown again, need to give <webview> focus again.
+        remote.getCurrentWindow().on('focus', () => {
+           if (this.wv !== null) {
+               this.wv.focus();
+           }
+        });
     }
 
     switchTo(screenName: string) {
@@ -30,14 +38,6 @@ export default class RendererApp {
             wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
             wv.sendIpc('tuitter:keymaps', this.config.keymaps || {});
             log.debug('Have switched to account', wv.screenName);
-
-            // After hiding window, <webview> loses its focus.
-            // So when window is shown again, need to give <webview> focus again.
-            remote.getCurrentWindow().on('focus', () => {
-                if (this.wv !== null) {
-                    this.wv.focus();
-                }
-            });
         });
 
         wv.on('dom-ready', () => {
