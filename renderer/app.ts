@@ -1,5 +1,5 @@
 import * as path from 'path';
-import {ipcRenderer as ipc, remote} from 'electron';
+import {ipcRenderer as ipc} from 'electron';
 import WebView from './webview';
 import {DEFAULT_HOME_URL, IS_DEBUG, APP_DIRECTORY} from './constants';
 import log from './log';
@@ -12,7 +12,12 @@ export default class RendererApp {
 
         // After hiding window, <webview> loses its focus.
         // So when window is shown again, need to give <webview> focus again.
-        remote.getCurrentWindow().on('focus', () => {
+        // Note:
+        // remove.getCurrentWindow().on('focus', ...) is unavailable
+        // because callback remains after this web contents reloaded.
+        // Remained callback causes a 'trying to send message to removed web contents'
+        // error.
+        ipc.on('tuitter:window-focused', () => {
            if (this.wv !== null) {
                this.wv.focus();
            }

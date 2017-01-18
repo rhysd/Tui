@@ -45,6 +45,11 @@ export default class MainApp {
                     app.dock.setIcon(APP_ICON);
                 }
                 this.win!.setMenuBarVisibility(true);
+                this.win!.on('focus', () => {
+                    if (this.win !== null) {
+                        this.win.webContents.send('tuitter:window-focused');
+                    }
+                });
                 return this;
             });
     }

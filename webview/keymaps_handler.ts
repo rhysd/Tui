@@ -60,11 +60,11 @@ export default class KeymapsHandler {
         for (const key in this.config) {
             this.registerKeymap(key, this.config[key]);
         }
+        console.log('Tui: Keymappings are registered:', this.config);
     }
 
     registerKeymap(key: string, name: KeymapName | null) {
         if (!name) {
-            // TODO: Register keymaps
             return;
         }
 
