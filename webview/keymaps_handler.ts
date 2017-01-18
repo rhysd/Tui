@@ -108,12 +108,24 @@ export default class KeymapsHandler {
     }
 
     'unfocus-tweet'() {
+        // In 'Search' input or 'New direct message' textarea,
+        // unfocus them to go out.
+        const active = document.activeElement as HTMLElement | null;
+        if (active && (
+            active.matches(SELECTORS.directMessageTextarea) ||
+            active.matches(SELECTORS.searchPageInput)
+        )) {
+            active.blur();
+            return;
+        }
+
+        // In 'Edit Tweet' window, cancel tweet instead of removing focus.
         const cancel = document.querySelector(SELECTORS.cancelNewTweet) as HTMLElement | null;
         if (cancel !== null) {
-            // In 'Edit Tweet' window, cancel tweet instead of removing focus.
             cancel.click();
             return;
         }
+
         this.setCurrentFocusedTweet(null);
     }
 
@@ -160,7 +172,12 @@ export default class KeymapsHandler {
     }
 
     'switch-search'() {
-        this.clickTab(3);
+        if (this.clickTab(3)) {
+            const input = document.querySelector(SELECTORS.searchPageInput) as HTMLInputElement | null;
+            if (input) {
+                input.focus();
+            }
+        }
     }
 
     // Note:

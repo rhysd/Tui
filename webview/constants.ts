@@ -26,6 +26,7 @@ export const SELECTORS = {
     directMessageItem: '.Ic-QqnSg',
     directMessageTextarea: 'textarea._1wPvdOF6',
     directMessageSubmitButton: 'button.MmJh82_T._17Odsi1l',
+    searchPageInput: 'input._1Nta5Z3A',
 };
 
 export const TWITTER_COLOR = '#1da1f2';
