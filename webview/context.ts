@@ -4,6 +4,8 @@ import NotificationWatcher from './notification_watcher';
 import {observeElementAppears} from './utils';
 import {SELECTORS} from './constants';
 
+const RE_MESSAGE_CONVERSATION = /^\/messages\/[0-9\-]+$/;
+
 export class AppContext {
     readonly tweetWatcher = new TweetWatcher();
     readonly notificationWatcher = new NotificationWatcher();
@@ -21,7 +23,11 @@ export class AppContext {
     }
 
     isMessagesPage() {
-        return this.location.pathname.startsWith('/messages');
+        return this.location.pathname === ('/messages');
+    }
+
+    isMessagesConversationPage() {
+        return RE_MESSAGE_CONVERSATION.test(this.location.pathname);
     }
 
     startWatchers(root: HTMLDivElement, header: HTMLElement) {

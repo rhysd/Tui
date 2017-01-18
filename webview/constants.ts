@@ -22,6 +22,10 @@ export const SELECTORS = {
     tweetUserName: 'a.Fe7ul3Lt._1hmq-Mkf.OrIwTY0I._3fg7OHdb._2DggF3sL._25OmqECI',
     tweetTextBody: 'span.Fe7ul3Lt._10YWDZsG._1rTfukg4._2DggF3sL',
     loginIcon: '.MLZaeRvv._1-I0zYji._3FdDVqR1',
+    directMessagesThread: '.aPyKj4JW._33HzS5QJ._3f2NsD-H',
+    directMessageItem: '.Ic-QqnSg',
+    directMessageTextarea: 'textarea._1wPvdOF6',
+    directMessageSubmitButton: 'button.MmJh82_T._17Odsi1l',
 };
 
 export const TWITTER_COLOR = '#1da1f2';

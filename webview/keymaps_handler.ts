@@ -84,7 +84,9 @@ export default class KeymapsHandler {
             Mousetrap.bind(key, e => {
                 e.preventDefault();
                 console.log('Tui: Keydown: ' + key, name, e);
-                method(this.context, e);
+                // Note: Need not to pass context because they can refer context
+                // via this.context.
+                method(e);
             });
         }
     }
@@ -163,7 +165,17 @@ export default class KeymapsHandler {
 
     // Note:
     // It can start to edit direct message also on 'Direct Messages' tab.
-    'new-tweet'(ctx: AppContext) {
+    'new-tweet'() {
+        if (this.context.isMessagesConversationPage()) {
+            const textarea = document.querySelector(SELECTORS.directMessageTextarea) as HTMLTextAreaElement | null;
+            if (textarea === null) {
+                console.error('Tui: Textarea for direct message was not found');
+                return;
+            }
+            textarea.focus();
+            return;
+        }
+
         const button = (
             document.querySelector(SELECTORS.newTweetButton) ||
             document.querySelector(SELECTORS.newTweetButtonB)
@@ -174,13 +186,15 @@ export default class KeymapsHandler {
         } else {
             if (this.clickTab(0)) {
                 // If 'New Tweet' button not found, repeat again after moving to 'Home Timeline' tab.
-                this['new-tweet'](ctx);
+                this['new-tweet']();
             }
         }
     }
 
     'send-tweet'() {
-        const button = document.querySelector(SELECTORS.sendTweet) as HTMLElement | null;
+        const selector = this.context.isMessagesConversationPage() ?
+            SELECTORS.directMessageSubmitButton : SELECTORS.sendTweet;
+        const button = document.querySelector(selector) as HTMLElement | null;
         if (button !== null) {
             button.click();
         }
@@ -252,6 +266,12 @@ export default class KeymapsHandler {
         if (this.focusedTweet === null) {
             return;
         }
+
+        if (this.context.isMessagesPage()) {
+            this.focusedTweet.click();
+            return;
+        }
+
         const body = this.focusedTweet.querySelector(SELECTORS.tweetBody) as HTMLDivElement | null;
         if (body === null) {
             return;
@@ -385,21 +405,31 @@ export default class KeymapsHandler {
         }
     }
 
-    private moveFocusByOffset(offset: number, alignWithTop: boolean) {
-        const tweets = document.querySelectorAll(SELECTORS.tweet);
+    private getFocusableItemsSelector() {
+        if (this.context.isMessagesPage()) {
+            return SELECTORS.directMessagesThread;
+        } else if (this.context.isMessagesConversationPage()) {
+            return SELECTORS.directMessageItem;
+        } else {
+            return SELECTORS.tweet;
+        }
+    }
 
-        // 'tweets' is NodeList. Array.prototype.indexOf() is not available.
+    private moveFocusByOffset(offset: number, alignWithTop: boolean) {
+        const items = document.querySelectorAll(this.getFocusableItemsSelector());
+
+        // 'items' is NodeList. Array.prototype.indexOf() is not available.
         let idx = -1;
-        for (let i = 0; i < tweets.length; ++i) {
-            if (tweets[i] === this.focusedTweet) {
+        for (let i = 0; i < items.length; ++i) {
+            if (items[i] === this.focusedTweet) {
                 idx = i;
                 break;
             }
         }
 
-        let next = tweets[idx + offset] as HTMLDivElement | null;
+        let next = items[idx + offset] as HTMLDivElement | null;
         if (idx < 0 || !next) {
-            next = this.getFirstTweetInView(tweets);
+            next = this.getFirstTweetInView(items);
         }
         if (!next) {
             return;
