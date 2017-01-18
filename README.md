@@ -202,7 +202,7 @@ When you set `accounts` value in your `config.json`, you can switch among your a
 When application has a focus, you can see 'Accounts' menu item in menu bar.
 By clicking the item, you can see current one and switch to other.
 
-![screenshot of switching accounts](https://github.com/rhysd/ss/blob/master/Tui/accounts.jpg?raw=true)
+<img src="https://github.com/rhysd/ss/blob/master/Tui/accounts.jpg?raw=true" width="435" alt="screenshot of switching accounts"/>
 
 If you use Windows, you can show menu bar by pressing Alt key.
 

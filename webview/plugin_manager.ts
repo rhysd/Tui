@@ -63,12 +63,14 @@ export default class PluginManger {
     registerPlugin(pluginPath: string, plugin: Plugin, currentTimeline: Iterable<HTMLElement>) {
         this.plugins[pluginPath] = plugin;
         if (plugin.onStart) {
-            plugin.onStart(this.ctx);
-        }
-        if (plugin.onTweetStatus) {
-            for (const tw of currentTimeline) {
-                plugin.onTweetStatus(tw as HTMLDivElement, this.ctx);
+            try {
+                plugin.onStart(this.ctx);
+            } catch (e) {
+                console.error('Tui: onTweetStatus: Error while executing plugin:', pluginPath, e);
             }
+        }
+        for (const tw of currentTimeline) {
+            this.runOnTweetHook(pluginPath, tw as HTMLDivElement);
         }
         if (plugin.onKeymap) {
             for (const name in plugin.onKeymap) {
@@ -92,10 +94,20 @@ export default class PluginManger {
 
     private onTweetAdded = (tw: HTMLDivElement) => {
         for (const key in this.plugins) {
-            const p = this.plugins[key];
-            if (p.onTweetStatus) {
-                p.onTweetStatus(tw, this.ctx);
-            }
+            this.runOnTweetHook(key, tw);
+        }
+    }
+
+    private runOnTweetHook(pluginPath: string, tw: HTMLDivElement) {
+        const plugin = this.plugins[pluginPath];
+        if (!plugin.onTweetStatus) {
+            return;
+        }
+
+        try {
+            plugin.onTweetStatus(tw as HTMLDivElement, this.ctx);
+        } catch (e) {
+            console.error('Tui: onTweetStatus: Error while executing plugin:', pluginPath, e);
         }
     }
 }
