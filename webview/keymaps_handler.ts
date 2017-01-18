@@ -52,7 +52,7 @@ type CustomHandler = (c: AppContext, e: KeyboardEvent) => void;
 
 export default class KeymapsHandler {
     private customHandlers: {[name: string]: CustomHandler} = {};
-    private focusedTweet: HTMLDivElement | null = null;
+    private focusedTweet: HTMLElement | null = null;
     constructor(private config: KeymapsConfig, private context: AppContext) {
     }
 
@@ -396,7 +396,7 @@ export default class KeymapsHandler {
         ipc.send('tuitter:switch-account-prev');
     }
 
-    private getFirstTweetInView(tweets: NodeList): HTMLDivElement | null {
+    private getFirstTweetInView(tweets: NodeList): HTMLElement | null {
         const viewTop = document.body.scrollTop;
         const viewBottom = viewTop + window.innerHeight;
         for (const tw of tweets) {
@@ -412,7 +412,7 @@ export default class KeymapsHandler {
         return null;
     }
 
-    private setCurrentFocusedTweet(tw: HTMLDivElement | null) {
+    private setCurrentFocusedTweet(tw: HTMLElement | null) {
         if (this.focusedTweet !== null) {
             this.focusedTweet.style.border = null;
         }
@@ -433,7 +433,7 @@ export default class KeymapsHandler {
     }
 
     private moveFocusByOffset(offset: number, alignWithTop: boolean) {
-        const items = document.querySelectorAll(this.getFocusableItemsSelector());
+        const items = document.querySelectorAll(this.getFocusableItemsSelector()) as NodeListOf<HTMLElement>;
 
         // 'items' is NodeList. Array.prototype.indexOf() is not available.
         let idx = -1;
@@ -444,9 +444,18 @@ export default class KeymapsHandler {
             }
         }
 
-        let next = items[idx + offset] as HTMLDivElement | null;
+        let next = items[idx + offset];
         if (idx < 0 || !next) {
-            next = this.getFirstTweetInView(items);
+            const first = this.getFirstTweetInView(items);
+            if (first !== null) {
+                next = first;
+            }
+        }
+        if (!next && items.length > 0) {
+            // Note:
+            // Fallback when no item is in view.
+            // Unless there is no item, show first item.
+            next = items[0];
         }
         if (!next) {
             return;
