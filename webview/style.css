@@ -1,14 +1,18 @@
 /* 'Open in mobile app' dialog at the top */
 ._3oxnid3o._3f2NsD-H {
-  display: none;
+  display: none !important;
 }
 
 /* Kill a panel which includes tweet button and timeline title */
 ._3ITjOJ53._3f2NsD-H {
-  display: none;
+  display: none !important;
 }
 
 /* Kill tweet button on type B (consider A/B testing) */
 a._3TEZxQV {
-  display: none;
+  display: none !important;
+}
+
+.tuitter-focused-item {
+  background-color: #f0f3f5 !important;
 }

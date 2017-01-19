@@ -29,4 +29,5 @@ export const SELECTORS = {
     searchPageInput: 'input._1Nta5Z3A',
 };
 
-export const TWITTER_COLOR = '#1da1f2';
+type SelectorType = typeof SELECTORS;
+export type SelectorKind = keyof SelectorType;

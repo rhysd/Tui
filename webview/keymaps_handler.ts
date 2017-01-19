@@ -1,7 +1,7 @@
 import {remote, shell, ipcRenderer as ipc} from 'electron';
 import * as Mousetrap from 'mousetrap';
 import {AppContext} from './context';
-import {SELECTORS, TWITTER_COLOR} from './constants';
+import {SELECTORS} from './constants';
 
 function targetIsInput(target: HTMLElement) {
     if (target.isContentEditable) {
@@ -414,11 +414,11 @@ export default class KeymapsHandler {
 
     private setCurrentFocusedTweet(tw: HTMLElement | null) {
         if (this.focusedTweet !== null) {
-            this.focusedTweet.style.border = null;
+            this.focusedTweet.classList.remove('tuitter-focused-item');
         }
         this.focusedTweet = tw;
         if (tw !== null) {
-            tw.style.border = '1px solid ' + TWITTER_COLOR;
+            tw.classList.add('tuitter-focused-item');
         }
     }
 
