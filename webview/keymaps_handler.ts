@@ -53,6 +53,8 @@ type CustomHandler = (c: AppContext, e: KeyboardEvent) => void;
 export default class KeymapsHandler {
     private customHandlers: {[name: string]: CustomHandler} = {};
     private focusedTweet: HTMLElement | null = null;
+    private prevHref = location.href;
+
     constructor(private config: KeymapsConfig, private context: AppContext) {
     }
 
@@ -442,8 +444,14 @@ export default class KeymapsHandler {
     }
 
     private moveFocusByOffset(offset: number, alignWithTop: boolean) {
+        if (location.href !== this.prevHref) {
+            this.focusedTweet = null;
+            this.prevHref = location.href;
+        }
+
         const items = document.querySelectorAll(this.getFocusableItemsSelector()) as NodeListOf<HTMLElement>;
         if (items.length === 0) {
+            console.log('Tui no item to scroll was found');
             return;
         }
 
