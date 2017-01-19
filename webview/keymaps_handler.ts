@@ -104,7 +104,7 @@ export default class KeymapsHandler {
         // Do not align with top of window because scrollIntoView() does not
         // consider header's height. If we set alignWithTop to true, tweet
         // would be hidden by header partially.
-        this.moveFocusByOffset(-1, false);
+        this.moveFocusByOffset(-1, true);
     }
 
     'unfocus-tweet'() {
@@ -432,36 +432,78 @@ export default class KeymapsHandler {
         }
     }
 
-    private moveFocusByOffset(offset: number, alignWithTop: boolean) {
-        const items = document.querySelectorAll(this.getFocusableItemsSelector()) as NodeListOf<HTMLElement>;
-
-        // 'items' is NodeList. Array.prototype.indexOf() is not available.
-        let idx = -1;
+    private indexOfFocusedItem(items: NodeListOf<HTMLElement>) {
         for (let i = 0; i < items.length; ++i) {
             if (items[i] === this.focusedTweet) {
-                idx = i;
-                break;
+                return i;
             }
         }
+        return -1;
+    }
 
-        let next = items[idx + offset];
-        if (idx < 0 || !next) {
-            const first = this.getFirstTweetInView(items);
-            if (first !== null) {
-                next = first;
-            }
-        }
-        if (!next && items.length > 0) {
-            // Note:
-            // Fallback when no item is in view.
-            // Unless there is no item, show first item.
-            next = items[0];
-        }
-        if (!next) {
+    private moveFocusByOffset(offset: number, alignWithTop: boolean) {
+        const items = document.querySelectorAll(this.getFocusableItemsSelector()) as NodeListOf<HTMLElement>;
+        if (items.length === 0) {
             return;
         }
 
-        next.scrollIntoView(alignWithTop);
+        // 'items' is NodeList. Array.prototype.indexOf() is not available.
+        const idx = this.indexOfFocusedItem(items);
+        const current = items[idx];
+        let next = items[idx + offset];
+
+        if (!current) {
+            const first = this.getFirstTweetInView(items);
+            (first || items[0]).scrollIntoView(alignWithTop);
+            this.setCurrentFocusedTweet(next);
+            return;
+        }
+
+        const viewTop = document.body.scrollTop;
+        const viewBottom = viewTop + window.innerHeight;
+
+        const currentRect = current.getBoundingClientRect();
+        const currentTop = viewTop + currentRect.top;
+        const currentBottom = viewTop + currentRect.bottom;
+
+        // Note:
+        // When current item is not fully shown, scroll to show the rest of
+        // current item.
+        // For example, in the case where tweet height is too large not to
+        // be shown whole item in view, this problem occurs.
+        if (alignWithTop) {
+            if (viewTop > currentTop) {
+                if (this.scrollToFitEdge(viewTop, currentTop, viewTop)) {
+                    return;
+                }
+            }
+        } else {
+            if (currentBottom > viewBottom) {
+                if (this.scrollToFitEdge(viewBottom, currentBottom, viewTop)) {
+                    return;
+                }
+            }
+        }
+
+        const nextRect = next.getBoundingClientRect();
+        const nextTop = viewTop + nextRect.top;
+        const nextBottom = viewTop + nextRect.bottom;
+        const nextInView = viewTop <= nextTop && nextBottom <= viewBottom;
+
+        if (!nextInView) {
+            // Note:
+            // Scrolling next item into view.
+            //
+            // scrollIntoView() is not available here.
+            // scrollIntoView() does not always scroll to show the target
+            // element completely. After calling it, the target element
+            // may not be within the view. (1 or 2 pixel may be hidden yet)
+            if (alignWithTop) {
+                this.scrollToFitEdge(viewTop, nextTop);
+            } else {
+                this.scrollToFitEdge(viewBottom, nextBottom);
+            }
+        }
 
         this.setCurrentFocusedTweet(next);
     }
@@ -527,5 +569,13 @@ export default class KeymapsHandler {
             return;
         }
         setTimeout(() => textarea.focus(), 0);
+    }
+
+    // If viewTop is not given, it means returned value is unused.
+    private scrollToFitEdge(fitted: number, willFit: number, viewTop?: number) {
+        window.scrollBy(0, willFit - fitted);
+        // Return really scrolled. If viewTop is not given, do not access
+        // to document.body.scrollTop because it causes reflow.
+        return viewTop === undefined || document.body.scrollTop !== viewTop;
     }
 }
