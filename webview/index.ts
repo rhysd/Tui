@@ -25,7 +25,7 @@ const handler = () => {
                 const keymaps = receivedKeymaps.then(k => {
                     const handlers = new KeymapsHandler(k, ctx);
                     handlers.subscribeKeydown();
-                    console.log('Now handling keymaps:', handlers);
+                    console.log('Tui: Now handling keymaps:', handlers);
                     return handlers;
                 });
                 Promise.all([pluginPaths, keymaps])

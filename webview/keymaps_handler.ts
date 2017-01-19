@@ -450,12 +450,13 @@ export default class KeymapsHandler {
         // 'items' is NodeList. Array.prototype.indexOf() is not available.
         const idx = this.indexOfFocusedItem(items);
         const current = items[idx];
-        let next = items[idx + offset];
+        const next = items[idx + offset];
 
         if (!current) {
             const first = this.getFirstTweetInView(items);
-            (first || items[0]).scrollIntoView(alignWithTop);
-            this.setCurrentFocusedTweet(next);
+            const target = first || items[0];
+            target.scrollIntoView(alignWithTop);
+            this.setCurrentFocusedTweet(target);
             return;
         }
 
