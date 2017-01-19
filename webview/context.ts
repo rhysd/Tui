@@ -2,7 +2,7 @@ import * as electron from 'electron';
 import TweetWatcher from './tweet_watcher';
 import NotificationWatcher from './notification_watcher';
 import {observeElementAppears} from './utils';
-import {SELECTORS} from './constants';
+import SELECTORS from './selectors';
 
 const RE_MESSAGE_CONVERSATION = /^\/messages\/[0-9\-]+$/;
 

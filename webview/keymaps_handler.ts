@@ -1,7 +1,7 @@
 import {remote, shell, ipcRenderer as ipc} from 'electron';
 import * as Mousetrap from 'mousetrap';
 import {AppContext} from './context';
-import {SELECTORS} from './constants';
+import SELECTORS from './selectors';
 
 function targetIsInput(target: HTMLElement) {
     if (target.isContentEditable) {

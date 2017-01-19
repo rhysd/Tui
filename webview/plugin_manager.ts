@@ -1,7 +1,7 @@
 import * as glob from 'glob';
 import {remote} from 'electron';
 import {AppContext} from './context';
-import {SELECTORS} from './constants';
+import SELECTORS from './selectors';
 import KeymapsHandler from './keymaps_handler';
 
 export interface Plugin {

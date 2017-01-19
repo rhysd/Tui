@@ -1,4 +1,4 @@
-export const SELECTORS = {
+const SELECTORS = {
     tweet: 'div._1eF_MiFx[role="row"]',
     notificationCount: '.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
     scrollUpToNewTweet: '._1olbCNTo',
@@ -31,3 +31,4 @@ export const SELECTORS = {
 
 type SelectorType = typeof SELECTORS;
 export type SelectorKind = keyof SelectorType;
+export default SELECTORS;

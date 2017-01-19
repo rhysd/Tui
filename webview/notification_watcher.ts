@@ -1,5 +1,5 @@
 import {ipcRenderer as ipc} from 'electron';
-import {SELECTORS} from './constants';
+import SELECTORS from './selectors';
 
 function setupNotificationObserver(target: HTMLElement, cb: (a: boolean, b: boolean) => void) {
     const o = new MutationObserver(muts => {

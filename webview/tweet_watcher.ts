@@ -1,5 +1,5 @@
 import {EventEmitter} from 'events';
-import {SELECTORS} from './constants';
+import SELECTORS from './selectors';
 
 // TODO:
 // Need to trace root of timeline.
