@@ -462,6 +462,17 @@ export default class KeymapsHandler {
         const viewTop = document.body.scrollTop;
         const viewBottom = viewTop + window.innerHeight;
 
+        let headerTop = NaN;
+        if (alignWithTop) {
+            // When alignWithTop is false, headerTop is not used. Accessing
+            // to clientHeight of header element causes reflow. So avoid as
+            // much as possible.
+            const header = document.querySelector(SELECTORS.header) as HTMLElement | null;
+            if (header !== null) {
+                headerTop = viewTop + header.clientHeight;
+            }
+        }
+
         const currentRect = current.getBoundingClientRect();
         const currentTop = viewTop + currentRect.top;
         const currentBottom = viewTop + currentRect.bottom;
@@ -472,8 +483,8 @@ export default class KeymapsHandler {
         // For example, in the case where tweet height is too large not to
         // be shown whole item in view, this problem occurs.
         if (alignWithTop) {
-            if (viewTop > currentTop) {
-                if (this.scrollToFitEdge(viewTop, currentTop, viewTop)) {
+            if (headerTop > currentTop) {
+                if (this.scrollToFitEdge(headerTop, currentTop, viewTop)) {
                     return;
                 }
             }
@@ -499,7 +510,7 @@ export default class KeymapsHandler {
             // element completely. After calling it, the target element
             // may not be within the view. (1 or 2 pixel may be hidden yet)
             if (alignWithTop) {
-                this.scrollToFitEdge(viewTop, nextTop);
+                this.scrollToFitEdge(headerTop, nextTop);
             } else {
                 this.scrollToFitEdge(viewBottom, nextBottom);
             }
