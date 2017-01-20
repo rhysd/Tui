@@ -9,6 +9,7 @@ import {
 import * as menubar from 'menubar';
 import TrayNotification from './tray_notification';
 import AccountSwitcher from './account_switcher';
+import defaultMenu from './default_menu';
 import log from './log';
 
 import windowState = require('electron-window-state');
@@ -47,7 +48,6 @@ export default class MainApp {
                 }
                 if (!IS_DARWIN) {
                     // Users can still access menu bar with pressing Alt key.
-                    this.win!.setMenuBarVisibility(false);
                     this.win!.setMenu(Menu.getApplicationMenu());
                 }
                 this.win!.on('focus', () => {
@@ -190,6 +190,7 @@ export default class MainApp {
     }
 
     private setupAccountSwitcher = () => {
+        Menu.setApplicationMenu(defaultMenu());
         if (!this.config.accounts || this.config.accounts.length === 0) {
             return;
         }
