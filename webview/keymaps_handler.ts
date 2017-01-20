@@ -553,8 +553,11 @@ export default class KeymapsHandler {
     }
 
     private clickTab(index: number) {
-        const items = document.querySelectorAll(SELECTORS.tabItems);
+        const selector = this.context.isTypeC() ?
+                SELECTORS.tabItemsC : SELECTORS.tabItems;
+        const items = document.querySelectorAll(selector);
         if (items.length === 0) {
+            console.log('Tui: No tab items found');
             return false;
         }
 

@@ -3,6 +3,7 @@ const SELECTORS = {
     notificationCount: '.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
     scrollUpToNewTweet: '._1olbCNTo',
     tabItems: `._2QuQvRFT._2ZoxDI7c`,
+    tabItemsC: `a._2vY0UT8z`,
     newTweetButton: '._2tOLusnc._2ZBD52R7',
     newTweetButtonB: 'a._3TEZxQV',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
@@ -27,6 +28,7 @@ const SELECTORS = {
     directMessageTextarea: 'textarea._1wPvdOF6',
     directMessageSubmitButton: 'button.MmJh82_T._17Odsi1l',
     searchPageInput: 'input._1Nta5Z3A',
+    titleHeaderC: '._2BKHJ5ik',
 };
 
 type SelectorType = typeof SELECTORS;

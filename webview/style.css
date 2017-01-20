@@ -13,6 +13,21 @@ a._3TEZxQV {
   display: none !important;
 }
 
+/* Kill header title of type C */
+._2BKHJ5ik {
+  display: none !important;
+}
+
+/* Fix height of header after header title is killed in type C */
+._2HAljXql {
+  height: 3rem !important;
+}
+
+/* Kill bottom border of type C */
+._1d_6kzhv {
+  box-shadow: none !important;
+}
+
 .tuitter-focused-item {
   background-color: #f0f3f5 !important;
 }
