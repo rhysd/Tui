@@ -3,17 +3,10 @@ import {dispatchContext} from './context';
 import KeymapsHandler from './keymaps_handler';
 import PluginManager from './plugin_manager';
 
-const pluginPaths = new Promise<string[]>(resolve => {
-    ipc.once('tuitter:plugin-paths', (_: any, paths: string[]) => {
-        console.log('Tui: Received plugin paths:', paths);
-        resolve(paths);
-    });
-});
-
-const receivedKeymaps = new Promise<KeymapsConfig>(resolve => {
-    ipc.once('tuitter:keymaps', (_, k: KeymapsConfig) => {
-        console.log('Tui: Received keymappings:', k);
-        resolve(k);
+const receivedConfig = new Promise<Config>(resolve => {
+    ipc.once('tuitter:config', (_, c: Config) => {
+        console.log('Tui: Received config:', c);
+        resolve(c);
     });
 });
 
@@ -21,18 +14,21 @@ const handler = () => {
     switch (document.readyState) {
         case 'interactive': {
             console.log('Tui: Reached to "interactive" state. Will inject codes');
-            dispatchContext().then(ctx => {
-                const keymaps = receivedKeymaps.then(k => {
-                    const handlers = new KeymapsHandler(k, ctx);
-                    handlers.subscribeKeydown();
-                    console.log('Tui: Now handling keymaps:', handlers);
-                    return handlers;
+            Promise.all([
+                dispatchContext(),
+                receivedConfig,
+            ]).then(([ctx, config]) => {
+                const keymaps = new KeymapsHandler(
+                    config.keymaps || {},
+                    ctx,
+                    config.smooth_scroll !== false
+                );
+                keymaps.subscribeKeydown();
+                console.log('Tui: Now handling keymaps:', keymaps);
+
+                PluginManager.create(config.plugins || [], ctx, keymaps).then(manager => {
+                    console.log('Tui: Plugin manager created:', manager);
                 });
-                Promise.all([pluginPaths, keymaps])
-                    .then(([paths, handlers]) => PluginManager.create(paths, ctx, handlers))
-                    .then(manager => {
-                        console.log('Tui: Plugin manager created:', manager);
-                    });
             }).catch(e => {
                 console.error('Tui: Error on initialization:', e);
             });

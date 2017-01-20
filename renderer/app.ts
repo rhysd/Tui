@@ -40,8 +40,7 @@ export default class RendererApp {
                 wv.element.setZoomFactor(this.config.zoom_factor);
             }
 
-            wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
-            wv.sendIpc('tuitter:keymaps', this.config.keymaps || {});
+            wv.sendIpc('tuitter:config', this.config);
             log.debug('Have switched to account', wv.screenName);
         });
 

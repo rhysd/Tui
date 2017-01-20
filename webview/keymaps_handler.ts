@@ -1,5 +1,6 @@
 import {remote, shell, ipcRenderer as ipc} from 'electron';
 import * as Mousetrap from 'mousetrap';
+import jump = require('jump.js');
 import {AppContext} from './context';
 import SELECTORS from './selectors';
 
@@ -55,8 +56,11 @@ export default class KeymapsHandler {
     private focusedTweet: HTMLElement | null = null;
     private prevHref = location.href;
 
-    constructor(private config: KeymapsConfig, private context: AppContext) {
-    }
+    constructor(
+        private config: KeymapsConfig,
+        private context: AppContext,
+        private smoothScroll: boolean,
+    ) {}
 
     subscribeKeydown() {
         for (const key in this.config) {
@@ -132,14 +136,14 @@ export default class KeymapsHandler {
     }
 
     'scroll-down-page'() {
-        window.scrollBy(0, window.innerHeight);
+        this.scroll(window.innerHeight);
         this.setCurrentFocusedTweet(
             this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
         );
     }
 
     'scroll-up-page'() {
-        window.scrollBy(0, -window.innerHeight);
+        this.scroll(-window.innerHeight);
         this.setCurrentFocusedTweet(
             this.getFirstTweetInView(document.querySelectorAll(SELECTORS.tabItems))
         );
@@ -599,9 +603,20 @@ export default class KeymapsHandler {
 
     // If viewTop is not given, it means returned value is unused.
     private scrollToFitEdge(fitted: number, willFit: number, viewTop?: number) {
-        window.scrollBy(0, willFit - fitted);
+        this.scroll(willFit - fitted)
         // Return really scrolled. If viewTop is not given, do not access
         // to document.body.scrollTop because it causes reflow.
         return viewTop === undefined || document.body.scrollTop !== viewTop;
     }
+
+    private scroll(by: number) {
+        if (!this.smoothScroll) {
+            window.scrollBy(0, by);
+            return;
+        }
+        jump(by, {
+            duration: 200,
+        });
+    }
+
 }

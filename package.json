@@ -55,6 +55,7 @@
     "electron": "^1.4.14",
     "electron-window-state": "^4.0.1",
     "glob": "^7.1.1",
+    "jump.js": "^1.0.2",
     "loglevel": "^1.4.1",
     "menubar": "github:rhysd/menubar#rhysd-fixes",
     "mousetrap": "^1.6.0"
