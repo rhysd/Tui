@@ -8,7 +8,6 @@ interface Config {
     zoom_factor: number;
     home_url: string;
     notification: boolean;
-    smooth_scroll: boolean;
     plugins: string[];
     keymaps: KeymapsConfig;
     accounts?: string[] | null;
