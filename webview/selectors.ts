@@ -15,6 +15,7 @@ const SELECTORS = {
     tweetText: 'h1._3f2NsD-H',
     thumbnailLinkInTweet: 'div._3hdqTVua._3f2NsD-H a._3kGl_FG7',
     header: 'header._7kIt4uMb',
+    headerC: 'nav._1L-Rr7sz',
     notifications: 'svg._20oY9XAa',
     tweetActions: 'div._1t1yuVSm._3_8jWiwP._32ievKrg._3f2NsD-H',
     notificationIndicator: 'span.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',

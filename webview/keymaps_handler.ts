@@ -476,9 +476,12 @@ export default class KeymapsHandler {
             // When alignWithTop is false, headerTop is not used. Accessing
             // to clientHeight of header element causes reflow. So avoid as
             // much as possible.
-            const header = document.querySelector(SELECTORS.header) as HTMLElement | null;
+            const s = this.context.isTypeC() ? SELECTORS.headerC : SELECTORS.header;
+            const header = document.querySelector(s) as HTMLElement | null;
             if (header !== null) {
                 headerTop = viewTop + header.clientHeight;
+            } else {
+                console.error('Tui: No header found on moving focus. Skipped.');
             }
         }
 
