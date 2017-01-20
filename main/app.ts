@@ -4,6 +4,7 @@ import {
     globalShortcut,
     BrowserWindow,
     Tray,
+    Menu,
 } from 'electron';
 import * as menubar from 'menubar';
 import TrayNotification from './tray_notification';
@@ -44,7 +45,11 @@ export default class MainApp {
                 if (IS_DARWIN && process.argv[0].endsWith('Electron')) {
                     app.dock.setIcon(APP_ICON);
                 }
-                this.win!.setMenuBarVisibility(true);
+                if (!IS_DARWIN) {
+                    // Users can still access menu bar with pressing Alt key.
+                    this.win!.setMenuBarVisibility(false);
+                    this.win!.setMenu(Menu.getApplicationMenu());
+                }
                 this.win!.on('focus', () => {
                     if (this.win !== null) {
                         this.win.webContents.send('tuitter:window-focused');
