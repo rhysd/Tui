@@ -103,6 +103,9 @@ export default class MainApp {
                 this.win = mb.window;
                 resolve();
             });
+            mb.once('after-close', () => {
+                app.quit();
+            });
         });
     }
 
@@ -125,6 +128,9 @@ export default class MainApp {
             });
             win.once('ready-to-show', () => {
                 win.show();
+            });
+            win.once('closed', () => {
+                app.quit();
             });
 
             if (state.isFullScreen) {

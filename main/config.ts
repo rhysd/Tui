@@ -5,7 +5,7 @@ import log from './log';
 
 function makeDefaultConfig() {
     const IsDarkMode = (process.platform === 'darwin') && systemPreferences.isDarkMode();
-    const menubarBroken = process.platform === 'win';
+    const menubarBroken = process.platform === 'win32';
 
     return {
         hot_key: 'CmdOrCtrl+Shift+S',
