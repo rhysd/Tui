@@ -459,15 +459,6 @@ export default class KeymapsHandler {
         const idx = this.indexOfFocusedItem(items);
         const current = items[idx];
         const next = items[idx + offset];
-
-        if (!current) {
-            const first = this.getFirstTweetInView(items);
-            const target = first || items[0];
-            target.scrollIntoView(alignWithTop);
-            this.setCurrentFocusedTweet(target);
-            return;
-        }
-
         const viewTop = document.body.scrollTop;
         const viewBottom = viewTop + window.innerHeight;
 
@@ -483,6 +474,23 @@ export default class KeymapsHandler {
             } else {
                 console.error('Tui: No header found on moving focus. Skipped.');
             }
+        }
+
+        if (!current) {
+            const first = this.getFirstTweetInView(items);
+            const target = first || items[0];
+            const targetRect = target.getBoundingClientRect();
+            const targetTop = viewTop + targetRect.top;
+            const targetBottom = viewTop + targetRect.bottom;
+
+            if (alignWithTop) {
+                this.scrollToFitEdge(headerTop, targetTop);
+            } else {
+                this.scrollToFitEdge(viewBottom, targetBottom);
+            }
+
+            this.setCurrentFocusedTweet(target);
+            return;
         }
 
         const currentRect = current.getBoundingClientRect();
