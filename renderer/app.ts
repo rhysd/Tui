@@ -45,8 +45,6 @@ export default class RendererApp {
                 wv.element.setZoomFactor(this.config.zoom_factor);
             }
 
-            wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
-            wv.sendIpc('tuitter:keymaps', this.config.keymaps || {});
             log.debug('Have switched to account', wv.screenName);
         });
 
@@ -57,6 +55,9 @@ export default class RendererApp {
             .then(() => wv.applyCSS(path.join(APP_DIRECTORY, 'user.css'))).catch(e => log.debug(e));
 
             wv.executeJS(path.join(APP_DIRECTORY, 'user.js')).catch(e => log.debug(e));
+            wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
+            wv.sendIpc('tuitter:keymaps', this.config.keymaps || {});
+            log.debug('DOM in <webview> is ready. Preprocess was done.');
         });
 
         wv.on('ipc', (channel: string) => {
