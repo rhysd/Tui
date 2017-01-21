@@ -22,6 +22,11 @@ export default class RendererApp {
                this.wv.focus();
            }
         });
+        ipc.on('tuitter:menu:new-tweet', () => {
+            if (this.wv !== null) {
+                this.wv.sendIpc('tuitter:new-tweet');
+            }
+        });
     }
 
     switchTo(screenName: string) {

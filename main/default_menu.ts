@@ -1,11 +1,36 @@
 import * as path from 'path';
-import { Menu, shell, app } from 'electron';
+import {Menu, shell, app, BrowserWindow} from 'electron';
+
+function getWindow(win: Electron.BrowserWindow | null): Electron.BrowserWindow | null {
+    if (win && win.webContents) {
+        return win;
+    }
+    const wins = BrowserWindow.getAllWindows();
+    if (wins.length === 0) {
+        return null;
+    }
+    const w = wins[0];
+    w.focus();
+    if (!w.webContents) {
+        return null
+    }
+    return w;
+}
 
 export default function defaultMenu() {
     const template: Electron.MenuItemOptions[] = [
         {
             label: 'Edit',
             submenu: [
+                {
+                    label: 'New Tweet',
+                    click(_, win) {
+                        const w = getWindow(win);
+                        if (w) {
+                            w.webContents.send('tuitter:menu:new-tweet');
+                        }
+                    },
+                },
                 {
                     label: 'Edit Config',
                     click() {

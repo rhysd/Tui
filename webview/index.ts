@@ -33,6 +33,12 @@ const handler = () => {
                     .then(manager => {
                         console.log('Tui: Plugin manager created:', manager);
                     });
+                keymaps.then(k => {
+                    ipc.on('tuitter:new-tweet', () => {
+                        console.log('Tui: Received tuitter:new-tweet');
+                        k['new-tweet']();
+                    });
+                });
             }).catch(e => {
                 console.error('Tui: Error on initialization:', e);
             });
