@@ -41,8 +41,8 @@ export default class NotiicationWatcher {
             return;
         }
 
-        const mention = elems[1].parentElement as HTMLElement;
-        const message = elems[2].parentElement as HTMLElement;
+        const mention = elems[1] as HTMLElement;
+        const message = elems[2] as HTMLElement;
 
         this.mentionObserver = setupNotificationObserver(mention, this.onMentionsChanged);
         this.messageObserver = setupNotificationObserver(message, this.onMessagesChanged);
@@ -56,7 +56,7 @@ export default class NotiicationWatcher {
             this.mentionDetected();
         }
 
-        console.log('Tui: Notification watcher started');
+        console.log('Tui: Notification watcher started', mention, message);
     }
 
     isWatching() {
