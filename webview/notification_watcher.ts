@@ -31,7 +31,11 @@ export default class NotiicationWatcher {
     private messageNotified = false;
 
     start(header: HTMLElement) {
-        const elems = header.querySelectorAll(SELECTORS.notifications);
+        let elems = header.querySelectorAll(SELECTORS.notificationsC);
+        if (elems.length === 0) {
+            elems = header.querySelectorAll(SELECTORS.notifications);
+        }
+
         if (elems.length < 3) {
             console.error('Tui: Notification icons were not found:', elems);
             return;
@@ -51,6 +55,8 @@ export default class NotiicationWatcher {
         if (mention.querySelector(SELECTORS.notificationIndicator) !== null) {
             this.mentionDetected();
         }
+
+        console.log('Tui: Notification watcher started');
     }
 
     isWatching() {

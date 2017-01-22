@@ -18,6 +18,7 @@ const SELECTORS = {
     header: 'header._7kIt4uMb',
     headerC: 'nav._1L-Rr7sz',
     notifications: 'svg._20oY9XAa',
+    notificationsC: 'svg.HV8umBjO',
     tweetActions: 'div._1t1yuVSm._3_8jWiwP._32ievKrg._3f2NsD-H',
     notificationIndicator: 'span.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
     newTweetTextarea: 'textarea._2wjpwbis._1YGC8xFq._2RmultvD._1VqMahaT._2Z8UymHS',

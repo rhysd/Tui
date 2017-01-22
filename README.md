@@ -8,7 +8,6 @@ Twitter client based on https://mobile.twitter.com in menu bar.
 Features
 
 - Provide all features even if Twitter API doesn't provide (tracing conversation, group DM, votes, sync with https://twitter.com, ...)
-- Kill promoted tweets
 - Support [multi-accounts](#multi-accounts)
 - User defined CSS and [Themes](#themes)
 - User defined tweet filters written in JavaScript as commonjs modules ([plugins](#plugins))
@@ -35,11 +34,15 @@ $ npm install --global tuitter
 
 ## Usage
 
-Start from command line.
+If you installed this app from the release page, start this app by executing the binary.
+
+If you installed this app via npm, start from command line.
 
 ```
 $ tuitter
 ```
+
+Almost all usage is the same as original https://mobile.twitter.com .
 
 To show DevTools, set the environment variable. There will be two DevTools window.
 One is for renderer process of native window. Another is for `<webview>` which actually renders https://mobile.twitter.com.
