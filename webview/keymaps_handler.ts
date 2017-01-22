@@ -295,10 +295,18 @@ export default class KeymapsHandler {
         }
 
         const body = this.focusedTweet.querySelector(SELECTORS.tweetBody) as HTMLDivElement | null;
-        if (body === null) {
+        if (body !== null) {
+            body.click();
             return;
         }
-        body.click();
+
+        // When focused tweet is an acrivity notification (liked, retweeted), show its detail
+        const activityIcons = this.focusedTweet.querySelectorAll(SELECTORS.tweetActivityUserIcon);
+        if (activityIcons.length > 0) {
+            const icon = activityIcons[0] as HTMLElement;
+            console.log('Tui: Open activity user:', icon);
+            icon.click();
+        }
     }
 
     'open-links'() {
