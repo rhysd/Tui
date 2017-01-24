@@ -10,3 +10,7 @@ ipc.once('tuitter:config', (_: any, config: Config) => {
         app.switchTo(screenName.slice(1)); // Strip '@'
     });
 });
+
+document.body.addEventListener('dragenter', e => e.preventDefault());
+document.body.addEventListener('dragover', e => e.preventDefault());
+document.body.addEventListener('drop', e => e.preventDefault());
