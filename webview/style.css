@@ -33,6 +33,11 @@ a._1zg5t6Rt {
   box-shadow: none !important;
 }
 
+/* Allow to read the text under '↑New Tweet' popup */
+._1olbCNTo {
+  opacity: 0.7 !important;
+}
+
 .tuitter-focused-item {
   background-color: #f0f3f5 !important;
 }
