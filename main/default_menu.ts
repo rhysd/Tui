@@ -12,7 +12,7 @@ function getWindow(win: Electron.BrowserWindow | null): Electron.BrowserWindow |
     const w = wins[0];
     w.focus();
     if (!w.webContents) {
-        return null
+        return null;
     }
     return w;
 }

@@ -6,6 +6,7 @@ const SELECTORS = {
     tabItemsC: `a._2vY0UT8z`,
     newTweetButton: '._2tOLusnc._2ZBD52R7',
     newTweetButtonB: 'a._3TEZxQV',
+    newTweetButtonC: 'a._1zg5t6Rt',
     cancelNewTweet: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
     closeImage: 'button.MmJh82_T._24EY9e3e',
     sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',

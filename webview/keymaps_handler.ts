@@ -199,8 +199,9 @@ export default class KeymapsHandler {
         }
 
         const button = (
-            document.querySelector(SELECTORS.newTweetButton) ||
-            document.querySelector(SELECTORS.newTweetButtonB)
+            document.querySelector(SELECTORS.newTweetButtonC) ||
+            document.querySelector(SELECTORS.newTweetButtonB) ||
+            document.querySelector(SELECTORS.newTweetButton)
         ) as HTMLElement | null;
         if (button !== null) {
             button.click();
