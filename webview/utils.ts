@@ -15,6 +15,9 @@ export function observeElementAppears(selector: string) {
 
         const observer = new MutationObserver(muts => {
             for (const mut of muts) {
+                if (!mut.addedNodes) {
+                    continue;
+                }
                 for (const n of mut.addedNodes) {
                     const e = n as HTMLElement;
                     if (e.matches(selector)) {
