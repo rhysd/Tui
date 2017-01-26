@@ -35,6 +35,7 @@ const SELECTORS = {
     directMessageSubmitButton: 'button.MmJh82_T._17Odsi1l',
     searchPageInput: 'input._1Nta5Z3A',
     titleHeaderC: '._2BKHJ5ik',
+    promotionBannar: '._2wLtAyps',
 };
 
 type SelectorType = typeof SELECTORS;

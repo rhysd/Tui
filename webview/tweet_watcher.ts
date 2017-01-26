@@ -23,13 +23,25 @@ export default class TweetWatcher extends EventEmitter {
         const observer = new MutationObserver(mutations => {
             for (const m of mutations) {
                 for (const n of m.addedNodes) {
-                    if ((n as HTMLDivElement).matches(SELECTORS.tweet)) {
-                        this.emit('added', n);
+                    const elem = n as HTMLDivElement;
+                    if (!elem.matches) {
+                        continue;
+                    }
+                    if (elem.matches(SELECTORS.tweet)) {
+                        if (elem.querySelector(SELECTORS.promotionBannar) !== null) {
+                            console.log('Tui: Killed promotion tweet', elem);
+                            elem.style.display = 'none';
+                        }
+                        this.emit('added', elem);
                     }
                 }
                 for (const n of m.removedNodes) {
-                    if ((n as HTMLDivElement).matches(SELECTORS.tweet)) {
-                        this.emit('removed', n);
+                    const elem = n as HTMLDivElement;
+                    if (!elem.matches) {
+                        continue;
+                    }
+                    if (elem.matches(SELECTORS.tweet)) {
+                        this.emit('removed', elem);
                     }
                 }
             }

@@ -12,7 +12,7 @@ Features
 - User defined CSS and [Themes](#themes)
 - User defined tweet filters written in JavaScript as commonjs modules ([plugins](#plugins))
 - Various keymaps to do many things only with keyboard
-- You can choose menu bar window or normal window
+- You can choose menu bar window, (split view) fullscreen or normal window
 - Available on macOS, Linux and Windows
 
 All links outside https://mobile.twitter.com in tweets are opened in an external browser.
@@ -42,7 +42,17 @@ If you installed this app via npm, start from command line.
 $ tuitter
 ```
 
-Almost all usage is the same as original https://mobile.twitter.com .
+Almost all usage is the same as original https://mobile.twitter.com . You can use various key shortcuts
+to operate the page (focusing on tweet, make new tweet, see image, open link in browser, and so on).
+And you can use themes or plugins to extend this app (or even you can create one by yourself).
+You can always access to this app via hot key.
+
+this application can be in 3 modes:
+
+- **Menubar window (default)**: Small window near the menu bar icon. When the window loses its focus, automatically window will be hidden. You can change window size.
+- **(Split view) fullscreen**: Click 'Enter Fullscreen' in menu item. You can put this app in fullscreen mode as split view (in macOS).
+- **Normal window**: By configuring, this app can be launched with normal window. You can use this app like as other normal applications.
+
 
 To show DevTools, set the environment variable. There will be two DevTools window.
 One is for renderer process of native window. Another is for `<webview>` which actually renders https://mobile.twitter.com.
