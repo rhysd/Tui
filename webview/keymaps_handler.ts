@@ -441,6 +441,8 @@ export default class KeymapsHandler {
             return SELECTORS.directMessagesThread;
         } else if (this.context.isMessagesConversationPage()) {
             return SELECTORS.directMessageItem;
+        } else if (this.context.isMentionTimeline()) {
+            return SELECTORS.tweetActivity;
         } else {
             return SELECTORS.tweet;
         }

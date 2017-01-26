@@ -1,5 +1,6 @@
 const SELECTORS = {
-    tweet: 'div._1eF_MiFx[role="row"]',
+    tweet: 'div.I8DvYjmD[role="article"]',
+    tweetActivity: 'article._3DltykjD[role="article"]',
     notificationCount: '.Fe7ul3Lt.Z_PqXzzk._2DggF3sL._2izplv41',
     scrollUpToNewTweet: '._1olbCNTo',
     tabItems: `._2QuQvRFT._2ZoxDI7c`,
