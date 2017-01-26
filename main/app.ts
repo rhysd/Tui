@@ -40,7 +40,9 @@ export default class MainApp {
         return openWindow()
             .then(this.setupAccountSwitcher)
             .then(() => {
+                /* tslint:disable:no-boolean-literal-compare */
                 if (this.config.notification === false) {
+                /* tslint:enable:no-boolean-literal-compare */
                     this.notification!.disable();
                 }
                 if (IS_DARWIN && process.argv[0].endsWith('Electron')) {

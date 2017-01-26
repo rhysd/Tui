@@ -41,7 +41,7 @@ export default class TrayNotification {
 
     private subscribe(channel: string, next: State, icon: string) {
         ipc.on(channel, () => {
-            if (!this.enabled || this.state === next || this.tray === null) {
+            if (!this.enabled || this.state === next) {
                 return;
             }
             log.debug(`Notification changed ${this.state} -> ${next}`);
