@@ -40,6 +40,11 @@ a._1zg5t6Rt {
   top: -1em !important;
 }
 
+/* Remove fixed height header because timeline title panel (._2BKHJ5ik) is removed */
+._1d_6kzhv {
+  height: inherit !important;
+}
+
 .tuitter-focused-item {
   background-color: #f0f3f5 !important;
 }
