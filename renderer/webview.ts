@@ -125,7 +125,7 @@ export default class WebView extends EventEmitter {
 
     private readonly onIpcMessage = (e: Electron.WebViewElement.IpcMessageEvent) => {
         log.debug('IPC message from ', e.channel, e.args);
-        this.emit('ipc', e.channel, ...e.args);
+        this.emit('ipc', e.channel, e.args);
     }
 
     private readonly onDomReady = () => {

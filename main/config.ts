@@ -15,6 +15,8 @@ function makeDefaultConfig() {
         zoom_factor: 0.9,
         home_url: 'https://mobile.twitter.com',
         notification: true,
+        refresh_on_sleep: true,
+        refresh_threshold_memory_mb: 500,
         plugins: [],
         keymaps: {
             /* tslint:disable:object-literal-key-quotes */

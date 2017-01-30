@@ -186,6 +186,18 @@ This value is not set by default (`null`).
 }
 ```
 
+### refresh\_on\_sleep
+
+If this value is set to `true`, Tui will refresh its web contents at PC suspending when it consumes much memory.
+The threshold which detemines the refresh occur or not is up to `refresh_threshold_memory_mb` config.
+Default value is `true`.
+
+### refresh\_threshold\_memory\_mb
+
+Integer value (defaults to `500`). If `<webview>`'s current memory usage exceeds this value, app will refresh `<webview>` on PC suspending.
+The unit is mega bytes. By default, when `<webview>` consuming more than 500MB, it will be refreshed at suspending.
+Please see above `refresh_on_sleep` config also.
+
 ### icon\_color
 
 Color of icon in menu bar. `"white"` or `"black"` is available. In macOS, it's depending on the system is dark mode or not.

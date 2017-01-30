@@ -5,6 +5,7 @@ import {
     BrowserWindow,
     Tray,
     Menu,
+    powerMonitor,
 } from 'electron';
 import * as menubar from 'menubar';
 import TrayNotification from './tray_notification';
@@ -57,8 +58,23 @@ export default class MainApp {
                         this.win.webContents.send('tuitter:window-focused');
                     }
                 });
+                this.setupPowerMonitor();
                 return this;
             });
+    }
+
+    private setupPowerMonitor() {
+        if (!this.config.refresh_on_sleep) {
+            return;
+        }
+        const threshold = this.config.refresh_threshold_memory_mb || 500;
+        powerMonitor.on('suspend', () => {
+            if (this.win === null) {
+                return;
+            }
+            log.debug('Application will suspend. Send "tuitter:will-suspend"');
+            this.win.webContents.send('tuitter:will-suspend', threshold);
+        });
     }
 
     private startMenuBar = () => {

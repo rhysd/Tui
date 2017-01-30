@@ -27,6 +27,12 @@ export default class RendererApp {
                 this.wv.sendIpc('tuitter:new-tweet');
             }
         });
+        ipc.on('tuitter:will-suspend', (__, threshold: number) => {
+            log.debug('Refresh app because system will be suspended. Threshold:', threshold, this.wv);
+            if (this.wv !== null) {
+                this.wv.sendIpc('tuitter:will-suspend', threshold);
+            }
+        });
     }
 
     switchTo(screenName: string) {
@@ -60,7 +66,7 @@ export default class RendererApp {
             log.debug('DOM in <webview> is ready. Preprocess was done.');
         });
 
-        wv.on('ipc', (channel: string) => {
+        wv.on('ipc', (channel: string, args: any[]) => {
             switch (channel) {
                 case 'tuitter:notified:mentions': {
                     ipc.send('tuitter:tray:informed');
@@ -75,10 +81,24 @@ export default class RendererApp {
                     ipc.send('tuitter:tray:normal');
                     break;
                 }
+                case 'tuitter:refresh-me': {
+                    log.debug('Refresh <webview>. Memory usage (KB):', args[0]);
+                    this.refresh();
+                    break;
+                }
                 default: break;
             }
         });
         this.wv = wv;
+    }
+
+    refresh() {
+        if (this.wv === null) {
+            log.debug('<webview> does not exist. Skip refresh');
+            return;
+        }
+        this.switchTo(this.wv.screenName);
+        log.debug('App was refreshed', this.wv.screenName);
     }
 
     private getFirstScreenName() {
