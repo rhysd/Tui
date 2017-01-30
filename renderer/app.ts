@@ -5,7 +5,7 @@ import {DEFAULT_HOME_URL, IS_DEBUG, APP_DIRECTORY} from './constants';
 import log from './log';
 
 export default class RendererApp {
-    private wv: WebView | null = null;
+    private wv: WebView;
 
     constructor(private readonly config: Config) {
         this.switchTo(this.getFirstScreenName());
@@ -17,56 +17,45 @@ export default class RendererApp {
         // because callback remains after this web contents reloaded.
         // Remained callback causes a 'trying to send message to removed web contents'
         // error.
-        ipc.on('tuitter:window-focused', () => {
-           if (this.wv !== null) {
-               this.wv.focus();
-           }
-        });
-        ipc.on('tuitter:menu:new-tweet', () => {
-            if (this.wv !== null) {
-                this.wv.sendIpc('tuitter:new-tweet');
-            }
-        });
+        ipc.on('tuitter:window-focused', () => this.wv.focus());
+        ipc.on('tuitter:menu:new-tweet', () => this.wv.sendIpc('tuitter:new-tweet'));
         ipc.on('tuitter:will-suspend', (__, threshold: number) => {
             log.debug('Refresh app because system will be suspended. Threshold:', threshold, this.wv);
-            if (this.wv !== null) {
-                this.wv.sendIpc('tuitter:will-suspend', threshold);
-            }
+            this.wv.sendIpc('tuitter:will-suspend', threshold);
         });
     }
 
     switchTo(screenName: string) {
-        if (this.wv !== null) {
+        if (this.wv && this.wv.isMounted) {
             this.wv.unmount();
-            this.wv = null;
         }
 
-        const wv = new WebView(screenName);
-        wv.mountTo(document.getElementById('webview-container')!);
-        wv.openURL(this.config.home_url || DEFAULT_HOME_URL).then(() => {
+        this.wv = new WebView(screenName);
+        this.wv.mountTo(document.getElementById('webview-container')!);
+        this.wv.openURL(this.config.home_url || DEFAULT_HOME_URL).then(() => {
             if (IS_DEBUG) {
-                wv.contents.openDevTools({mode: 'detach'});
+                this.wv.contents.openDevTools({mode: 'detach'});
             }
             if (this.config.zoom_factor && this.config.zoom_factor > 0.0) {
-                wv.element.setZoomFactor(this.config.zoom_factor);
+                this.wv.element.setZoomFactor(this.config.zoom_factor);
             }
 
-            log.debug('Have switched to account', wv.screenName);
+            log.debug('Have switched to account', this.wv.screenName);
         });
 
-        wv.on('dom-ready', () => {
+        this.wv.on('dom-ready', () => {
             // Apply CSS in order style.css -> theme.css -> user.css
-            wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e))
-            .then(() => wv.applyCSS(path.join(APP_DIRECTORY, 'theme.css'))).catch(e => log.debug(e))
-            .then(() => wv.applyCSS(path.join(APP_DIRECTORY, 'user.css'))).catch(e => log.debug(e));
+            this.wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e))
+            .then(() => this.wv.applyCSS(path.join(APP_DIRECTORY, 'theme.css'))).catch(e => log.debug(e))
+            .then(() => this.wv.applyCSS(path.join(APP_DIRECTORY, 'user.css'))).catch(e => log.debug(e));
 
-            wv.executeJS(path.join(APP_DIRECTORY, 'user.js')).catch(e => log.debug(e));
-            wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
-            wv.sendIpc('tuitter:keymaps', this.config.keymaps || {});
+            this.wv.executeJS(path.join(APP_DIRECTORY, 'user.js')).catch(e => log.debug(e));
+            this.wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
+            this.wv.sendIpc('tuitter:keymaps', this.config.keymaps || {});
             log.debug('DOM in <webview> is ready. Preprocess was done.');
         });
 
-        wv.on('ipc', (channel: string, args: any[]) => {
+        this.wv.on('ipc', (channel: string, args: any[]) => {
             switch (channel) {
                 case 'tuitter:notified:mentions': {
                     ipc.send('tuitter:tray:informed');
@@ -89,16 +78,14 @@ export default class RendererApp {
                 default: break;
             }
         });
-        this.wv = wv;
     }
 
     refresh() {
-        if (this.wv === null) {
-            log.debug('<webview> does not exist. Skip refresh');
-            return;
-        }
+        // if (this.wv.isMounted) {
+        //     this.wv.element.reload();
+        //     log.debug('App was refreshed', this.wv.screenName);
+        // }
         this.switchTo(this.wv.screenName);
-        log.debug('App was refreshed', this.wv.screenName);
     }
 
     private getFirstScreenName() {

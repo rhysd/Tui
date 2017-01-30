@@ -17,6 +17,10 @@ export default class WebView extends EventEmitter {
         return this.elem.getWebContents();
     }
 
+    get isMounted() {
+        return this.mounted;
+    }
+
     constructor(public readonly screenName: string) {
         super();
         const wv = document.createElement('webview');
@@ -34,6 +38,10 @@ export default class WebView extends EventEmitter {
     }
 
     unmount() {
+        if (!this.mounted) {
+            console.error('Tui: webview.unmount(): <webview> already unmounted');
+            return;
+        }
         this.elem.removeEventListener('new-window', this.onNewWindow);
         this.elem.removeEventListener('crashed', this.onCrashed);
         this.elem.removeEventListener('ipc-message', this.onIpcMessage);
@@ -47,6 +55,7 @@ export default class WebView extends EventEmitter {
             return;
         }
         parent.removeChild(this.elem);
+        this.mounted = false;
         log.debug('Unmounted <webview>', this.screenName);
     }
 
