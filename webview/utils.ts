@@ -20,6 +20,9 @@ export function observeElementAppears(selector: string) {
                 }
                 for (const n of mut.addedNodes) {
                     const e = n as HTMLElement;
+                    if (!e.matches) {
+                        continue;
+                    }
                     if (e.matches(selector)) {
                         observer.disconnect();
                         return resolve(e);

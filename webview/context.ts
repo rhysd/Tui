@@ -48,12 +48,20 @@ export function dispatchContext() {
         observeElementAppears(SELECTORS.header),
     ]).then(([tw, header]) => {
         console.log('Tui: Timeline root element and header element found:', tw, header);
-        const parent = tw.parentNode;
+
+        // XXX:
+        // Timeline element is a parent of parent of parent of tweet element
+        // We can't locate timeline element directly because it doesn't have
+        // any markable class name or attribute.
+        let parent = tw.parentNode;
+        parent = parent ? parent.parentNode : parent;
+        parent = parent ? parent.parentNode : parent;
         if (parent === null) {
             console.error('Tui: No parent found for:', tw);
             return ctx;
         }
 
+        console.log('Tui: FOO: tweet detected', tw, parent);
         ctx.startWatchers(parent as HTMLDivElement, header as HTMLElement);
         return ctx;
     });
