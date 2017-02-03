@@ -7,6 +7,13 @@ import SELECTORS from './selectors';
 // changed. But page loading actually doesn't happen and only DOM tree is updated
 // because it's SPA built with React.js.
 
+function killPromoTweet(tw: HTMLElement) {
+    if (tw.querySelector(SELECTORS.promotionBannar) !== null) {
+        console.log('Tui: Killed promotion tweet', tw);
+        tw.style.display = 'none';
+    }
+}
+
 export default class TweetWatcher extends EventEmitter {
     private observer: MutationObserver | null = null;
 
@@ -20,6 +27,11 @@ export default class TweetWatcher extends EventEmitter {
             return;
         }
 
+        const existingTweets = timelineRoot.querySelectorAll(SELECTORS.tweet) as NodeListOf<HTMLElement>;
+        for (const tw of existingTweets) {
+            killPromoTweet(tw);
+        }
+
         const observer = new MutationObserver(mutations => {
             for (const m of mutations) {
                 for (const n of m.addedNodes) {
@@ -31,10 +43,7 @@ export default class TweetWatcher extends EventEmitter {
                     if (tw === null) {
                         continue;
                     }
-                    if (tw.querySelector(SELECTORS.promotionBannar) !== null) {
-                        console.log('Tui: Killed promotion tweet', tw);
-                        elem.style.display = 'none';
-                    }
+                    killPromoTweet(tw);
                     this.emit('added', tw);
                 }
             }
