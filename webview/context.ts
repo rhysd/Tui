@@ -61,7 +61,6 @@ export function dispatchContext() {
             return ctx;
         }
 
-        console.log('Tui: FOO: tweet detected', tw, parent);
         ctx.startWatchers(parent as HTMLDivElement, header as HTMLElement);
         return ctx;
     });
