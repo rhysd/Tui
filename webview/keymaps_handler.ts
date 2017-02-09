@@ -122,7 +122,10 @@ export default class KeymapsHandler {
         }
 
         // In 'Edit Tweet' window, cancel tweet instead of removing focus.
-        const cancel = document.querySelector(SELECTORS.backButton) as HTMLElement | null;
+        const cancel = (
+            document.querySelector(SELECTORS.backButton) ||
+            document.querySelector(SELECTORS.editCancelButton)
+        ) as HTMLElement | null;
         if (cancel !== null) {
             cancel.click();
             return;
