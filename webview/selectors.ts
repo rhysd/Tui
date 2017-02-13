@@ -8,7 +8,7 @@ const SELECTORS = {
     newTweetButton: '._2tOLusnc._2ZBD52R7',
     newTweetButtonB: 'a._3TEZxQV',
     newTweetButtonC: 'a._1zg5t6Rt',
-    backButton: '._1aYYbHbU > ._2m0B23vv',
+    backButton: '._1aYYbHbU > ._13Jmyrbo',
     editCancelButton: '.INAWBu0V._3PLvX7RF.Q1vpCyfl',
     sendTweet: '.MmJh82_T._1xFtK706.SpbPGaHr._2Rz0TobF._1pzUva68._2m0B23vv._3f2NsD-H',
     tweetAction: 'button.RQ5ECnGZ._1m0pnxeJ',
