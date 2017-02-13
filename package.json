@@ -1,7 +1,7 @@
 {
   "name": "tuitter",
   "productName": "Tui",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "description": "Twitter client based on mobile.twitter.com in menu bar",
   "main": "main/index.js",
   "bin": {
@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/rhysd/Tui#readme",
   "devDependencies": {
-    "@types/electron": "^1.4.31",
+    "@types/electron": "^1.4.32",
     "@types/electron-window-state": "^2.0.28",
     "@types/glob": "^5.0.30",
     "@types/loglevel": "^1.4.29",
@@ -49,11 +49,11 @@
     "stylelint": "^7.8.0",
     "stylelint-config-standard": "^16.0.0",
     "tslint": "^4.4.2",
-    "typescript": "^2.1.5"
+    "typescript": "^2.1.6"
   },
   "dependencies": {
     "electron": "^1.4.15",
-    "electron-window-state": "^4.0.1",
+    "electron-window-state": "^4.0.2",
     "glob": "^7.1.1",
     "loglevel": "^1.4.1",
     "menubar": "github:rhysd/menubar#rhysd-fixes",
