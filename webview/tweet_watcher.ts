@@ -8,7 +8,7 @@ import SELECTORS from './selectors';
 // because it's SPA built with React.js.
 
 function killPromoTweet(tw: HTMLElement) {
-    if (tw.querySelector(SELECTORS.promotionBannar) !== null) {
+    if (tw.querySelector(SELECTORS.promotionBanner) !== null) {
         console.log('Tui: Killed promotion tweet', tw);
         tw.style.display = 'none';
     }
