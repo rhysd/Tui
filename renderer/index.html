@@ -10,5 +10,11 @@
     <div id="webview-container">
     </div>
   </body>
+  <script>
+    // XXX:
+    // TypeScript compiler requires 'exports' global variable but a browser does not define it...
+    // Related?: https://github.com/Microsoft/TypeScript/issues/14351
+    var exports = {};
+  </script>
   <script src="./index.js"></script>
 </html>
