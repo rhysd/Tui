@@ -1,4 +1,6 @@
-type KeymapsConfig = {[keyseq: string]: KeymapName};
+interface KeymapsConfig {
+    [keyseq: string]: KeymapName;
+}
 
 interface Config {
     hot_key: string;

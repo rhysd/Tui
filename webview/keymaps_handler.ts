@@ -314,7 +314,7 @@ export default class KeymapsHandler {
         if (this.focusedTweet === null) {
             return;
         }
-        let urls = [];
+        const urls = [];
 
         const text = this.focusedTweet.querySelector(SELECTORS.tweetText) as HTMLDivElement | null;
         if (text !== null) {

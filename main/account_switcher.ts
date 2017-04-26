@@ -20,7 +20,7 @@ export default class AccountSwitcher extends EventEmitter {
             if (!accounts[i].startsWith('@')) {
                 accounts[i] = '@' + accounts[i];
             }
-            let screenName = accounts[i];
+            const screenName = accounts[i];
             submenu.push({
                 label: screenName,
                 type: 'radio',
@@ -37,9 +37,11 @@ export default class AccountSwitcher extends EventEmitter {
         });
 
         const menu = Menu.getApplicationMenu();
-        // Insert item before 'Help'
-        menu.insert(menu.items.length - 1, item);
-        Menu.setApplicationMenu(menu);
+        if (menu !== null) {
+            // Insert item before 'Help'
+            menu.insert(menu.items.length - 1, item);
+            Menu.setApplicationMenu(menu);
+        }
 
         ipc.on('tuitter:switch-account-last', () => this.switchAccountToLast());
         ipc.on('tuitter:switch-account-next', () => this.switchAccountToNext());
