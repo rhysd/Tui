@@ -30,10 +30,6 @@ export class AppContext {
         return RE_MESSAGE_CONVERSATION.test(this.location.pathname);
     }
 
-    isTypeC() {
-        return document.querySelector(SELECTORS.titleHeaderC) !== null;
-    }
-
     startWatchers(root: HTMLDivElement, header: HTMLElement) {
         this.timelineRoot = root;
         this.tweetWatcher.start(root);

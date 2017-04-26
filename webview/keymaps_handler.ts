@@ -198,11 +198,7 @@ export default class KeymapsHandler {
             return;
         }
 
-        const button = (
-            document.querySelector(SELECTORS.newTweetButtonC) ||
-            document.querySelector(SELECTORS.newTweetButtonB) ||
-            document.querySelector(SELECTORS.newTweetButton)
-        ) as HTMLElement | null;
+        const button = document.querySelector(SELECTORS.newTweetButton) as HTMLElement | null;
         if (button !== null) {
             button.click();
             this.focusNewTweetTextarea();
@@ -481,8 +477,7 @@ export default class KeymapsHandler {
             // When alignWithTop is false, headerTop is not used. Accessing
             // to clientHeight of header element causes reflow. So avoid as
             // much as possible.
-            const s = this.context.isTypeC() ? SELECTORS.headerC : SELECTORS.header;
-            const header = document.querySelector(s) as HTMLElement | null;
+            const header = document.querySelector(SELECTORS.header) as HTMLElement | null;
             if (header !== null) {
                 headerTop = viewTop + header.clientHeight;
             } else {
@@ -578,11 +573,9 @@ export default class KeymapsHandler {
     }
 
     private clickTab(index: number) {
-        const selector = this.context.isTypeC() ?
-                SELECTORS.tabItemsC : SELECTORS.tabItems;
-        const items = document.querySelectorAll(selector);
+        const items = document.querySelectorAll(SELECTORS.tabItems);
         if (items.length === 0) {
-            console.log('Tui: No tab items found');
+            console.log('Tui: No tab items found: ' + SELECTORS.tabItems);
             return false;
         }
 

@@ -1,34 +1,9 @@
-/* 'Open in mobile app' dialog at the top */
-._3oxnid3o._3f2NsD-H {
-  display: none !important;
-}
-
-/* Kill a panel which includes tweet button and timeline title */
-._3ITjOJ53._3f2NsD-H {
-  display: none !important;
-}
-
-/* Kill tweet button on type B (consider A/B testing) */
-a._3TEZxQV {
-  display: none !important;
-}
-
-/* Kill tweet button on type C */
+/* Kill tweet button */
 a._1zg5t6Rt {
   display: none !important;
 }
 
-/* Kill header title of type C */
-._2BKHJ5ik {
-  display: none !important;
-}
-
-/* Fix height of header after header title is killed in type C */
-._2HAljXql {
-  height: 3rem !important;
-}
-
-/* Kill bottom border of type C */
+/* Kill bottom border */
 ._1d_6kzhv {
   box-shadow: none !important;
 }
@@ -38,11 +13,6 @@ a._1zg5t6Rt {
   position: fixed !important;
   right: 0.5em !important;
   top: -1em !important;
-}
-
-/* Remove fixed height header because timeline title panel (._2BKHJ5ik) is removed */
-._1d_6kzhv {
-  height: inherit !important;
 }
 
 .tuitter-focused-item {
