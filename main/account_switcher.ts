@@ -50,6 +50,7 @@ export default class AccountSwitcher extends EventEmitter {
         const screenName = this.accounts[index];
         if (!screenName || index === this.currentIndex) {
             log.debug('Current account is already set. Skipped', index, screenName);
+            return;
         }
         this.win.webContents.send('tuitter:account', index, screenName);
         this.prevIndex = this.currentIndex;
