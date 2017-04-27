@@ -1,6 +1,5 @@
 import * as electron from 'electron';
 import TweetWatcher from './tweet_watcher';
-import NotificationWatcher from './notification_watcher';
 import {observeElementAppears} from './utils';
 import SELECTORS from './selectors';
 
@@ -8,7 +7,6 @@ const RE_MESSAGE_CONVERSATION = /^\/messages\/[0-9\-]+$/;
 
 export class AppContext {
     readonly tweetWatcher = new TweetWatcher();
-    readonly notificationWatcher = new NotificationWatcher();
     readonly selectors = SELECTORS;
     readonly electron = electron;
     timelineRoot: HTMLDivElement | null = null;
@@ -30,20 +28,16 @@ export class AppContext {
         return RE_MESSAGE_CONVERSATION.test(this.location.pathname);
     }
 
-    startWatchers(root: HTMLDivElement, header: HTMLElement) {
+    startWatchers(root: HTMLDivElement) {
         this.timelineRoot = root;
         this.tweetWatcher.start(root);
-        this.notificationWatcher.start(header);
     }
 }
 
 export function dispatchContext() {
     const ctx = new AppContext();
-    return Promise.all([
-        observeElementAppears(SELECTORS.tweet),
-        observeElementAppears(SELECTORS.header),
-    ]).then(([tw, header]) => {
-        console.log('Tui: Timeline root element and header element found:', tw, header);
+    return observeElementAppears(SELECTORS.tweet).then(tw => {
+        console.log('Tui: Timeline root element and header element found:', tw);
 
         // XXX:
         // Timeline element is a parent of parent of parent of tweet element
@@ -57,7 +51,7 @@ export function dispatchContext() {
             return ctx;
         }
 
-        ctx.startWatchers(parent as HTMLDivElement, header as HTMLElement);
+        ctx.startWatchers(parent as HTMLDivElement);
         return ctx;
     });
     // TODO:
