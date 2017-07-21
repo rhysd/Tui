@@ -12,6 +12,6 @@ app.on('will-quit', () => {
 Promise.all([
     loadConfig().then(c => new MainApp(c)),
     appReady
-]).then(([app, _]) => app.start()).then(() => {
+]).then(([tui, _]) => tui.start()).then(() => {
     log.debug('Application launched!');
 });
