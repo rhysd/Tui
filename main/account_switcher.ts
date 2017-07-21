@@ -15,7 +15,7 @@ export default class AccountSwitcher extends EventEmitter {
         private accounts: string[],
     ) {
         super();
-        const submenu = [] as Electron.MenuItemOptions[];
+        const submenu = [] as Electron.MenuItemConstructorOptions[];
         for (let i = 0; i < accounts.length; ++i) {
             if (!accounts[i].startsWith('@')) {
                 accounts[i] = '@' + accounts[i];

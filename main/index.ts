@@ -5,10 +5,6 @@ import log from './log';
 
 const appReady = new Promise<void>(resolve => app.once('ready', resolve));
 
-process.on('unhandledRejection', (reason: string) => {
-    log.error('FATAL: Unhandled rejection! Reason:', reason);
-});
-
 app.on('will-quit', () => {
     log.debug('Application is quitting');
 });

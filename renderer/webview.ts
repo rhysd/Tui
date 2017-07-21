@@ -6,7 +6,7 @@ import {USERAGENT} from './constants';
 import log from './log';
 
 export default class WebView extends EventEmitter {
-    private elem: Electron.WebViewElement;
+    private elem: Electron.WebviewTag;
     private mounted = false;
 
     get element() {
@@ -104,7 +104,7 @@ export default class WebView extends EventEmitter {
                 if (err) {
                     return reject(err);
                 }
-                this.elem.executeJavaScript(code);
+                this.elem.executeJavaScript(code, false);
                 log.debug('Executed JS: ', file);
                 resolve();
             });
@@ -117,7 +117,7 @@ export default class WebView extends EventEmitter {
         }
     }
 
-    private readonly onNewWindow = (e: Electron.WebViewElement.NewWindowEvent) => {
+    private readonly onNewWindow = (e: Electron.NewWindowEvent) => {
         e.preventDefault();
         const url = e.url;
         if (!url.startsWith('https://mobile.twitter.com') && !url.startsWith('about:')) {
@@ -132,7 +132,7 @@ export default class WebView extends EventEmitter {
         log.error('Webview crashed! Reload <webview> to recover.');
     }
 
-    private readonly onIpcMessage = (e: Electron.WebViewElement.IpcMessageEvent) => {
+    private readonly onIpcMessage = (e: Electron.IpcMessageEvent) => {
         log.debug('IPC message from ', e.channel, e.args);
         this.emit('ipc', e.channel, e.args);
     }

@@ -19,7 +19,7 @@ export default class RendererApp {
         // error.
         ipc.on('tuitter:window-focused', () => this.wv.focus());
         ipc.on('tuitter:menu:new-tweet', () => this.wv.sendIpc('tuitter:new-tweet'));
-        ipc.on('tuitter:will-suspend', (__, threshold: number) => {
+        ipc.on('tuitter:will-suspend', (__: any, threshold: number) => {
             log.debug('Refresh app because system will be suspended. Threshold:', threshold, this.wv);
             this.wv.sendIpc('tuitter:will-suspend', threshold);
         });

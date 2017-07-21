@@ -18,7 +18,7 @@ function getWindow(win: Electron.BrowserWindow | null): Electron.BrowserWindow |
 }
 
 export default function defaultMenu() {
-    const template: Electron.MenuItemOptions[] = [
+    const template: Electron.MenuItemConstructorOptions[] = [
         {
             label: 'Edit',
             submenu: [
@@ -163,7 +163,7 @@ export default function defaultMenu() {
             ]
         });
 
-        (template[1].submenu as Electron.MenuItemOptions[]).push(
+        (template[1].submenu as Electron.MenuItemConstructorOptions[]).push(
             {
                 type: 'separator'
             },

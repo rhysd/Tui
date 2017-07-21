@@ -11,7 +11,7 @@ const pluginPaths = new Promise<string[]>(resolve => {
 });
 
 const receivedKeymaps = new Promise<KeymapsConfig>(resolve => {
-    ipc.once('tuitter:keymaps', (_, k: KeymapsConfig) => {
+    ipc.once('tuitter:keymaps', (_: any, k: KeymapsConfig) => {
         console.log('Tui: Received keymappings:', k);
         resolve(k);
     });
@@ -40,7 +40,7 @@ const handler = () => {
                         k['new-tweet']();
                     });
                 });
-                ipc.on('tuitter:will-suspend', (_, threshold: number) => {
+                ipc.on('tuitter:will-suspend', (_: any, threshold: number) => {
                     const memKB = process.getProcessMemoryInfo().privateBytes;
                     console.log('Tui: Will suspend', threshold, memKB);
                     const memMB = memKB / 1000;
