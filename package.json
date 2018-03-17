@@ -1,7 +1,7 @@
 {
   "name": "tuitter",
   "productName": "Tui",
-  "version": "0.4.15",
+  "version": "0.4.16",
   "description": "Twitter client based on mobile.twitter.com in menu bar",
   "main": "main/index.js",
   "bin": {
@@ -43,6 +43,7 @@
     "@types/menubar": "^5.1.6",
     "@types/mousetrap": "^1.6.0",
     "@types/node": "^9.4.7",
+    "electron-packager": "^11.1.0",
     "npm-run-all": "^4.1.2",
     "stylelint": "^9.1.3",
     "stylelint-config-standard": "^18.2.0",
