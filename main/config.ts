@@ -1,10 +1,10 @@
-import {app, systemPreferences} from 'electron';
+import { app, systemPreferences } from 'electron';
 import * as fs from 'fs';
-import {join} from 'path';
+import { join } from 'path';
 import log from './log';
 
 function makeDefaultConfig() {
-    const IsDarkMode = (process.platform === 'darwin') && systemPreferences.isDarkMode();
+    const IsDarkMode = process.platform === 'darwin' && systemPreferences.isDarkMode();
     const menubarBroken = process.platform === 'win32';
 
     return {
@@ -20,27 +20,27 @@ function makeDefaultConfig() {
         plugins: [],
         keymaps: {
             /* tslint:disable:object-literal-key-quotes */
-            'j': 'next-tweet',
-            'k': 'previous-tweet',
-            'esc': 'unfocus-tweet',
-            'f': 'scroll-down-page',
-            'b': 'scroll-up-page',
-            't': 'scroll-up-to-top',
+            j: 'next-tweet',
+            k: 'previous-tweet',
+            esc: 'unfocus-tweet',
+            f: 'scroll-down-page',
+            b: 'scroll-up-page',
+            t: 'scroll-up-to-top',
             '1': 'switch-home-timeline',
             '2': 'switch-notifications',
             '3': 'switch-direct-messages',
             '4': 'switch-search',
-            'n': 'new-tweet',
-            'enter': 'reply-tweet',
-            'R': 'retweet-tweet',
-            'Q': 'quote-tweet',
-            'L': 'like-tweet',
-            'i': 'open-images',
-            'I': 'open-images-in-browser',
-            'o': 'open-tweet',
-            'l': 'open-links',
-            'u': 'show-user',
-            'backspace': 'browser-go-back',
+            n: 'new-tweet',
+            enter: 'reply-tweet',
+            R: 'retweet-tweet',
+            Q: 'quote-tweet',
+            L: 'like-tweet',
+            i: 'open-images',
+            I: 'open-images-in-browser',
+            o: 'open-tweet',
+            l: 'open-links',
+            u: 'show-user',
+            backspace: 'browser-go-back',
             'ctrl+enter': 'send-tweet',
             'mod+plus': 'zoom-in',
             'mod+-': 'zoom-out',
@@ -60,14 +60,21 @@ export default function loadConfig(): Promise<Config> {
         fs.readFile(file, 'utf8', (err, json) => {
             if (err) {
                 log.info('Configuration file was not found, will create:', file);
+                const onSaved = (saveErr: Error) => {
+                    if (saveErr) {
+                        log.error('Failed to write configuration file:', file, saveErr);
+                    } else {
+                        log.info('Configuration file was created at', file);
+                    }
+                };
                 const default_config = makeDefaultConfig();
                 // Note:
                 // If calling writeFile() directly here, it tries to create config file before Electron
                 // runtime creates data directory. As the result, writeFile() would fail to create a file.
                 if (app.isReady()) {
-                    fs.writeFile(file, JSON.stringify(default_config, null, 2));
+                    fs.writeFile(file, JSON.stringify(default_config, null, 2), onSaved);
                 } else {
-                    app.once('ready', () => fs.writeFile(file, JSON.stringify(default_config, null, 2)));
+                    app.once('ready', () => fs.writeFile(file, JSON.stringify(default_config, null, 2), onSaved));
                 }
                 return resolve(default_config);
             }
