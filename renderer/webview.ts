@@ -1,8 +1,8 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import {EventEmitter} from 'events';
-import {shell} from 'electron';
-import {USERAGENT} from './constants';
+import { EventEmitter } from 'events';
+import { shell } from 'electron';
+import { USERAGENT } from './constants';
 import log from './log';
 
 export default class WebView extends EventEmitter {
@@ -126,19 +126,18 @@ export default class WebView extends EventEmitter {
             return;
         }
         this.elem.src = e.url;
-    }
+    };
 
     private readonly onCrashed = () => {
         log.error('Webview crashed! Reload <webview> to recover.');
-    }
+    };
 
     private readonly onIpcMessage = (e: Electron.IpcMessageEvent) => {
         log.debug('IPC message from ', e.channel, e.args);
         this.emit('ipc', e.channel, e.args);
-    }
+    };
 
     private readonly onDomReady = () => {
         this.emit('dom-ready');
-    }
+    };
 }
-

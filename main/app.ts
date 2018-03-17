@@ -1,12 +1,5 @@
 import * as path from 'path';
-import {
-    app,
-    globalShortcut,
-    BrowserWindow,
-    Tray,
-    Menu,
-    powerMonitor,
-} from 'electron';
+import { app, globalShortcut, BrowserWindow, Tray, Menu, powerMonitor } from 'electron';
 import * as menubar from 'menubar';
 import TrayNotification from './tray_notification';
 import AccountSwitcher from './account_switcher';
@@ -23,9 +16,7 @@ const DEFAULT_WIDTH = 340;
 const DEFAULT_HEIGHT = 400;
 
 function trayIcon(color: string) {
-    return path.join(__dirname, '..', 'resources', `tray-icon-${
-        color === 'white' ? 'white' : 'black'
-    }@2x.png`);
+    return path.join(__dirname, '..', 'resources', `tray-icon-${color === 'white' ? 'white' : 'black'}@2x.png`);
 }
 
 export default class MainApp {
@@ -33,8 +24,7 @@ export default class MainApp {
     switcher: AccountSwitcher | null = null;
     notification: TrayNotification | null = null;
 
-    constructor(private readonly config: Config) {
-    }
+    constructor(private readonly config: Config) {}
 
     start() {
         const openWindow = this.config.normal_window ? this.startNormalWindow : this.startMenuBar;
@@ -43,7 +33,7 @@ export default class MainApp {
             .then(() => {
                 /* tslint:disable:no-boolean-literal-compare */
                 if (this.config.notification === false) {
-                /* tslint:enable:no-boolean-literal-compare */
+                    /* tslint:enable:no-boolean-literal-compare */
                     this.notification!.disable();
                 }
                 if (IS_DARWIN && process.argv[0].endsWith('Electron')) {
@@ -114,7 +104,7 @@ export default class MainApp {
                     log.debug('Hot key was set to:', this.config.hot_key);
                 }
                 if (IS_DEBUG) {
-                    mb.window.webContents.openDevTools({mode: 'detach'});
+                    mb.window.webContents.openDevTools({ mode: 'detach' });
                 }
                 mb.window.webContents.on('dom-ready', () => {
                     log.debug('Send config to renderer procress');
@@ -130,7 +120,7 @@ export default class MainApp {
                 app.quit();
             });
         });
-    }
+    };
 
     private startNormalWindow = () => {
         log.debug('Setup a normal window');
@@ -190,7 +180,7 @@ export default class MainApp {
                     log.debug('Hot key was set to:', this.config.hot_key);
                 }
                 if (IS_DEBUG) {
-                    win.webContents.openDevTools({mode: 'detach'});
+                    win.webContents.openDevTools({ mode: 'detach' });
                 }
                 this.win = win;
                 resolve();
@@ -205,7 +195,7 @@ export default class MainApp {
             }
             this.notification = new TrayNotification(tray, normalIcon);
         });
-    }
+    };
 
     private setupAccountSwitcher = () => {
         Menu.setApplicationMenu(defaultMenu());
@@ -219,10 +209,12 @@ export default class MainApp {
         this.switcher = new AccountSwitcher(this.win, this.config.accounts);
         this.switcher.on('will-switch', () => {
             if (this.notification === null) {
-                log.error('Cannot reset notification state on switching account because no notification instance found (bug)');
+                log.error(
+                    'Cannot reset notification state on switching account because no notification instance found (bug)',
+                );
                 return;
             }
             this.notification.reset();
         });
-    }
+    };
 }

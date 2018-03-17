@@ -1,5 +1,5 @@
 import * as path from 'path';
-import {Menu, shell, app, BrowserWindow} from 'electron';
+import { Menu, shell, app, BrowserWindow } from 'electron';
 
 function getWindow(win: Electron.BrowserWindow | null): Electron.BrowserWindow | null {
     if (win && win.webContents) {
@@ -35,79 +35,79 @@ export default function defaultMenu() {
                     label: 'Edit Config',
                     click() {
                         shell.openItem(path.join(app.getPath('userData'), 'config.json'));
-                    }
+                    },
                 },
                 {
-                    type: 'separator'
+                    type: 'separator',
                 },
                 {
-                    role: 'undo'
+                    role: 'undo',
                 },
                 {
-                    role: 'redo'
+                    role: 'redo',
                 },
                 {
-                    type: 'separator'
+                    type: 'separator',
                 },
                 {
-                    role: 'cut'
+                    role: 'cut',
                 },
                 {
-                    role: 'copy'
+                    role: 'copy',
                 },
                 {
-                    role: 'paste'
+                    role: 'paste',
                 },
                 {
-                    role: 'pasteandmatchstyle'
+                    role: 'pasteandmatchstyle',
                 },
                 {
-                    role: 'delete'
+                    role: 'delete',
                 },
                 {
-                    role: 'selectall'
-                }
-            ]
+                    role: 'selectall',
+                },
+            ],
         },
         {
             label: 'View',
             submenu: [
                 {
-                    role: 'reload'
+                    role: 'reload',
                 },
                 {
-                    role: 'toggledevtools'
+                    role: 'toggledevtools',
                 },
                 {
-                    type: 'separator'
+                    type: 'separator',
                 },
                 {
-                    role: 'resetzoom'
+                    role: 'resetzoom',
                 },
                 {
-                    role: 'zoomin'
+                    role: 'zoomin',
                 },
                 {
-                    role: 'zoomout'
+                    role: 'zoomout',
                 },
                 {
-                    type: 'separator'
+                    type: 'separator',
                 },
                 {
-                    role: 'togglefullscreen'
-                }
-            ]
+                    role: 'togglefullscreen',
+                },
+            ],
         },
         {
             role: 'window',
             submenu: [
                 {
-                    role: 'minimize'
+                    role: 'minimize',
                 },
                 {
-                    role: 'close'
-                }
-            ]
+                    role: 'close',
+                },
+            ],
         },
         {
             role: 'help',
@@ -116,16 +116,16 @@ export default function defaultMenu() {
                     label: 'Learn More',
                     click() {
                         shell.openExternal('https://github.com/rhysd/Tui#readme');
-                    }
+                    },
                 },
                 {
                     label: 'Search Issues',
                     click() {
                         shell.openExternal('https://github.com/rhysd/Tui/issues');
-                    }
-                }
-            ]
-        }
+                    },
+                },
+            ],
+        },
     ];
 
     if (process.platform === 'darwin') {
@@ -133,81 +133,79 @@ export default function defaultMenu() {
             label: 'Tui',
             submenu: [
                 {
-                    role: 'about'
+                    role: 'about',
                 },
                 {
-                    type: 'separator'
+                    type: 'separator',
                 },
                 {
                     role: 'services',
-                    submenu: []
+                    submenu: [],
                 },
                 {
-                    type: 'separator'
+                    type: 'separator',
                 },
                 {
-                    role: 'hide'
+                    role: 'hide',
                 },
                 {
-                    role: 'hideothers'
+                    role: 'hideothers',
                 },
                 {
-                    role: 'unhide'
+                    role: 'unhide',
                 },
                 {
-                    type: 'separator'
+                    type: 'separator',
                 },
                 {
-                    role: 'quit'
-                }
-            ]
+                    role: 'quit',
+                },
+            ],
         });
 
         (template[1].submenu as Electron.MenuItemConstructorOptions[]).push(
             {
-                type: 'separator'
+                type: 'separator',
             },
             {
                 label: 'Speech',
                 submenu: [
                     {
-                        role: 'startspeaking'
+                        role: 'startspeaking',
                     },
                     {
-                        role: 'stopspeaking'
-                    }
-                ]
-            }
+                        role: 'stopspeaking',
+                    },
+                ],
+            },
         );
 
         template[3].submenu = [
             {
-                role: 'close'
+                role: 'close',
             },
             {
-                role: 'minimize'
+                role: 'minimize',
             },
             {
-                role: 'zoom'
+                role: 'zoom',
             },
             {
-                type: 'separator'
+                type: 'separator',
             },
             {
-                role: 'front'
-            }
+                role: 'front',
+            },
         ];
     } else {
-        template.unshift(
-            {
-                label: 'File',
-                submenu: [
-                    {
-                    role: 'quit'
-                    }
-                ]
-            }
-        );
+        template.unshift({
+            label: 'File',
+            submenu: [
+                {
+                    role: 'quit',
+                },
+            ],
+        });
     }
 
     return Menu.buildFromTemplate(template);

@@ -1,7 +1,7 @@
 import * as path from 'path';
-import {ipcRenderer as ipc} from 'electron';
+import { ipcRenderer as ipc } from 'electron';
 import WebView from './webview';
-import {DEFAULT_HOME_URL, IS_DEBUG, APP_DIRECTORY} from './constants';
+import { DEFAULT_HOME_URL, IS_DEBUG, APP_DIRECTORY } from './constants';
 import log from './log';
 
 export default class RendererApp {
@@ -34,7 +34,7 @@ export default class RendererApp {
         this.wv.mountTo(document.getElementById('webview-container')!);
         this.wv.openURL(this.config.home_url || DEFAULT_HOME_URL).then(() => {
             if (IS_DEBUG) {
-                this.wv.contents.openDevTools({mode: 'detach'});
+                this.wv.contents.openDevTools({ mode: 'detach' });
             }
             if (this.config.zoom_factor && this.config.zoom_factor > 0.0) {
                 this.wv.element.setZoomFactor(this.config.zoom_factor);
@@ -45,9 +45,13 @@ export default class RendererApp {
 
         this.wv.on('dom-ready', () => {
             // Apply CSS in order style.css -> theme.css -> user.css
-            this.wv.applyCSS(path.join(__dirname, '../webview/style.css')).catch(e => log.error(e))
-            .then(() => this.wv.applyCSS(path.join(APP_DIRECTORY, 'theme.css'))).catch(e => log.debug(e))
-            .then(() => this.wv.applyCSS(path.join(APP_DIRECTORY, 'user.css'))).catch(e => log.debug(e));
+            this.wv
+                .applyCSS(path.join(__dirname, '../webview/style.css'))
+                .catch(e => log.error(e))
+                .then(() => this.wv.applyCSS(path.join(APP_DIRECTORY, 'theme.css')))
+                .catch(e => log.debug(e))
+                .then(() => this.wv.applyCSS(path.join(APP_DIRECTORY, 'user.css')))
+                .catch(e => log.debug(e));
 
             this.wv.executeJS(path.join(APP_DIRECTORY, 'user.js')).catch(e => log.debug(e));
             this.wv.sendIpc('tuitter:plugin-paths', this.config.plugins || []);
@@ -75,7 +79,8 @@ export default class RendererApp {
                     this.refresh();
                     break;
                 }
-                default: break;
+                default:
+                    break;
             }
         });
     }
@@ -99,5 +104,4 @@ export default class RendererApp {
             return n;
         }
     }
-
 }

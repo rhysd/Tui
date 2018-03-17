@@ -1,12 +1,8 @@
 import * as path from 'path';
-import {ipcMain as ipc} from 'electron';
+import { ipcMain as ipc } from 'electron';
 import log from './log';
 
-type State
-    = 'normal'
-    | 'informed'
-    | 'notified'
-;
+type State = 'normal' | 'informed' | 'notified';
 
 const InformedIcon = path.join(__dirname, '..', 'resources', 'tray-icon-blue@2x.png');
 const NotifiedIcon = path.join(__dirname, '..', 'resources', 'tray-icon-red@2x.png');

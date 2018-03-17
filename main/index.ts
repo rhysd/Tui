@@ -1,4 +1,4 @@
-import {app} from 'electron';
+import { app } from 'electron';
 import loadConfig from './config';
 import MainApp from './app';
 import log from './log';
@@ -9,9 +9,8 @@ app.on('will-quit', () => {
     log.debug('Application is quitting');
 });
 
-Promise.all([
-    loadConfig().then(c => new MainApp(c)),
-    appReady
-]).then(([tui, _]) => tui.start()).then(() => {
-    log.debug('Application launched!');
-});
+Promise.all([loadConfig().then(c => new MainApp(c)), appReady])
+    .then(([tui, _]) => tui.start())
+    .then(() => {
+        log.debug('Application launched!');
+    });

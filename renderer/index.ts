@@ -1,4 +1,4 @@
-import {ipcRenderer as ipc} from 'electron';
+import { ipcRenderer as ipc } from 'electron';
 import RendererApp from './app';
 import log from './log';
 

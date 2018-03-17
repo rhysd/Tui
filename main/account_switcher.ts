@@ -1,19 +1,12 @@
-import {EventEmitter} from 'events';
-import {
-    Menu,
-    MenuItem,
-    ipcMain as ipc,
-} from 'electron';
+import { EventEmitter } from 'events';
+import { Menu, MenuItem, ipcMain as ipc } from 'electron';
 import log from './log';
 
 export default class AccountSwitcher extends EventEmitter {
     prevIndex: number | null = null;
     currentIndex = 0;
 
-    constructor(
-        private win: Electron.BrowserWindow,
-        private accounts: string[],
-    ) {
+    constructor(private win: Electron.BrowserWindow, private accounts: string[]) {
         super();
         const submenu = [] as Electron.MenuItemConstructorOptions[];
         for (let i = 0; i < accounts.length; ++i) {
@@ -40,7 +33,7 @@ export default class AccountSwitcher extends EventEmitter {
         // Note: electron.d.ts does not fully support nullable types
         /* tslint:disable:strict-type-predicates */
         if (menu !== null) {
-        /* tslint:enable:strict-type-predicates */
+            /* tslint:enable:strict-type-predicates */
             // Insert item before 'Help'
             menu.insert(menu.items.length - 1, item);
             Menu.setApplicationMenu(menu);
