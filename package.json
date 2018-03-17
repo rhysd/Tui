@@ -1,7 +1,7 @@
 {
   "name": "tuitter",
   "productName": "Tui",
-  "version": "0.4.16",
+  "version": "0.4.17",
   "description": "Twitter client based on mobile.twitter.com in menu bar",
   "main": "main/index.js",
   "bin": {
