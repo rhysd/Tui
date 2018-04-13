@@ -10,12 +10,13 @@ function prepare-app() {
 
     npm run build
 
-    cp -R bin main renderer resources webview package.json app/
+    cp -R bin main renderer resources webview package-lock.json package.json app/
     cd app/
 
     npm install --production
-    npm uninstall electron
-    npm prune
+    npm uninstall --production --save electron
+    npm prune --production
+    npm install --production
     cd -
 }
 
@@ -24,9 +25,9 @@ function pack-app() {
     local electron_version=$(electron --version)
     electron_version=${electron_version#v}
 
-    electron-packager ./app --platform=darwin --arch=x64 "--app-copyright=copyright (c) 2016 rhysd" --app-version=$version --build-version=$version --icon=./resources/icon.icns --version=$electron_version
-    electron-packager ./app --platform=linux --arch=all "--app-copyright=copyright (c) 2016 rhysd" --app-version=$version --build-version=$version --icon=./resources/icon.ico --version=$electron_version
-    electron-packager ./app --platform=win32 --arch=all "--app-copyright=copyright (c) 2016 rhysd" --app-version=$version --build-version=$version --icon=./resources/icon.ico --version=$electron_version --version-string=$version
+    electron-packager ./app --platform=darwin --arch=x64 "--app-copyright=copyright (c) 2016 rhysd" --app-version=$version --build-version=$version --icon=./resources/icon.icns --version=$electron_version --no-prune
+    electron-packager ./app --platform=linux --arch=all "--app-copyright=copyright (c) 2016 rhysd" --app-version=$version --build-version=$version --icon=./resources/icon.ico --version=$electron_version --no-prune
+    electron-packager ./app --platform=win32 --arch=all "--app-copyright=copyright (c) 2016 rhysd" --app-version=$version --build-version=$version --icon=./resources/icon.ico --version=$electron_version --version-string=$version --no-prune
 }
 
 function make-dist() {
@@ -40,7 +41,7 @@ function make-dist() {
         cp LICENSE README.md "$dir"
         zip --symlinks "dist/${dir}-${version}.zip" -r "$dir"
     done
-    rm -r Tui-*
+    rm -rf Tui-*
     open dist
 }
 
